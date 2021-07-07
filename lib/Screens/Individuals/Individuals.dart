@@ -36,9 +36,38 @@ class Individual extends StatelessWidget {
                           subtitle: Text(post.indEmail,style: TextStyle(fontSize: 12)),
                           trailing: Padding(
                             padding: const EdgeInsets.all(0.0),
-                            child: TextButton(child: Icon(Icons.delete,color: PurpleColor),),
+                            child: PopupMenuButton(
+                              icon: Icon(Icons.more_vert,color:PurpleColor),
+                              elevation: 20,
+                              shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                      color: PurpleColor,
+                                      width: 2
+                                  )
+                              ),
+                              itemBuilder: (context) => [
+
+                                PopupMenuItem(
+                                  value: 1,
+                                  child: Text("Create New Order",style: TextStyle(color: GreyColor)),
+                                ),
+
+                                PopupMenuItem(
+                                  value: 2,
+                                  child: Text("Edit",style: TextStyle(color: GreyColor)),
+                                ),
+                                PopupMenuItem(
+                                  value: 3,
+                                  child: Text("Delete",style: TextStyle(color: Colors.red)),
+                                ),
+
+                              ],
+                              onSelected: (item) => {print(item)},
+                            ),
                           ),
-                          //tileColor: Colors.lightBlueAccent,
+
+
                         ),
                       ),
                     ),

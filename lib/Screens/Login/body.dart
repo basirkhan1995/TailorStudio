@@ -38,6 +38,7 @@ class _BodyState extends State<Body> {
   void initState() {
     super.initState();
     checkIfUserIsLogin();
+
   }
 
   @override
@@ -112,6 +113,7 @@ class _BodyState extends State<Body> {
                       loginData.setBool('login', true);
                       loginData.setString('username', username.text);
                       loginData.setString('tName', jsonData['tlrName']);
+                     // loginData.setString('tEmail', jsonData['tlrEmail']);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
                     } else {
@@ -156,6 +158,7 @@ class _BodyState extends State<Body> {
     if (isLogin == true) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomePage()));
-    }
+     }
   }
+
 }

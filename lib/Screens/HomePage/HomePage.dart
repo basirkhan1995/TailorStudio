@@ -14,8 +14,6 @@ import 'package:tailor/Screens/Settings/Settings.dart';
 import '../About.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 
-
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -53,11 +51,14 @@ class _HomePageState extends State<HomePage> {
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
+                //Profile Header
                 UserAccountsDrawerHeader(
                   arrowColor: PurpleColor,
                   decoration: BoxDecoration(
                     color: Colors.white60,
                   ),
+
+                  //Profile Link
                   accountName: InkWell(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
@@ -78,9 +79,9 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: PurpleColor,
                     ),
                   ],
-                  onDetailsPressed: (){
-                  },
                 ),
+
+                // Drawer List of Objects
                 ListTile(
                   leading: Icon(Icons.person_rounded,size: 35,color: PurpleColor,),
                   title: Text('مشتری جدید',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
@@ -142,7 +143,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
 
-      //AppBar
+      //My AppBar
       appBar: AppBar(
         leading: TextButton(
             onPressed: (){
