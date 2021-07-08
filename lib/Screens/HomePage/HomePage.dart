@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/Screens/Gallery/Gallery.dart';
 import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/Login/login.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
@@ -13,6 +12,7 @@ import 'package:tailor/Screens/Settings/Profile.dart';
 import 'package:tailor/Screens/Settings/Settings.dart';
 import '../About.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
+import 'package:tailor/Screens/Gallery/Gallery.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,8 +21,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   SharedPreferences loginData;
-  String username = "";
-  String tailorName = "";
+  String username ;
+  String tailorName ;
+  String email;
 
   @override
   void initState() {
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
       tailorName = loginData.getString('tName');
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,6 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 //Profile Header
                 UserAccountsDrawerHeader(
-                  arrowColor: PurpleColor,
                   decoration: BoxDecoration(
                     color: Colors.white60,
                   ),
@@ -66,7 +67,9 @@ class _HomePageState extends State<HomePage> {
                       child:Text("$username",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: GreyColor),)),
                   accountEmail: Text('basirkhan.hashemi@gmail.com',style: TextStyle(color: GreyColor),),
                   currentAccountPicture: CircleAvatar(
-                    backgroundImage: ExactAssetImage('photos/pictures/pro.jpg'),
+                    backgroundColor: Colors.grey[300],
+                    child: Image.asset('photos/background/emptyAcc.png',color:Colors.grey[600]),
+                    //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
                   ),
                   otherAccountsPictures: [
                     CircleAvatar(
@@ -83,7 +86,7 @@ class _HomePageState extends State<HomePage> {
 
                 // Drawer List of Objects
                 ListTile(
-                  leading: Icon(Icons.person_rounded,size: 35,color: PurpleColor,),
+                  leading: Icon(Icons.people_alt_rounded,size: 35,color: PurpleColor,),
                   title: Text('مشتری جدید',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>NewClient()));
@@ -92,9 +95,9 @@ class _HomePageState extends State<HomePage> {
 
                 ListTile(
                   leading: Icon(Icons.photo_library,size: 35,color: PurpleColor,),
-                  title: Text('نمایشگاه لباس',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
+                  title: Text('نمایشگاه',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyGallery()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Album()));
                   },
                 ),
 
@@ -137,6 +140,7 @@ class _HomePageState extends State<HomePage> {
                     loginData.setBool('login', false);
                   },
                 ),
+
               ],
             ),
           ),
@@ -163,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                               title: Text('Account',
                                   style: TextStyle(color:GreyColor,fontSize: 18,fontWeight: FontWeight.bold)),
                               trailing: TextButton(
-                                child: Text('خروج',style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 18)),
+                                child: Icon(Icons.logout,color: Colors.red.shade900,size: 30,),
                                 onPressed: (){
                                   loginData.setBool('login', false);
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
@@ -225,9 +229,9 @@ class _BottomNavBarState extends State<BottomNavBar > {
       //Bottom Navigation Bar Design...
       bottomNavigationBar: BottomNavyBar(
         backgroundColor: WhiteColor,
-        itemCornerRadius: 13,
+        itemCornerRadius: 25,
         containerHeight: 60,
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutCirc,
         animationDuration: Duration(milliseconds: 500),
         selectedIndex: _currentIndex,
         showElevation: true,
@@ -239,26 +243,26 @@ class _BottomNavBarState extends State<BottomNavBar > {
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
             textAlign: TextAlign.center,
-            icon: Icon(Icons.home_rounded, size: 33),
-            title: Text('خــــــانه',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+            icon: Icon(Icons.home_rounded, size: 30),
+            title: Text('خــــــانه',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
             activeColor: PurpleColor,
             inactiveColor: GreyColor,
           ),
+
           BottomNavyBarItem(
             textAlign: TextAlign.center,
-            icon: Icon(Icons.people, size: 33),
-            title: Text('مشــتریان',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
+            icon: Icon(Icons.people_alt_rounded, size: 30),
+            title: Text('مشـــتری',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
             activeColor: PurpleColor,
             inactiveColor: GreyColor,
           ),
           BottomNavyBarItem(
             textAlign: TextAlign.center,
             icon: Icon(Icons.shopping_cart, size: 30),
-            title: Text('فـرمـایشات',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
+            title: Text('فـرمـایش',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17)),
             activeColor: PurpleColor,
             inactiveColor: GreyColor,
           ),
-
         ],
       ),
     );

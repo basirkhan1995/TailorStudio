@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Components/Rounded_Measure_Input.dart';
@@ -8,7 +9,7 @@ import 'package:tailor/Components/Rounded_Number_Input.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/HomePage/HomePage.dart';
-
+import 'dart:io';
 
 class NewClient extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class NewClient extends StatefulWidget {
 
 class _NewClientState extends State<NewClient> {
   final _formkey = GlobalKey <FormState>();
+  File imageFile;
 
   TextEditingController controllerFirstName = new TextEditingController();
   TextEditingController controllerLastName = new TextEditingController();
@@ -97,23 +99,52 @@ class _NewClientState extends State<NewClient> {
                   children: [
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('photos/pictures/me.jpg'),
-                          radius: 80,
+                        padding: const EdgeInsets.only(left: 5, top: 20),
+                        child: imageFile != null
+                            ? ClipRRect(
+                          borderRadius: BorderRadius.circular(70),
+                          child: Image.file(
+                            imageFile,
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                            : Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(80)),
+                          width: 150,
+                          height: 150,
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.grey[800],
+                            size: 70,
+                          ),
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 190,top: 130),
                       child: CircleAvatar(
-                          radius: 25,
+                          radius: 20,
                           backgroundColor: PurpleColor,
                           child: Center(
                             child: TextButton(
-                                onPressed: null,
+                                onPressed: () async {
+                                  PickedFile pickedFile = await ImagePicker().getImage(
+                                    source: ImageSource.gallery,
+                                    maxWidth: 1800,
+                                    maxHeight: 1800,
+                                  );
+                                  if (pickedFile != null) {
+                                    setState(() {
+                                      imageFile = File(pickedFile.path);
+                                    });
+                                  }
+                                },
                                 child: Icon(
-                                  Icons.camera_alt,color: WhiteColor,size: 25,)),
+                                  Icons.camera_alt,color: WhiteColor,size: 20,)),
                           )),
                     )
                   ],
@@ -252,5 +283,26 @@ class _NewClientState extends State<NewClient> {
       ),
     );
 
+  }
+  gallery(){
+    return FloatingActionButton(
+      onPressed: ()async{
+        PickedFile pickedFile = await ImagePicker().getImage(
+          source: ImageSource.gallery,
+          maxWidth: 1800,
+          maxHeight: 1800,
+        );
+        if (pickedFile != null) {
+          setState(() {
+            imageFile = File(pickedFile.path);
+
+          });
+        }
+      },
+      backgroundColor: PurpleColor,
+      heroTag: 'gallery',
+      tooltip: 'Gallery',
+      child: Icon(Icons.photo_library),
+    );
   }
 }

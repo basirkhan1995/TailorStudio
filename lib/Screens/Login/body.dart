@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
               Padding(
                 padding: const EdgeInsets.only(top: 40.0),
                 child: Text(
-                  "خــــوش آمــــدید",
+                  "ورود",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,

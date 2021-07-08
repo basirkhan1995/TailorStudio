@@ -3,7 +3,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/Login/login.dart';
-
+import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
 
 class Env{
 
@@ -20,6 +20,9 @@ class Env{
   static String confirmMessage ='آیا میخواهید خارج شوید؟';
   static String noInternetMessage = 'شما به انترنت وصل نیستید، لطفا انترنت خود را بررسی کنید';
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
+
+
+
 
   // Custom Text Style
   static titleStyle(){

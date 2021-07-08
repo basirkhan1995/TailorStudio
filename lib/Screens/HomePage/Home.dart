@@ -4,49 +4,49 @@ import 'package:tailor/Constants/ConstantColors.dart';
 class Dashboard extends StatelessWidget {
   List data = [
     {
-      "color": Color(0xffff6968),
+      "color": Color(0xFFAA80FF),
       "icon": Icons.supervisor_account,
       'number': '30',
       "name": 'مشــــتری'
     },
     {
-      "color": Color(0xff7a54ff),
+      "color": Color(0xFF8080FF),
       "icon": Icons.shopping_cart,
       'number': '19',
       "name": 'فرمــــایش'
     },
     {
-      "color": Color(0xFF6F35A5),
+      "color": Color(0xFF80BFFF),
       "icon": Icons.access_time_rounded,
       'number': '13',
       "name": 'ناتکمـــیل'
     },
     {
-      "color": Color(0xffff99cc),
+      "color": Color(0xFFcc99ff),
       "icon": Icons.check_circle,
       'number': '11',
       "name": 'تکمـــــیل'
     },
     {
-      "color": Color(0xff932336),
-      "icon": Icons.add_shopping_cart,
+      "color": Color(0xFF9999ff),
+      "icon": Icons.shopping_cart,
       'number': '19',
       "name": 'تسلـــــیم شده'
     },
     {
-      "color": Color(0xff004d7c),
+      "color": Color(0xFF80aaff),
       "icon": Icons.attach_money_outlined,
       'number': '15000',
       "name": 'پرداخــــت شده'
     },
     {
-      "color": Color(0xFF6F35A5),
+      "color": Color(0xFF668CFF),
       "icon": Icons.attach_money_outlined,
       'number': '28000',
       "name": 'مجمــــوعه'
     },
     {
-      "color": Color(0xff07b8b4),
+      "color": Color(0xFFbb99ff),
       "icon": Icons.attach_money_outlined,
       'number': '28000',
       "name": 'قابـــل پرداخت'

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'Constants/ConstantColors.dart';
 import 'Screens/Login/login.dart';
 import 'SplashScreen.dart';
+import 'package:tailor/GetStarted.dart';
 
 void main() {
   //StatusBar
@@ -27,8 +28,10 @@ void main() {
 
     initialRoute: '/',
     routes: {
+
       '/': (context) => MyCustomSplashScreen(),
-      '/second': (context) => LoginScreen(),
+      '/sec': (context) => GetStarted(),
+      '/third': (context) => LoginScreen(),
     },
 
   ));

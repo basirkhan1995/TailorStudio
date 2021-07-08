@@ -3,6 +3,7 @@ import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/HttpServices/HTTP.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
+import 'package:tailor/Screens/Individuals/Individual_Details.dart';
 
 class Individual extends StatelessWidget {
   @override
@@ -17,64 +18,81 @@ class Individual extends StatelessWidget {
         Expanded(
           child: FutureBuilder(
             future: httpService.getPosts(),
-            builder: (BuildContext context, AsyncSnapshot<List<Individuals>> snapshot){
-              if(snapshot.hasData){
+            builder: (BuildContext context,
+                AsyncSnapshot<List<Individuals>> snapshot) {
+              if (snapshot.hasData) {
                 List<Individuals> posts = snapshot.data;
                 return ListView(
-                  children: posts.map((Individuals post) => Padding(
-                    padding: const EdgeInsets.only(top: 1,),
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 0, left: 0),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                              backgroundColor: LightColor,
-                              foregroundColor: GreyColor,
-                              child: Text(post.indId,
-                                  style: TextStyle(fontSize: 14))),
-                          title: Text(post.indFirstName + " " + post.indLastName, style: TextStyle(fontWeight: FontWeight.bold,color: GreyColor)),
-                          subtitle: Text(post.indEmail,style: TextStyle(fontSize: 12)),
-                          trailing: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: PopupMenuButton(
-                              icon: Icon(Icons.more_vert,color:PurpleColor),
-                              elevation: 20,
-                              shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                      color: PurpleColor,
-                                      width: 2
-                                  )
+
+                  children: posts.map((Individuals post) =>
+                      Padding( padding: const EdgeInsets.only( top: 1),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.grey[300],
+                                radius: 25,
+                                 backgroundImage: NetworkImage(""),
+                                child: Image.asset('photos/background/emptyAcc.png',color: Colors.grey[600]),
                               ),
-                              itemBuilder: (context) => [
-
-                                PopupMenuItem(
-                                  value: 1,
-                                  child: Text("Create New Order",style: TextStyle(color: GreyColor)),
+                              title: Text(
+                                  post.indFirstName + " " + post.indLastName, style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: GreyColor)),
+                              subtitle: Text(post.indEmail,
+                                  style: TextStyle(fontSize: 12)),
+                              trailing: PopupMenuButton(
+                                onSelected: (item) => {print(item)},
+                                icon: Icon(Icons.more_vert, color: PurpleColor),
+                                elevation: 20,
+                                shape: UnderlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: PurpleColor, width: 5)
                                 ),
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: 1,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Create order'),
+                                        Icon(Icons.shopping_cart,color: PurpleColor)
+                                      ],
+                                    )
+                                  ),
+                                  PopupMenuItem(
+                                    value: 2,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Edit'),
+                                        Icon(Icons.edit,color: PurpleColor)
+                                      ],
+                                    )
+                                  ),
+                                  PopupMenuItem(
+                                    value: 3,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Delete',style: TextStyle(color: Colors.red.shade900),),
+                                        Icon(Icons.delete,color: Colors.red.shade900)
+                                      ],
+                                    )
+                                  ),
+                                ],
 
-                                PopupMenuItem(
-                                  value: 2,
-                                  child: Text("Edit",style: TextStyle(color: GreyColor)),
-                                ),
-                                PopupMenuItem(
-                                  value: 3,
-                                  child: Text("Delete",style: TextStyle(color: Colors.red)),
-                                ),
+                              ),
 
-                              ],
-                              onSelected: (item) => {print(item)},
+                              //Individuals Details
+                              onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>IndDetails()));
+                              },
                             ),
-                          ),
-
-
-                        ),
-                      ),
-                    ),
-                  ))
+                          ))
                       .toList(),
                 );
-              }else{
+              } else {
                 return Center(child: CircularProgressIndicator());
               }
             },
