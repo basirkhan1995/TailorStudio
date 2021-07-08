@@ -1,6 +1,6 @@
-# tailor
+# Tailor Studio
 
-A new Flutter project.
+Tailors routine activity
 
 ## Getting Started
 
