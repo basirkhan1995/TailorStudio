@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,7 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/HomePage/HomePage.dart';
 import 'dart:io';
+
 
 class NewClient extends StatefulWidget {
   @override
@@ -36,7 +38,7 @@ class _NewClientState extends State<NewClient> {
   void getInstance() async{
     loginData = await SharedPreferences.getInstance();
     setState(() {
-      tailorID = loginData.getString('username');
+      tailorID = loginData.getString('tName');
     });
   }
 
@@ -51,10 +53,16 @@ class _NewClientState extends State<NewClient> {
         }));
     String result = res.body.toString();
     print(result);
-    if(result=="Success"){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    if(result=="Failed"){
+      Env.errorDialog(
+          Env.errorTitle,Env.userExistsMessage,
+          DialogType.ERROR, context, () { });
     }else {
-      print(result);
+      //print(result);
+      await Env.responseDialog(
+          Env.successTitle,Env.successMessage,
+          DialogType.SUCCES, context, () { });
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
     }
     //
     // var res = await http.post(Uri.parse(phpurl), body: {
@@ -131,15 +139,15 @@ class _NewClientState extends State<NewClient> {
                           width: 150,
                           height: 150,
                           child: Icon(
-                            Icons.person,
-                            color: Colors.grey[800],
-                            size: 70,
+                            Icons.person_sharp,
+                            color: Colors.grey[700],
+                            size: 80,
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 190,top: 130),
+                      padding: const EdgeInsets.only(left: 180,top: 130),
                       child: CircleAvatar(
                           radius: 20,
                           backgroundColor: PurpleColor,
@@ -163,10 +171,11 @@ class _NewClientState extends State<NewClient> {
                     )
                   ],
                 ),
+                Divider(height: 20),
                 RoundedInputField(
                   onChanged: (value) {},
                   message: "لطفا اسم مشتری را وارید نمایید",
-                  hintText: 'اســـــــم',
+                  hintText: 'اســــم مشــــتری',
                   controller: controllerFirstName,
                 ),
                 RoundedInputField(

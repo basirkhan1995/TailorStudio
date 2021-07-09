@@ -4,101 +4,124 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/HttpServices/HTTP.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/Individual_Details.dart';
+import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
+import 'package:tailor/Screens/Orders/CreateOrder.dart';
 
-class Individual extends StatelessWidget {
+class Individual extends StatefulWidget {
+  @override
+  _IndividualState createState() => _IndividualState();
+}
+
+class _IndividualState extends State<Individual> {
   @override
   Widget build(BuildContext context) {
     final HttpService httpService = HttpService();
-    return Column(
-      children: [
-        RoundedInputField(
-          icon: Icons.search,
-          hintText: 'جستجو',
-        ),
-        Expanded(
-          child: FutureBuilder(
-            future: httpService.getPosts(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Individuals>> snapshot) {
-              if (snapshot.hasData) {
-                List<Individuals> posts = snapshot.data;
-                return ListView(
-
-                  children: posts.map((Individuals post) =>
-                      Padding( padding: const EdgeInsets.only( top: 1),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: Colors.grey[300],
-                                radius: 25,
-                                 backgroundImage: NetworkImage(""),
-                                child: Image.asset('photos/background/emptyAcc.png',color: Colors.grey[600]),
-                              ),
-                              title: Text(
-                                  post.indFirstName + " " + post.indLastName, style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: GreyColor)),
-                              subtitle: Text(post.indEmail == null ? " " : post.indEmail,
-                                  style: TextStyle(fontSize: 12)),
-                              trailing: PopupMenuButton(
-                                onSelected: (item) => {print(item)},
-                                icon: Icon(Icons.more_vert, color: PurpleColor),
-                                elevation: 20,
-                                shape: UnderlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color: PurpleColor, width: 5)
-                                ),
-                                itemBuilder: (context) => [
-                                  PopupMenuItem(
-                                    value: 1,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Create order'),
-                                        Icon(Icons.shopping_cart,color: PurpleColor)
-                                      ],
-                                    )
-                                  ),
-                                  PopupMenuItem(
-                                    value: 2,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Edit'),
-                                        Icon(Icons.edit,color: PurpleColor)
-                                      ],
-                                    )
-                                  ),
-                                  PopupMenuItem(
-                                    value: 3,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Delete',style: TextStyle(color: Colors.red.shade900),),
-                                        Icon(Icons.delete,color: Colors.red.shade900)
-                                      ],
-                                    )
-                                  ),
-                                ],
-
-                              ),
-
-                              //Individuals Details
-                              onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>IndDetails()));
-                              },
-                            ),
-                          ))
-                      .toList(),
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: PurpleColor,
+        child: Icon(Icons.add),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>NewClient()));
+        },
+      ),
+      body: Column(
+        children: [
+          RoundedInputField(
+            icon: Icons.search,
+            hintText: 'جستجو',
           ),
-        ),
-      ],
+          Expanded(
+            child: FutureBuilder(
+              future: httpService.getPosts(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Individuals>> snapshot) {
+                if (snapshot.hasData) {
+                  List<Individuals> posts = snapshot.data;
+                  return ListView(
+
+                    children: posts.map((Individuals post) =>
+                        Padding( padding: const EdgeInsets.only( top: 1),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.grey[300],
+                                  radius: 25,
+                                   backgroundImage: NetworkImage(""),
+                                  child: Image.asset('photos/background/emptyAcc.png',color: Colors.grey[600]),
+                                ),
+                                title: Text(
+                                    post.indFirstName + " " + post.indLastName, style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: GreyColor)),
+                                subtitle: Text(post.indEmail == null ? " " : post.indEmail,
+                                    style: TextStyle(fontSize: 12)),
+                                trailing: PopupMenuButton(
+                                  onSelected: (int index){
+                                     if(index == 1){
+                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder()));
+                                     }else{
+                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder()));
+                                     }
+                                  },
+                                  icon: Icon(Icons.more_vert, color: PurpleColor),
+                                  elevation: 20,
+                                  shape: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                          color: PurpleColor, width: 2)
+                                  ),
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Create order'),
+                                          Icon(Icons.shopping_cart,color: PurpleColor),
+                                          Divider(height: 1,),
+                                        ],
+                                      )
+                                    ),
+                                    PopupMenuItem(
+                                      value: 2,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Edit'),
+                                          Icon(Icons.edit,color: PurpleColor)
+                                        ],
+                                      )
+                                    ),
+                                    PopupMenuItem(
+                                      value: 3,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('Delete',style: TextStyle(color: Colors.red.shade900),),
+                                          Icon(Icons.delete,color: Colors.red.shade900)
+                                        ],
+                                      )
+                                    ),
+                                  ],
+
+                                ),
+
+                                //Individuals Details
+                                onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>IndDetails()));
+                                },
+                              ),
+                            ))
+                        .toList(),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
