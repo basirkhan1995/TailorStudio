@@ -14,7 +14,6 @@ class Individuals {
     this.indLastName,
     this.indPhone,
     this.indEmail,
-    this.indPhoto,
   });
 
   String indId;
@@ -22,7 +21,7 @@ class Individuals {
   String indLastName;
   String indPhone;
   String indEmail;
-  String indPhoto;
+
 
   factory Individuals.fromJson(Map<String, dynamic> json) => Individuals(
     indId: json["indID"],
@@ -30,7 +29,6 @@ class Individuals {
     indLastName: json["indLastName"],
     indPhone: json["indPhone"],
     indEmail: json["indEmail"],
-    indPhoto: json["indPhoto"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +37,5 @@ class Individuals {
     "indLastName": indLastName,
     "indPhone": indPhone,
     "indEmail": indEmail,
-    "indPhoto": indPhoto,
   };
 }

@@ -22,11 +22,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   SharedPreferences loginData;
   String username ;
-  String tailorName ;
-  String email;
+  String tailorName = "My Name";
+  String tailorEmail="my email";
+  bool checkLogin;
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     initial();
   }
@@ -36,6 +38,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       username = loginData.getString('username');
       tailorName = loginData.getString('tName');
+      tailorEmail = loginData.getString('tEmail');
+      checkLogin = loginData.getBool('login');
+
     });
   }
 
@@ -43,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return checkLogin == true ? LoginScreen() : Scaffold(
 
       //Drawer
       endDrawer: Directionality(
@@ -65,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
                       },
                       child:Text("$username",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: GreyColor),)),
-                  accountEmail: Text('basirkhan.hashemi@gmail.com',style: TextStyle(color: GreyColor),),
+                  accountEmail: Text("$tailorEmail",style: TextStyle(color: GreyColor),),
                   currentAccountPicture: CircleAvatar(
                     backgroundColor: Colors.grey[300],
                     child: Image.asset('photos/background/emptyAcc.png',color:Colors.grey[600]),
@@ -136,8 +141,12 @@ class _HomePageState extends State<HomePage> {
                     await Env.confirmDialog(
                         'WARNING', Env.confirmMessage
                         ,DialogType.WARNING,
-                        context, () { });
-                    loginData.setBool('login', false);
+                        context, () {
+                      loginData.setBool('login', true);
+                      //Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+
+                    });
+
                   },
                 ),
 
@@ -169,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                               trailing: TextButton(
                                 child: Icon(Icons.logout,color: Colors.red.shade900,size: 30,),
                                 onPressed: (){
-                                  loginData.setBool('login', false);
+                                  loginData.setBool('login', true);
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                                 },
                               )),

@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/Screens/HomePage/HomePage.dart';
 import 'package:tailor/Screens/Login/login.dart';
-import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
 
 class Env{
 
@@ -22,7 +23,17 @@ class Env{
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
 
 
-
+  static SharedPreferences loginData;
+  static bool isLogin;
+//Remember login
+  static checkIfUserIsLogin(context) async {
+    loginData = await SharedPreferences.getInstance();
+    isLogin = (loginData.getBool('login') ?? true);
+    if (isLogin == false) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+    }
+  }
 
   // Custom Text Style
   static titleStyle(){

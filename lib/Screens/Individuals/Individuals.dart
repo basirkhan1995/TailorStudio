@@ -37,7 +37,7 @@ class Individual extends StatelessWidget {
                                   post.indFirstName + " " + post.indLastName, style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: GreyColor)),
-                              subtitle: Text(post.indEmail,
+                              subtitle: Text(post.indEmail == null ? " " : post.indEmail,
                                   style: TextStyle(fontSize: 12)),
                               trailing: PopupMenuButton(
                                 onSelected: (item) => {print(item)},

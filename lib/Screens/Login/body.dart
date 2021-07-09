@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Already_have_account.dart';
 import 'package:tailor/Components/PasswordField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
@@ -25,19 +24,17 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   bool loading = false;
-  SharedPreferences loginData;
-  bool isLogin = true;
-
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    checkIfUserIsLogin();
+    Env.checkIfUserIsLogin(context);
 
   }
 
@@ -110,10 +107,11 @@ class _BodyState extends State<Body> {
                     int result = int.parse(jsonData['usrID']);
                     print(jsonData);
                     if (result > 0) {
-                      loginData.setBool('login', true);
-                      loginData.setString('username', username.text);
-                      loginData.setString('tName', jsonData['tlrName']);
-                     // loginData.setString('tEmail', jsonData['tlrEmail']);
+                      Env.loginData.setBool('login', false);
+                      Env.loginData.setString('username', username.text);
+                      Env.loginData.setString('tID', jsonData['tlrID']);
+                      Env.loginData.setString('tName', jsonData['tlrName']);
+                      Env.loginData.setString('tEmail', jsonData['tlrEmail']);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
                     } else {
@@ -151,14 +149,6 @@ class _BodyState extends State<Body> {
     );
   }
 
-  //Remember login
-  void checkIfUserIsLogin() async {
-    loginData = await SharedPreferences.getInstance();
-    isLogin = (loginData.getBool('login') ?? false);
-    if (isLogin == true) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
-     }
-  }
+
 
 }
