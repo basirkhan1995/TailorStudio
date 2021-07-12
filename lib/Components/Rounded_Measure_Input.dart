@@ -24,7 +24,10 @@ class RoundedMeasureField extends StatelessWidget {
           color: GreyColor
         ),
         textAlignVertical: TextAlignVertical.center,
-        keyboardType: TextInputType.number,
+        keyboardType: TextInputType.numberWithOptions(
+          decimal: true,
+          signed: false
+        ),
         textAlign: TextAlign.right,
         validator: (value) {
           if(value == null || value.isEmpty){

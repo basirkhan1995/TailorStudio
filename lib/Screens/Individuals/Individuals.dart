@@ -6,6 +6,7 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/Individual_Details.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
+import 'package:tailor/wait.dart';
 
 class Individual extends StatefulWidget {
   @override
@@ -20,8 +21,9 @@ class _IndividualState extends State<Individual> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: PurpleColor,
         child: Icon(Icons.add),
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>NewClient()));
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => NewClient()));
         },
       ),
       body: Column(
@@ -34,88 +36,108 @@ class _IndividualState extends State<Individual> {
             child: FutureBuilder(
               future: httpService.getPosts(),
               builder: (BuildContext context,
-                  AsyncSnapshot<List<Individuals>> snapshot) {
+                  AsyncSnapshot<List<Customer>> snapshot) {
                 if (snapshot.hasData) {
-                  List<Individuals> posts = snapshot.data;
+                  List<Customer> posts = snapshot.data;
                   return ListView(
-
-                    children: posts.map((Individuals post) =>
-                        Padding( padding: const EdgeInsets.only( top: 1),
+                    children: posts
+                        .map((Customer post) => Padding(
+                              padding: const EdgeInsets.only(top: 1),
                               child: ListTile(
                                 leading: CircleAvatar(
                                   backgroundColor: Colors.grey[300],
                                   radius: 25,
-                                   backgroundImage: NetworkImage(""),
-                                  child: Image.asset('photos/background/emptyAcc.png',color: Colors.grey[600]),
+                                  //backgroundImage: NetworkImage(""),
+                                  child: Image.asset(
+                                      'photos/background/emptyAcc.png',
+                                      color: Colors.grey[600]),
                                 ),
                                 title: Text(
-                                    post.indFirstName + " " + post.indLastName, style: TextStyle(
+                                    post.firstName + " " + post.lastName,
+                                    style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: GreyColor)),
-                                subtitle: Text(post.indEmail == null ? " " : post.indEmail,
+                                subtitle: Text(
+                                    post.email == null ? " " : post.email,
                                     style: TextStyle(fontSize: 12)),
                                 trailing: PopupMenuButton(
-                                  onSelected: (int index){
-                                     if(index == 1){
-                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder()));
-                                     }else{
-                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder()));
-                                     }
+                                  onSelected: (int index) {
+                                    if (index == 1) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewOrder()));
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewOrder()));
+                                    }
                                   },
-                                  icon: Icon(Icons.more_vert, color: PurpleColor),
+                                  icon:
+                                      Icon(Icons.more_vert, color: PurpleColor),
                                   elevation: 20,
                                   shape: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(10),
                                       borderSide: BorderSide(
-                                          color: PurpleColor, width: 2)
-                                  ),
+                                          color: PurpleColor, width: 2)),
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
-                                      value: 1,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('Create order'),
-                                          Icon(Icons.shopping_cart,color: PurpleColor),
-                                          Divider(height: 1,),
-                                        ],
-                                      )
-                                    ),
+                                        value: 1,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('Create order'),
+                                            Icon(Icons.shopping_cart,
+                                                color: PurpleColor),
+                                            Divider(
+                                              height: 1,
+                                            ),
+                                          ],
+                                        )),
                                     PopupMenuItem(
-                                      value: 2,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('Edit'),
-                                          Icon(Icons.edit,color: PurpleColor)
-                                        ],
-                                      )
-                                    ),
+                                        value: 2,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('Edit'),
+                                            Icon(Icons.edit, color: PurpleColor)
+                                          ],
+                                        )),
                                     PopupMenuItem(
-                                      value: 3,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('Delete',style: TextStyle(color: Colors.red.shade900),),
-                                          Icon(Icons.delete,color: Colors.red.shade900)
-                                        ],
-                                      )
-                                    ),
+                                        value: 3,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                  color: Colors.red.shade900),
+                                            ),
+                                            Icon(Icons.delete,
+                                                color: Colors.red.shade900)
+                                          ],
+                                        )),
                                   ],
-
                                 ),
-
                                 //Individuals Details
-                                onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>IndDetails()));
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => IndDetails()));
                                 },
                               ),
                             ))
                         .toList(),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Text(snapshot.error);
                 }
               },
             ),

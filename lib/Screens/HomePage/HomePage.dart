@@ -23,8 +23,8 @@ class _HomePageState extends State<HomePage> {
   SharedPreferences loginData;
   String username ;
   String tailorName = "My Name";
-  String tailorEmail="my email";
-  int userID;
+  String studioName = "myStudio";
+  String tailorEmail= "my email";
   bool checkLogin;
 
   @override
@@ -39,12 +39,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       username = loginData.getString('username');
       tailorName = loginData.getString('tailorName');
+      studioName = loginData.getString('studioName');
       tailorEmail = loginData.getString('userEmail');
       checkLogin = loginData.getBool('login');
 
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                         ,DialogType.WARNING,
                         context, () {
                       loginData.setBool('login', true);
-                      //Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
 
                     });
 
@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
             child: Icon(Icons.account_circle,color: WhiteColor,size: 28,)),
         centerTitle: true,
         backgroundColor: PurpleColor,
-        title: Text(tailorName,style: TextStyle(color: WhiteColor)),
+        title: Text("$studioName",style: TextStyle(color: WhiteColor)),
       ),
 
       body: BottomNavBar(),

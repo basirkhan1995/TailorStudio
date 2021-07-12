@@ -10,6 +10,7 @@ import 'package:tailor/Components/Rounded_Number_Input.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/HomePage/HomePage.dart';
+import 'package:tailor/Components/Rounded_Measure_Input.dart';
 import 'dart:io';
 
 
@@ -19,37 +20,62 @@ class NewClient extends StatefulWidget {
 }
 
 class _NewClientState extends State<NewClient> {
-  SharedPreferences loginData;
-  String tailorID = "";
-
+  //variables
   final _formKey = GlobalKey <FormState>();
+  SharedPreferences loginData;
+  String user ="";
   File imageFile;
 
+ //TextField Controllers
   TextEditingController controllerFirstName = new TextEditingController();
   TextEditingController controllerLastName = new TextEditingController();
   TextEditingController controllerPhone = new TextEditingController();
+  TextEditingController controllerMeasure = new TextEditingController();
+  TextEditingController controllerBaghal = new TextEditingController();
+  TextEditingController controllerAstin = new TextEditingController();
+  TextEditingController controllerShana = new TextEditingController();
+  TextEditingController controllerDaman = new TextEditingController();
+  TextEditingController controllerQad = new TextEditingController();
+  TextEditingController controllerQadTunban = new TextEditingController();
+  TextEditingController controllerPacha = new TextEditingController();
+  TextEditingController controllerYakhan = new TextEditingController();
 
-  @override
-  void initState() {
-
-    super.initState();
-  }
 
   void getInstance() async{
     loginData = await SharedPreferences.getInstance();
     setState(() {
-      tailorID = loginData.getString('tName');
+      user = loginData.getString('userID');
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initial();
+  }
+
+  void initial() async{
+    loginData = await SharedPreferences.getInstance();
+    setState(() {
+      user = loginData.getString('userID');
     });
   }
 
   void sendData() async {
-
     http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
-          "indFirstName": controllerFirstName.text,
-          "indLastName": controllerLastName.text,
-          "indPhone": controllerPhone.text,
-          "indTailor": "1",
-          "accName": controllerFirstName.text + " " + controllerLastName.text
+          "firstName": controllerFirstName.text,
+          "lastName": controllerLastName.text,
+          "phone": controllerPhone.text,
+          "tailor": "$user",
+          "qad": controllerQad.text,
+          "shana":controllerShana.text,
+          "astin":controllerAstin.text,
+          "yakhan":controllerYakhan.text,
+          "baghal":controllerBaghal.text,
+          "daman":controllerDaman.text,
+          "qadTunban":controllerQadTunban.text,
+          "pacha":controllerPacha.text,
         }));
     String result = res.body.toString();
     print(result);
@@ -64,39 +90,10 @@ class _NewClientState extends State<NewClient> {
           DialogType.SUCCES, context, () { });
       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
     }
-    //
-    // var res = await http.post(Uri.parse(phpurl), body: {
-    //
-    // }); //sending post request with header data
-    //
-    // if (res.statusCode == 200) {
-    //   print(res.body); //print raw response on console
-    //   var data = json.decode(res.body); //decoding json to array
-    //   if(data["error"]){
-    //     setState(() { //refresh the UI when error is recieved from server
-    //       sending = false;
-    //       error = true;
-    //     });
-    //   }else{
-    //     controllerFirstName.text = "";
-    //     controllerLastName.text = "";
-    //     controllerPhone.text = "";
-    //     //after write success, make fields empty
-    //
-    //     setState(() {
-    //       sending = false;
-    //       success = true; //mark success and refresh UI with setState
-    //     });
-    //   }
-    // }else{
-    //   //there is error
-    //   setState(() {
-    //     error = true;
-    //     sending = false;
-    //     //mark error and refresh UI with setState
-    //   });
-    // }
   }
+
+
+
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -171,7 +168,9 @@ class _NewClientState extends State<NewClient> {
                     )
                   ],
                 ),
-                Divider(height: 20),
+
+                Divider(height: 40,color: Colors.black26,indent: 10,endIndent: 10),
+          //Measurements
                 RoundedInputField(
                   onChanged: (value) {},
                   message: "لطفا اسم مشتری را وارید نمایید",
@@ -192,98 +191,105 @@ class _NewClientState extends State<NewClient> {
                   prefix: Icons.call_end_rounded,
                   controller: controllerPhone,
                 ),
-
-                // Divider(height: 40,color: Colors.black26,indent: 10,endIndent: 10),
-
-                //Measurements
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/baghal.jpg')),
-                //     title: Text('بغـــــل'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/shana.jpg')),
-                //     title: Text('شــــــانه'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/gardan.jpg')),
-                //     title: Text('یــــخن'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/astin.jpg')),
-                //     title: Text('آســتـــــــین'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/bar_daman.jpg')),
-                //     title: Text('دامــــــن'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/qad_peran.jpg')),
-                //     title: Text('قـــــــد'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/qad_tonban.jpg')),
-                //     title: Text('قــــد تنبان'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
-                // Divider(height: 10,indent: 10,endIndent: 10),
-                // ListTile(
-                //     leading: CircleAvatar(
-                //         radius: 29,
-                //         backgroundImage: AssetImage('photos/Measure/pacha.jpg')),
-                //     title: Text('پـــــاچه'),
-                //     trailing:  RoundedMeasureField(
-                //       hintText:'inch',
-                //       message: 'خــالی',
-                //     )
-                // ),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/qad_peran.jpg')),
+                    title: Text('قـــــــد'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerQad,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
                 Divider(height: 10,indent: 10,endIndent: 10),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/shana.jpg')),
+                    title: Text('شــــــانه'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerShana,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/astin.jpg')),
+                    title: Text('آســتـــــــین'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerAstin,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/gardan.jpg')),
+                    title: Text('یــــخن'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerYakhan,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/baghal.jpg')),
+                    title: Text('بغـــــل'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerBaghal,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/bar_daman.jpg')),
+                    title: Text('دامــــــن'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerDaman,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/qad_tonban.jpg')),
+                    title: Text('قــــد تنبان'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerQadTunban,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                ListTile(
+                    leading: CircleAvatar(
+                        radius: 29,
+                        backgroundImage: AssetImage('photos/Measure/pacha.jpg')),
+                    title: Text('پـــــاچه'),
+                    trailing:  RoundedMeasureField(
+                      controller: controllerPacha,
+                      hintText:'inch',
+                      message: 'خــالی',
+                    )
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+
+                //btn
                 RoundedButton(
                   textColor: WhiteColor,
                   color: PurpleColor,

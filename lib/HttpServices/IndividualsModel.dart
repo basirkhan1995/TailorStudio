@@ -1,41 +1,76 @@
 // To parse this JSON data, do
-//     final individuals = individualsFromJson(jsonString);
+//
+//     final customer = customerFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Individuals> individualsFromJson(String str) => List<Individuals>.from(json.decode(str).map((x) => Individuals.fromJson(x)));
+List<Customer> customerFromJson(String str) => List<Customer>.from(json.decode(str).map((x) => Customer.fromJson(x)));
 
-String individualsToJson(List<Individuals> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String customerToJson(List<Customer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Individuals {
-  Individuals({
-    this.indId,
-    this.indFirstName,
-    this.indLastName,
-    this.indPhone,
-    this.indEmail,
+class Customer {
+  Customer({
+    this.customerID,
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.email,
+    this.tailor,
+    this.qad,
+    this.shana,
+    this.astin,
+    this.yakhan,
+    this.baghal,
+    this.daman,
+    this.qadTunban,
+    this.pacha,
   });
+  String customerID;
+  String firstName;
+  String lastName;
+  String phone;
+  String email;
+  String tailor;
+  String qad;
+  String shana;
+  String astin;
+  String yakhan;
+  String baghal;
+  String daman;
+  String qadTunban;
+  String pacha;
 
-  String indId;
-  String indFirstName;
-  String indLastName;
-  String indPhone;
-  String indEmail;
-
-
-  factory Individuals.fromJson(Map<String, dynamic> json) => Individuals(
-    indId: json["indID"],
-    indFirstName: json["indFirstName"],
-    indLastName: json["indLastName"],
-    indPhone: json["indPhone"],
-    indEmail: json["indEmail"],
+  factory Customer.fromJson(Map<String, dynamic> json) => Customer(
+    customerID: json["customerID"]as String,
+    firstName: json["firstName"] as String,
+    lastName: json["lastName"]as String,
+    phone: json["phone"]as String,
+    email: json["email"]as String,
+    tailor: json["tailor"]as String,
+    qad: json["qad"]as String,
+    shana: json["shana"]as String,
+    astin: json["astin"]as String,
+    yakhan: json["yakhan"]as String,
+    baghal: json["baghal"]as String,
+    daman: json["daman"]as String,
+    qadTunban: json["qadTunban"]as String,
+    pacha: json["pacha"]as String,
   );
 
   Map<String, dynamic> toJson() => {
-    "indID": indId,
-    "indFirstName": indFirstName,
-    "indLastName": indLastName,
-    "indPhone": indPhone,
-    "indEmail": indEmail,
+    "customerID": customerID,
+    "firstName": firstName,
+    "lastName": lastName,
+    "phone": phone,
+    "email": email,
+    "tailor": tailor,
+    "qad": qad,
+    "shana": shana,
+    "astin": astin,
+    "yakhan": yakhan,
+    "baghal": baghal,
+    "daman": daman,
+    "qadTunban": qadTunban,
+    "pacha": pacha,
   };
 }

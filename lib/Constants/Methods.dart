@@ -23,15 +23,6 @@ class Env{
   static SharedPreferences loginData;
   static bool isLogin;
 
-  //UserID reservation
-  static int loginUserID;
-  setId(int userID){
-    loginUserID = userID;
-  }
-  getId(){
-    return loginUserID;
-  }
-
 //Remember login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
@@ -41,6 +32,7 @@ class Env{
           context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
+
 
   // Custom Text Style
   static titleStyle(){

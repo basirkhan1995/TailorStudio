@@ -111,6 +111,7 @@ class _BodyState extends State<Body> {
                       Env.loginData.setString('username', username.text);
                       Env.loginData.setString('userID', jsonData['userID']);
                       Env.loginData.setString('tailorName', jsonData['tailorName']);
+                      Env.loginData.setString('studioName', jsonData['studioName']);
                       Env.loginData.setString('userEmail', jsonData['userEmail']);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
