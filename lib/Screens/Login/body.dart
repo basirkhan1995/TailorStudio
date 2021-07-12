@@ -100,18 +100,18 @@ class _BodyState extends State<Body> {
                     http.Response res =
                         await http.post(Uri.parse(Env.url + "login.php"),
                             body: jsonEncode({
-                              "usrName": username.text,
-                              "usrPass": password.text,
+                              "userName": username.text,
+                              "password": password.text,
                             }));
                     var jsonData = jsonDecode(res.body);
-                    int result = int.parse(jsonData['usrID']);
+                    int result = int.parse(jsonData['userID']);
                     print(jsonData);
                     if (result > 0) {
                       Env.loginData.setBool('login', false);
                       Env.loginData.setString('username', username.text);
-                      Env.loginData.setString('tID', jsonData['tlrID']);
-                      Env.loginData.setString('tName', jsonData['tlrName']);
-                      Env.loginData.setString('tEmail', jsonData['tlrEmail']);
+                      Env.loginData.setString('userID', jsonData['userID']);
+                      Env.loginData.setString('tailorName', jsonData['tailorName']);
+                      Env.loginData.setString('userEmail', jsonData['userEmail']);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HomePage()));
                     } else {

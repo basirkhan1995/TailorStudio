@@ -40,7 +40,7 @@ class RoundedInputField extends StatelessWidget {
           onChanged: onChanged,
           cursorColor: PurpleColor,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(8.0),
+            contentPadding: EdgeInsets.only(left:0.0, right: 0.0, top: 10),
             prefixIcon: Icon(icon,color: PurpleColor,size: 30),
             suffixIcon: Icon(prefix,color: PurpleColor,size: 30),
             hintText: hintText,

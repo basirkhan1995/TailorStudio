@@ -10,7 +10,6 @@ class Env{
 
   //Server Side prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
-
   //Method for Dialog Message
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
@@ -21,10 +20,18 @@ class Env{
   static String confirmMessage ='آیا میخواهید خارج شوید؟';
   static String noInternetMessage = 'شما به انترنت وصل نیستید، لطفا انترنت خود را بررسی کنید';
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
-
-
   static SharedPreferences loginData;
   static bool isLogin;
+
+  //UserID reservation
+  static int loginUserID;
+  setId(int userID){
+    loginUserID = userID;
+  }
+  getId(){
+    return loginUserID;
+  }
+
 //Remember login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();

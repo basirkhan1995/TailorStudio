@@ -1,41 +1,52 @@
 import 'dart:convert';
 
-List<Register> RegisterFromJson(String str) => List<Register>.from(
+List<Register> registerFromJson(String str) => List<Register>.from(
     json.decode(str).map((x) => Register.fromJson(x)));
-String RegisterToJson(List<Register> data) =>
+String registerToJson(List<Register> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Register{
  Register({
-    this.usrID,
-    this.usrName,
-    this.usrPass,
-    this.usrRole,
-    this.usrTailor,
-    this.usrImage,
+    this.userID,
+    this.tailorName,
+    this.studioName,
+    this.userEmail,
+    this.userPhone,
+    this.userAddress,
+    this.userName,
+    this.password,
+    this.userImage,
   });
-  String usrID;
-  String usrName;
-  String usrPass;
-  String usrRole;
-  String usrTailor;
-  String usrImage;
-
+  String userID;
+  String tailorName;
+  String studioName;
+  String userEmail;
+  String userPhone;
+  String userAddress;
+  String userName;
+  String password;
+  String userImage;
   factory Register.fromJson(Map<String, dynamic> json) => Register(
-      usrID: json["usrID"],
-      usrName: json["usrName"],
-      usrPass: json["usrPass"],
-      usrRole: json["usrRole"],
-      usrTailor: json["usrTailor"],
-      usrImage: json["usrImage"],
+      userID: json["userID"],
+      tailorName: json['tailorName'],
+      studioName: json['studioName'],
+      userEmail: json['userEmail'],
+      userPhone: json['userPhone'],
+      userAddress: json['userAddress'],
+      userName: json["userName"],
+      password: json["password"],
+      userImage: json['userImage'],
       );
 
   Map<String, dynamic> toJson() => {
-    "usrID": usrID,
-    "usrName": usrName,
-    "usrPass": usrPass,
-    "usrRole": usrRole,
-    "usrTailor": usrTailor,
-    "usrImage": usrImage,
+    "userID": userID,
+    "tailorName": tailorName,
+    "studioName": studioName,
+    "userEmail": userEmail,
+    "userPhone": userPhone,
+    "userAddress":userAddress,
+    "userName": userName,
+    "password": password,
+    "userImage":userImage,
   };
 }

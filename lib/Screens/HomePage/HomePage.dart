@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   String username ;
   String tailorName = "My Name";
   String tailorEmail="my email";
+  int userID;
   bool checkLogin;
 
   @override
@@ -37,8 +38,8 @@ class _HomePageState extends State<HomePage> {
     loginData = await SharedPreferences.getInstance();
     setState(() {
       username = loginData.getString('username');
-      tailorName = loginData.getString('tName');
-      tailorEmail = loginData.getString('tEmail');
+      tailorName = loginData.getString('tailorName');
+      tailorEmail = loginData.getString('userEmail');
       checkLogin = loginData.getBool('login');
 
     });

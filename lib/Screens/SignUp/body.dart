@@ -22,6 +22,7 @@ class _BodyState extends State<Body> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   LoginScreen lgn = new LoginScreen();
   TextEditingController tailorName = new TextEditingController();
+  TextEditingController studioName = new TextEditingController();
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
   bool loading = false;
@@ -35,22 +36,32 @@ class _BodyState extends State<Body> {
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              Padding(padding: EdgeInsets.symmetric(vertical: 25)),
               Text(
                 "حســـاب جـــدید",
                 style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,color: PurpleColor),
               ),
               Image.asset(
-                "photos/background/tailor_logo2.png",
-                height: size.height * 0.22,
+                "photos/background/tailor_logo.png",
+                height: size.height * 0.25,
               ),
 
               //Input TextFields
               RoundedInputField(
                 controller: tailorName,
+                hintText: "اســـم خیـــاط",
+                message: "لطفا اسم خیاط را وارید نمایید",
+                icon: Icons.person_rounded,
+                onChanged: (value) {},
+              ),
+              RoundedInputField(
+                controller: studioName,
                 hintText: "اســـم خیـــاطی",
                 message: "لطفا اسم خیاطی خود را وارید نمایید",
-                icon: Icons.person_rounded,
+                icon: Icons.home_work,
                 onChanged: (value) {},
               ),
               RoundedInputField(
@@ -67,15 +78,7 @@ class _BodyState extends State<Body> {
                 controller: password,
                 onChanged: (value) {},
               ),
-              //CheckBox Buttons
-              Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
 
-
-                  SizedBox(width: 10),
-            ]),
              //Sign up Button
               RoundedButton(
                 text: "ایجــــاد حساب",
@@ -89,11 +92,12 @@ class _BodyState extends State<Body> {
                       loading = true;
                     });
                     http.Response res =
-                        await http.post(Uri.parse("https://tailorstudio.000webhostapp.com/register.php"),
+                        await http.post(Uri.parse(Env.url+"register.php"),
                         body: jsonEncode({
-                          "tlrName": tailorName.text,
-                          "usrName": username.text,
-                          "usrPass": password.text,
+                          "tailorName": tailorName.text,
+                          "studioName": studioName.text,
+                          "userName": username.text,
+                          "password": password.text,
                         }));
                     String result = res.body.toString();
                     print(res.body);
