@@ -6,7 +6,7 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/Individual_Details.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
-import 'package:tailor/wait.dart';
+
 
 class Individual extends StatefulWidget {
   @override
@@ -138,6 +138,7 @@ class _IndividualState extends State<Individual> {
                   );
                 } else {
                   return Text(snapshot.error);
+                  //return LoadingCircle();
                 }
               },
             ),

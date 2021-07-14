@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'Constants/ConstantColors.dart';
 import 'Screens/Login/login.dart';
 import 'SplashScreen.dart';
 import 'package:tailor/GetStarted.dart';
@@ -22,7 +21,7 @@ void main() {
     theme: ThemeData(
       //AppBar Icon Color
       appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: WhiteColor),
+        iconTheme: IconThemeData(color: Colors.black.withOpacity(.7)),
       ),
     ),
 

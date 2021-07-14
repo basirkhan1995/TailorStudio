@@ -43,7 +43,7 @@ class ConnectivityProvider with ChangeNotifier{
     bool isConnected;
     try {
       final List <InternetAddress> result =
-      await InternetAddress.lookup('google.com');
+      await InternetAddress.lookup('www.google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         isConnected = true;
       }

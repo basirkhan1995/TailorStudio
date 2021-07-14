@@ -4,27 +4,13 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+
 List<Customer> customerFromJson(String str) => List<Customer>.from(json.decode(str).map((x) => Customer.fromJson(x)));
 
 String customerToJson(List<Customer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Customer {
-  Customer({
-    this.customerID,
-    this.firstName,
-    this.lastName,
-    this.phone,
-    this.email,
-    this.tailor,
-    this.qad,
-    this.shana,
-    this.astin,
-    this.yakhan,
-    this.baghal,
-    this.daman,
-    this.qadTunban,
-    this.pacha,
-  });
   String customerID;
   String firstName;
   String lastName;
@@ -40,22 +26,43 @@ class Customer {
   String qadTunban;
   String pacha;
 
-  factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-    customerID: json["customerID"]as String,
-    firstName: json["firstName"] as String,
-    lastName: json["lastName"]as String,
-    phone: json["phone"]as String,
-    email: json["email"]as String,
-    tailor: json["tailor"]as String,
-    qad: json["qad"]as String,
-    shana: json["shana"]as String,
-    astin: json["astin"]as String,
-    yakhan: json["yakhan"]as String,
-    baghal: json["baghal"]as String,
-    daman: json["daman"]as String,
-    qadTunban: json["qadTunban"]as String,
-    pacha: json["pacha"]as String,
-  );
+  Customer({
+    @required this.customerID,
+    @required this.firstName,
+    @required this.lastName,
+    @required this.phone,
+    @required this.email,
+    @required this.tailor,
+    @required this.qad,
+    @required this.shana,
+    @required this.astin,
+    @required this.yakhan,
+    @required this.baghal,
+    @required this.daman,
+    @required this.qadTunban,
+    @required this.pacha,
+  });
+
+
+  factory Customer.fromJson(Map<String, dynamic> json) {
+   return Customer(
+   customerID: json["customerID"]as String,
+   firstName: json["firstName"] as String,
+   lastName: json["lastName"]as String,
+   phone: json["phone"]as String,
+   email: json["email"]as String,
+   tailor: json["tailor"]as String,
+   qad: json["qad"]as String,
+   shana: json["shana"]as String,
+   astin: json["astin"]as String,
+   yakhan: json["yakhan"]as String,
+   baghal: json["baghal"]as String,
+   daman: json["daman"]as String,
+   qadTunban: json["qadTunban"]as String,
+   pacha: json["pacha"]as String,
+ );
+
+  }
 
   Map<String, dynamic> toJson() => {
     "customerID": customerID,

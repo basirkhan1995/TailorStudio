@@ -8,7 +8,7 @@ import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/Screens/HomePage/HomePage.dart';
+import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/SignUp/signup.dart';
 import 'package:http/http.dart' as http;
 import 'package:tailor/wait.dart';
@@ -114,7 +114,7 @@ class _BodyState extends State<Body> {
                       Env.loginData.setString('studioName', jsonData['studioName']);
                       Env.loginData.setString('userEmail', jsonData['userEmail']);
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                          MaterialPageRoute(builder: (context) => Dashboard()));
                     } else {
                       setState(() => loading = false);
                       Env.errorDialog(

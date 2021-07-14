@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
-import 'package:tailor/Screens/HomePage/HomePage.dart';
+import 'package:tailor/Screens/HomePage/home.dart';
 
 class AboutTailor extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class AboutTailor extends StatelessWidget {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
+                  context, MaterialPageRoute(builder: (context) => Dashboard()));
             },
           ),
           elevation: 0,

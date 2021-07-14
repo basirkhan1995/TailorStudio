@@ -9,7 +9,7 @@ import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Components/Rounded_Number_Input.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/Screens/HomePage/HomePage.dart';
+import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Components/Rounded_Measure_Input.dart';
 import 'dart:io';
 
@@ -63,7 +63,7 @@ class _NewClientState extends State<NewClient> {
   }
 
   void sendData() async {
-    http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
+     http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
           "firstName": controllerFirstName.text,
           "lastName": controllerLastName.text,
           "phone": controllerPhone.text,
@@ -86,9 +86,9 @@ class _NewClientState extends State<NewClient> {
     }else {
       //print(result);
       await Env.responseDialog(
-          Env.successTitle,Env.successMessage,
+          Env.successTitle,Env.successCustomerAcc,
           DialogType.SUCCES, context, () { });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
     }
   }
 
@@ -97,14 +97,7 @@ class _NewClientState extends State<NewClient> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: PurpleColor,
-        title: Text(
-          'مشـــــتری جــــدید',
-          style: TextStyle(color: WhiteColor),
-        ),
-      ),
+      appBar: Env.appBar(context),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -170,7 +163,7 @@ class _NewClientState extends State<NewClient> {
                 ),
 
                 Divider(height: 40,color: Colors.black26,indent: 10,endIndent: 10),
-          //Measurements
+                 //Measurements
                 RoundedInputField(
                   onChanged: (value) {},
                   message: "لطفا اسم مشتری را وارید نمایید",
