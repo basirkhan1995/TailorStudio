@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tailor/Screens/Gallery/PhotoUpload.dart';
+import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,9 +22,9 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   SharedPreferences loginData;
   String tailorName = "Tailor Name";
-  String studioName = "Studio Name";
+  String studioName = "Tailor Studio";
   String tailorEmail= "Tailor Email";
-  String username ;
+  String username ="username" ;
   bool checkLogin;
 
   AnimationController _controller;
@@ -79,7 +81,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     // double _w = MediaQuery.of(context).size.width;
-    return checkLogin == true ? LoginScreen() : Scaffold(
+    return Scaffold(
       endDrawer: drawer(),
       extendBodyBehindAppBar: true,
       appBar: appBar(),
@@ -97,11 +99,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         child: AppBar(
           centerTitle: true,
           brightness: Brightness.light,
-          backgroundColor: PurpleColor.withOpacity(.3),
+          backgroundColor: LightColor,
           elevation: 0,
           title:
           Text(
-            studioName,
+            "$studioName",
             style: TextStyle(
               fontSize: _w / 17,
               color: Colors.black.withOpacity(.7),
@@ -225,9 +227,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       context, () {
                     loginData.setBool('login', false);
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
-
                   });
-
                 },
               ),
 
@@ -259,11 +259,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               card('فرمـــایشات مشــــتری', 'Orders', Icons.shopping_cart,
                   RouteWhereYouGo(),0xFF6F35A5),
               card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
-                  RouteWhereYouGo(),0xFF8080ff),
-              card('Example example example', 'Example', Icons.favorite,
-                  RouteWhereYouGo(),0xff04549c),
-              card('Example example example', 'Example', Icons.favorite,
-                  RouteWhereYouGo(),0xFF66b3ff),
+                   MyGallery(),0xFF8080ff),
+              card('Custmers list', 'Example', Icons.favorite,
+                  Individual(),0xff04549c),
+              card('Setting', 'setting', Icons.settings,
+                  Settings(),0xFF66b3ff),
             ],
           ),
         ),

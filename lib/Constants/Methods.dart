@@ -23,8 +23,10 @@ class Env{
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static SharedPreferences loginData;
-  static bool isLogin;
+  static bool isLogin = false;
 
+
+  //Static Appbar
   static Widget appBar(context) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
@@ -34,7 +36,7 @@ class Env{
         child: AppBar(
           centerTitle: true,
           brightness: Brightness.light,
-          backgroundColor: LightColor.withOpacity(.5),
+          backgroundColor: LightColor,
           elevation: 0,
           title: Text(
             'Tailor Studio',
@@ -69,11 +71,13 @@ class Env{
     );
   }
 
-//Remember login
+
+
+//auto login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
-    isLogin = (loginData.getBool('login') ?? true);
-    if (isLogin == true) {
+    isLogin = (loginData.getBool('login') ?? false);
+    if (isLogin == false) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Dashboard()));
     }

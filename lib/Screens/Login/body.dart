@@ -26,7 +26,9 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool loading = false;
+
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
 
@@ -35,7 +37,6 @@ class _BodyState extends State<Body> {
     // TODO: implement initState
     super.initState();
     Env.checkIfUserIsLogin(context);
-
   }
 
   @override
@@ -107,7 +108,7 @@ class _BodyState extends State<Body> {
                     int result = int.parse(jsonData['userID']);
                     print(jsonData);
                     if (result > 0) {
-                      Env.loginData.setBool('login', false);
+                      Env.loginData.setBool('login', true);
                       Env.loginData.setString('username', username.text);
                       Env.loginData.setString('userID', jsonData['userID']);
                       Env.loginData.setString('tailorName', jsonData['tailorName']);

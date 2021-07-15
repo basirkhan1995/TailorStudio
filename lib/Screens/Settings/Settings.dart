@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/Constants/Methods.dart';
 import 'Profile.dart';
 
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-         TextButton(
-        child: Icon(Icons.settings,color: WhiteColor,size: 25,),
-         ),
-        ],
-        elevation: 0,
-        backgroundColor: PurpleColor,
-        centerTitle: true,
-        title: Text(
-          'تنظیمات',style: TextStyle(color: WhiteColor,fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: Env.appBar(context),
 
       body: SettinDetails(),
     );

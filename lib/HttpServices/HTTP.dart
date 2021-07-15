@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 
 class HttpService {
-
   Future<List<Customer>> getPosts() async {
-    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/sigleCustomer.php"));
+    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/sigleCustomer.php?userID="));
     if (res.statusCode == 200) {
       //print(res);
       List<dynamic> body = jsonDecode(res.body);

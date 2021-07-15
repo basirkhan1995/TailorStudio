@@ -1,11 +1,16 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
-import 'package:tailor/HttpServices/HTTP.dart';
+import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/Individual_Details.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
+
+import '../../wait.dart';
 
 
 class Individual extends StatefulWidget {
@@ -14,10 +19,42 @@ class Individual extends StatefulWidget {
 }
 
 class _IndividualState extends State<Individual> {
+  SharedPreferences loginData;
+  String userID = "userID";
+
+  Future<List<Customer>> fetchCustomer() async {
+    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/Individuals_Select.php"));
+    if (res.statusCode == 200) {
+      //print(res);
+      List<dynamic> body = jsonDecode(res.body);
+      List<Customer> posts =
+      body.map((dynamic item) => Customer.fromJson(item)).toList();
+      //print(posts);
+      return posts;
+    } else {
+      throw "Error has occured";
+    }
+  }
+
+  @override
+  void initState() {
+    initial();
+    super.initState();
+  }
+
+  void initial() async{
+    loginData = await SharedPreferences.getInstance();
+    setState(() {
+      userID = loginData.getString('userID');
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final HttpService httpService = HttpService();
+    //final HttpService httpService = HttpService();
     return Scaffold(
+      appBar: Env.appBar(context),
       floatingActionButton: FloatingActionButton(
         backgroundColor: PurpleColor,
         child: Icon(Icons.add),
@@ -34,7 +71,7 @@ class _IndividualState extends State<Individual> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: httpService.getPosts(),
+              future: fetchCustomer(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<Customer>> snapshot) {
                 if (snapshot.hasData) {
@@ -137,7 +174,7 @@ class _IndividualState extends State<Individual> {
                         .toList(),
                   );
                 } else {
-                  return Text(snapshot.error);
+                  return LoadingCircle();
                   //return LoadingCircle();
                 }
               },
