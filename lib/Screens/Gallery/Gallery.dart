@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/Gallery/PhotoUpload.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 
@@ -15,10 +16,7 @@ class Album extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyGallery()));
         },
       ),
-      appBar: AppBar(
-        backgroundColor: PurpleColor,
-        title: Text('آلبوم لـــباس ها'),
-      ),
+      appBar: Env.appBar(context,'نمایشگاه لباس')
     );
   }
 }

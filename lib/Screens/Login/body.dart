@@ -36,7 +36,7 @@ class _BodyState extends State<Body> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Env.checkIfUserIsLogin(context);
+    //Env.checkIfUserIsLogin(context);
   }
 
   @override

@@ -46,18 +46,16 @@ class _IndividualState extends State<Individual> {
     loginData = await SharedPreferences.getInstance();
     setState(() {
       userID = loginData.getString('userID');
-
     });
   }
-
   @override
   Widget build(BuildContext context) {
     //final HttpService httpService = HttpService();
     return Scaffold(
-      appBar: Env.appBar(context),
+      appBar: Env.appBar(context,'مشتریان'),
       floatingActionButton: FloatingActionButton(
         backgroundColor: PurpleColor,
-        child: Icon(Icons.add),
+        child: Icon(Icons.person_add),
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => NewClient()));

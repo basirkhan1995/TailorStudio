@@ -30,18 +30,7 @@ class _MyGalleryState extends State<MyGallery> {
         colorStartAnimation: PurpleColor,
         colorEndAnimation: Colors.red.shade900,
       ),
-      appBar: AppBar(
-        actions: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(Icons.photo_library,color: WhiteColor,size: 30)),
-        ],
-        backgroundColor: PurpleColor,
-        centerTitle: true,
-        title: Text(
-          'آپلــــود مـــدل لبـــاس',style: Env.titleStyle(),
-        ),
-      ),
+      appBar: Env.appBar(context,'آپلود مدل لباس'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

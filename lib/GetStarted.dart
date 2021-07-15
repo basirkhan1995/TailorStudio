@@ -10,6 +10,7 @@ class GetStarted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -49,7 +50,7 @@ class GetStarted extends StatelessWidget {
               ),
               RoundedButton(
                 color: PurpleColor,
-                text: 'ایجــــــاد حساب',
+                text: 'ایجـاد حساب',
                 textColor: WhiteColor,
                 press: () {
                   Navigator.push(

@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tailor/Screens/Gallery/PhotoUpload.dart';
 import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -9,10 +8,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/Login/login.dart';
+import 'package:tailor/Screens/Orders/Orders.dart';
 import 'package:tailor/Screens/Settings/Profile.dart';
 import 'package:tailor/Screens/Settings/Settings.dart';
 import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -121,7 +122,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return RouteWhereYouGo();
+                    return Profile();
                   },
                 ),
               );
@@ -144,7 +145,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               //Profile Header
               UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.white60,
+                  color: Colors.white,
                 ),
 
                 //Profile Link
@@ -174,7 +175,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
               // Drawer List of Objects
               ListTile(
-                leading: Icon(Icons.people_alt_rounded,size: 35,color: PurpleColor,),
+                leading: Icon(Icons.people_alt_rounded,size: 35,color: PurpleColor),
                 title: Text('مشتری جدید',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>NewClient()));
@@ -254,15 +255,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
               SizedBox(height: _w / 5.5),
-              card('ثبت مشــــتری جدید ', 'Customers', Icons.person_add_alt_1,
+              card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری', Icons.person_add_alt_1,
                   NewClient(),0xff66a3ff),
-              card('فرمـــایشات مشــــتری', 'Orders', Icons.shopping_cart,
-                  RouteWhereYouGo(),0xFF6F35A5),
-              card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
-                   MyGallery(),0xFF8080ff),
-              card('Custmers list', 'Example', Icons.favorite,
+              card('لیست مشتریان', 'اندازه و فرمایش مشتری', Icons.people_alt_rounded,
                   Individual(),0xff04549c),
-              card('Setting', 'setting', Icons.settings,
+              card('لیست فرمایشات', 'فرمایش مشتریان', Icons.shopping_cart,
+                  Orders(),0xFF6F35A5),
+              card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
+                   Album(),0xFF8585e0),
+              card('تنظیمات', 'تنظیم حساب', Icons.settings,
                   Settings(),0xFF66b3ff),
             ],
           ),
@@ -294,13 +295,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 1.0), //(x,y)
-                      blurRadius: 20.0,
+                      color: LightColor,
+                      offset: Offset(2.0, 2.0), //(x,y)
+                      blurRadius: 80.0,
                     ),
                   ],
                   color: Color(paint),
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
                   border: Border.all(
                       color: Colors.white.withOpacity(.1), width: 1)),
               child: Padding(
@@ -333,12 +334,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: _w / 20,
-                              fontWeight: FontWeight.bold,
+                            style: PersianFonts.Samim.copyWith(
+                            fontSize: _w /20,
                               letterSpacing: 1,
                               wordSpacing: 1,
+                              color: WhiteColor,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
@@ -346,9 +347,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             maxLines: 1,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(1),
-                              fontSize: _w / 25,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w /25,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: WhiteColor,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

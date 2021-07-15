@@ -7,7 +7,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context),
+      appBar: Env.appBar(context,'تنظیمات'),
 
       body: SettinDetails(),
     );
@@ -36,17 +36,17 @@ class SettinDetails extends StatelessWidget {
         ),
         Divider(),
         ListTile(
-          leading: Icon(Icons.vpn_key_rounded,color: PurpleColor),
+          leading: Icon(Icons.account_circle,color: GreyColor,size: 30),
           title: Text('Account'),
           subtitle: Text('Change number, Delete account'),
         ),
         ListTile(
-          leading: Icon(Icons.notification_important,color: PurpleColor),
+          leading: Icon(Icons.notification_important,color: GreyColor,size: 30),
           title: Text('Notifications'),
           subtitle: Text('Delivery message'),
         ),
         ListTile(
-          leading: Icon(Icons.help_outline,color: PurpleColor,),
+          leading: Icon(Icons.help,color: GreyColor,size: 30,),
           title: Text('Help'),
           subtitle: Text('Contact us, Help center'),
         ),

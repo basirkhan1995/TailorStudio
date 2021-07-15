@@ -97,7 +97,7 @@ class _NewClientState extends State<NewClient> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: Env.appBar(context),
+      appBar: Env.appBar(context,'ثبت مشتری جدید'),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,

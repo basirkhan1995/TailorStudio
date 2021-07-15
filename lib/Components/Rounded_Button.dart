@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 
 class RoundedButton extends StatelessWidget {
@@ -16,6 +17,7 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double _w = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 2),
       width: size.width * 0.95,
@@ -27,7 +29,13 @@ class RoundedButton extends StatelessWidget {
           onPressed: press,
           child: Text(
             text,
-            style: TextStyle(color: textColor,fontSize: 16),
+            style: PersianFonts.Samim.copyWith(
+              fontSize: _w /25,
+              letterSpacing: 1,
+              wordSpacing: 1,
+              color: WhiteColor,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

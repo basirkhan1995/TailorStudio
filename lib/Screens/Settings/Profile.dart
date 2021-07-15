@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tailor/Components/Rounded_Button.dart';
-import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/Constants/Methods.dart';
 
 import 'EditProfile.dart';
 
@@ -29,22 +28,7 @@ class ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(
-            child: Icon(Icons.edit,color: WhiteColor,),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfile()));
-            },
-          )
-        ],
-        elevation: 0,
-        backgroundColor: PurpleColor,
-        centerTitle: true,
-        title: Text(
-          'حســــاب',style: TextStyle(color: WhiteColor,fontWeight: FontWeight.bold),
-        ),
-      ),
+      appBar: Env.appBar(context,'تنظیمات پروفایل'),
       body: ProfileDetails(),
     );
   }
@@ -74,8 +58,8 @@ class ProfileDetails extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20,top: 140,right: 110),
                   child: CircleAvatar(
-                      radius: 22,
-                      backgroundColor: PurpleColor,
+                      radius: 20,
+                      backgroundColor: Colors.black.withOpacity(.5),
                       child: Center(
                         child: TextButton(
                             onPressed: null,
@@ -89,34 +73,33 @@ class ProfileDetails extends StatelessWidget {
           Column(
             children: [
               ListTile(
-                leading: Icon(Icons.person_rounded,color: PurpleColor,size: 28),
+                leading: Icon(Icons.person_rounded,color: GreyColor,size: 28),
                 title: Text('اسم کاربری',style: TextStyle(color: GreyColor),),
                 subtitle: Text("Basir",style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.bold)),
               ),
-
-              Divider(indent: 70,thickness: 1,endIndent: 20),
-
+              Divider(indent: 70,endIndent: 20),
               ListTile(
-                leading: Icon(Icons.email,color: PurpleColor,size: 25,),
+
+                leading: Icon(Icons.email,color: GreyColor,size: 25,),
                 title: Text('ایمل آدرس',style: TextStyle(color: GreyColor),),
                 subtitle: Text('basirkhan.hashemi@gmail.com',style: TextStyle(fontSize: 14,color: GreyColor,fontWeight: FontWeight.bold)),
               ),
-              Divider( indent: 70,thickness: 1,endIndent: 20,),
+              Divider( indent: 70,endIndent: 20,),
               ListTile(
-                leading: Icon(Icons.shop_rounded,color:PurpleColor,size: 25,),
+                leading: Icon(Icons.shop_rounded,color:GreyColor,size: 25,),
                 title: Text('خیاطی',style: TextStyle(color: GreyColor),),
                 subtitle: Text('احمد الله خان',style: TextStyle(fontSize: 18,color: GreyColor,fontWeight: FontWeight.bold)),
               ),
-              Divider( indent: 70,thickness: 1,endIndent: 20),
+              Divider( indent: 70,endIndent: 20),
               ListTile(
-                leading: Icon(Icons.call,color: PurpleColor,size: 28,),
+                leading: Icon(Icons.call,color: GreyColor,size: 28,),
                 title: Text('شماره تماس',style: TextStyle(color: GreyColor),),
                 subtitle: Text('0787130301',style: TextStyle(fontSize: 18,color: GreyColor,fontWeight: FontWeight.bold)),
               ),
 
-              Divider( indent: 70,thickness: 1,endIndent: 20),
+              Divider( indent: 70,endIndent: 20),
               ListTile(
-                leading: Icon(Icons.location_on,color: PurpleColor,size: 28,),
+                leading: Icon(Icons.location_on,color: GreyColor,size: 28,),
                 title: Text('آدرس',style: TextStyle(color: GreyColor),),
                 subtitle: Text('چوک ذبیح الله',style: TextStyle(fontSize: 18,color: GreyColor,fontWeight: FontWeight.bold)),
               ),

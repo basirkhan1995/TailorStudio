@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
@@ -27,7 +28,7 @@ class Env{
 
 
   //Static Appbar
-  static Widget appBar(context) {
+  static Widget appBar(context,title) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
@@ -39,13 +40,14 @@ class Env{
           backgroundColor: LightColor,
           elevation: 0,
           title: Text(
-            'Tailor Studio',
-            style: TextStyle(
-              fontSize: _w / 17,
-              color: Colors.black.withOpacity(.7),
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+            title,
+            style: PersianFonts.Samim.copyWith(
+    fontSize: _w /20,
+    letterSpacing: 1,
+    wordSpacing: 1,
+    color: Colors.black.withOpacity(.7),
+    fontWeight: FontWeight.w400,
+    )),
           actions: [
             IconButton(
               tooltip: 'Settings',
@@ -71,7 +73,20 @@ class Env{
     );
   }
 
-
+ static Widget tile(title, subtitle,trailing, leading){
+    return ListTile(
+      title: Text(title,style:PersianFonts.Samim.copyWith(
+        fontSize: 17,
+        letterSpacing: 1,
+        wordSpacing: 1,
+        color: WhiteColor,
+        fontWeight: FontWeight.w600,
+      )),
+      subtitle: subtitle,
+      trailing: trailing,
+      leading: leading,
+    );
+}
 
 //auto login
   static checkIfUserIsLogin(context) async {
