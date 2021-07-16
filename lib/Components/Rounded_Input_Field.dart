@@ -41,8 +41,8 @@ class RoundedInputField extends StatelessWidget {
           cursorColor: PurpleColor,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.only(left:0.0, right: 0.0, top: 10),
-            prefixIcon: Icon(icon,color: PurpleColor,size: 30),
-            suffixIcon: Icon(prefix,color: PurpleColor,size: 30),
+            prefixIcon: Icon(icon,color: PurpleColor,size: 25),
+            suffixIcon: Icon(prefix,color: PurpleColor,size: 25),
             hintText: hintText,
             border: InputBorder.none,
           ),

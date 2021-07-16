@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:tailor/Components/Already_have_account.dart';
 import 'package:tailor/Components/PasswordField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
@@ -36,12 +37,13 @@ class _BodyState extends State<Body> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //Env.checkIfUserIsLogin(context);
+    Env.checkIfUserIsLogin(context);
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double _w = MediaQuery.of(context).size.width;
     return loading ?  LoadingCircle() : Background(
       child: SingleChildScrollView(
         child: Form(
@@ -52,11 +54,14 @@ class _BodyState extends State<Body> {
               Padding(
                 padding: const EdgeInsets.only(top: 40.0),
                 child: Text(
-                  "ورود",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40,
-                      color: PurpleColor),
+                  " ورود به سیستم",
+                  style: PersianFonts.Samim.copyWith(
+                    fontSize: _w /15,
+                    letterSpacing: 1,
+                    wordSpacing: 1,
+                    color: PurpleColor,
+                    fontWeight: FontWeight.w600,
+                  )
                 ),
               ),
               Image.asset(
@@ -150,7 +155,6 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-
 
 
 }

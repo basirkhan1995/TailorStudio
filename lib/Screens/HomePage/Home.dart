@@ -24,9 +24,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   SharedPreferences loginData;
   String tailorName = "Tailor Name";
   String studioName = "Tailor Studio";
-  String tailorEmail= "Tailor Email";
-  String username ="username" ;
+  String tailorEmail = "Tailor Email";
+  String username = "username";
   bool checkLogin;
+  int currentIndex = 0;
 
   AnimationController _controller;
   AnimationController _controller2;
@@ -49,9 +50,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     _animation = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
+          ..addListener(() {
+            setState(() {});
+          });
 
     _animation2 = Tween<double>(begin: 0, end: -50).animate(CurvedAnimation(
         parent: _controller2, curve: Curves.fastLinearToSlowEaseIn));
@@ -60,7 +61,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     _controller2.forward();
   }
 
-  void initial() async{
+  void initial() async {
     loginData = await SharedPreferences.getInstance();
     setState(() {
       username = loginData.getString('username');
@@ -68,7 +69,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       studioName = loginData.getString('studioName');
       tailorEmail = loginData.getString('userEmail');
       checkLogin = loginData.getBool('login');
-
     });
   }
 
@@ -102,8 +102,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           brightness: Brightness.light,
           backgroundColor: LightColor,
           elevation: 0,
-          title:
-          Text(
+          title: Text(
             "$studioName",
             style: TextStyle(
               fontSize: _w / 17,
@@ -134,7 +133,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   //My Drawer
-  Widget drawer(){
+  Widget drawer() {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Drawer(
@@ -147,27 +146,39 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
-
                 //Profile Link
                 accountName: InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
                     },
-                    child:Text("$username",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: GreyColor),)),
-                accountEmail: Text("$tailorEmail",style: TextStyle(color: GreyColor),),
+                    child: Text(
+                      "$username",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: GreyColor),
+                    )),
+                accountEmail: Text(
+                  "$tailorEmail",
+                  style: TextStyle(color: GreyColor),
+                ),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.grey[300],
-                  child: Image.asset('photos/background/emptyAcc.png',color:Colors.grey[600]),
+                  child: Image.asset('photos/background/emptyAcc.png',
+                      color: Colors.grey[600]),
                   //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
                 ),
                 otherAccountsPictures: [
                   CircleAvatar(
                     child: TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Profile()));
                         },
-                        child: Icon(Icons.edit,color: WhiteColor)
-                    ),
+                        child: Icon(Icons.edit, color: WhiteColor)),
                     backgroundColor: PurpleColor,
                   ),
                 ],
@@ -175,96 +186,154 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
               // Drawer List of Objects
               ListTile(
-                leading: Icon(Icons.people_alt_rounded,size: 35,color: PurpleColor),
-                title: Text('مشتری جدید',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>NewClient()));
+                leading: Icon(Icons.people_alt_rounded,
+                    size: 35, color: PurpleColor),
+                title: Text('مشتری جدید',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: GreyColor)),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NewClient()));
                 },
               ),
 
               ListTile(
-                leading: Icon(Icons.photo_library,size: 35,color: PurpleColor,),
-                title: Text('نمایشگاه',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Album()));
+                leading: Icon(
+                  Icons.photo_library,
+                  size: 35,
+                  color: PurpleColor,
+                ),
+                title: Text('نمایشگاه',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: GreyColor)),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Album()));
                 },
               ),
 
               ListTile(
-                leading: Icon(Icons.settings,size: 35,color: PurpleColor,),
-                title: Text('تنظیمات',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Settings()));
+                leading: Icon(
+                  Icons.settings,
+                  size: 35,
+                  color: PurpleColor,
+                ),
+                title: Text('تنظیمات',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: GreyColor)),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
 
-              Divider(indent: 10, endIndent: 10,thickness: 1,color: LightColor,),
+              Divider(
+                indent: 10,
+                endIndent: 10,
+                thickness: 1,
+                color: LightColor,
+              ),
               ListTile(
-                leading: Icon(Icons.star,size: 35,color: PurpleColor,),
-                title: Text('امتیاز دادن',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
-                onTap: (){
+                leading: Icon(
+                  Icons.star,
+                  size: 35,
+                  color: PurpleColor,
+                ),
+                title: Text('امتیاز دادن',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: GreyColor)),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.share,
+                  size: 35,
+                  color: PurpleColor,
+                ),
+                title: Text('اشتراک گذاری',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: GreyColor)),
+                onTap: () {},
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.info,
+                  size: 35,
+                  color: PurpleColor,
+                ),
+                title: Text('درباره ما',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: GreyColor)),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AboutTailor()));
                 },
               ),
               ListTile(
-                leading: Icon(Icons.share,size: 35,color: PurpleColor,),
-                title: Text('اشتراک گذاری',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
-                onTap: (){
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.info,size: 35,color: PurpleColor,),
-                title: Text('درباره ما',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: GreyColor)),
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutTailor()));
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.transit_enterexit_rounded,size: 35,color: Colors.red,),
-                title: Text('خـــروج',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.red)),
-                onTap:()async{
-                  await Env.confirmDialog(
-                      'WARNING', Env.confirmMessage
-                      ,DialogType.WARNING,
-                      context, () {
+                leading: Icon(
+                  Icons.transit_enterexit_rounded,
+                  size: 35,
+                  color: Colors.red,
+                ),
+                title: Text('خـــروج',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red)),
+                onTap: () async {
+                  await Env.confirmDialog('WARNING', Env.confirmMessage,
+                      DialogType.WARNING, context, () {
                     loginData.setBool('login', false);
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
                   });
                 },
               ),
-
             ],
           ),
         ),
       ),
     );
-
   }
 
   //Home Page Cards
-  Widget dashboard(){
+  Widget dashboard() {
     double _w = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         // background color
         BackgroundColor(),
+
         /// ListView
         Directionality(
           textDirection: TextDirection.rtl,
           child: ListView(
             physics:
-            BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
               SizedBox(height: _w / 5.5),
-              card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری', Icons.person_add_alt_1,
-                  NewClient(),0xff66a3ff),
-              card('لیست مشتریان', 'اندازه و فرمایش مشتری', Icons.people_alt_rounded,
-                  Individual(),0xff04549c),
+              card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری',
+                  Icons.person_add_alt_1, NewClient(), 0xff6666ff),
+              card('لیست مشتریان', 'اندازه و فرمایش مشتری',
+                  Icons.people_alt_rounded, Individual(), 0xff3366cc),
               card('لیست فرمایشات', 'فرمایش مشتریان', Icons.shopping_cart,
-                  Orders(),0xFF6F35A5),
+                  Orders(), 0xFF6F35A5),
               card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
-                   Album(),0xFF8585e0),
-              card('تنظیمات', 'تنظیم حساب', Icons.settings,
-                  Settings(),0xFF66b3ff),
+                  Album(), 0xFF944dff),
+              card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
+                  0xFF3385ff),
             ],
           ),
         ),
@@ -273,7 +342,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 
   //Dashboard Widgets
-  Widget card(String title, String subtitle, IconData icon, Widget route,paint) {
+  Widget card(String title, String subtitle, IconData icon, Widget route, paint) {
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: _animation.value,
@@ -335,11 +404,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                             style: PersianFonts.Samim.copyWith(
-                            fontSize: _w /20,
+                              fontSize: _w / 20,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
@@ -348,11 +417,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /25,
+                              fontSize: _w / 30,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w300,
                             ),
                           ),
                           Text(
@@ -378,6 +447,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 }
+
 //Custom Scaffold Background Color
 class BackgroundColor extends StatelessWidget {
   @override
@@ -399,22 +469,3 @@ class BackgroundColor extends StatelessWidget {
     );
   }
 }
-
-
-class RouteWhereYouGo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        elevation: 50,
-        centerTitle: true,
-        shadowColor: Colors.black.withOpacity(.5),
-        title: Text(
-          'EXAMPLE ',
-        ),
-      ),
-    );
-  }
-}
-

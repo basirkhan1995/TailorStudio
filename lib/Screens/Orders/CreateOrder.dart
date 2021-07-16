@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tailor/Components/Rounded_Measure_Input.dart';
 import 'package:tailor/Components/Rounded_Number_Input.dart';
-import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/Constants/Methods.dart';
 
 class NewOrder extends StatelessWidget {
   final _formKey = GlobalKey <FormState>();
@@ -9,10 +9,7 @@ class NewOrder extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: PurpleColor,
-        title: Text('Create Order'),
-      ),
+      appBar: Env.appBar(context,'فرمایش جدید'),
       body:SingleChildScrollView(
         child: Form(
           key: _formKey,

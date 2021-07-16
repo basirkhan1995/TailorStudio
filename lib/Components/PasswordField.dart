@@ -53,7 +53,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
           onChanged: widget.onChanged,
           cursorColor: PurpleColor,
           decoration: InputDecoration(
-            prefixIcon: Icon(widget.icon,color: PurpleColor,size: 30),
+            prefixIcon: Icon(widget.icon,color: PurpleColor,size: 25),
             suffixIcon: IconButton(
               icon: Icon(
                 _Password_visible ? Icons.visibility : Icons.visibility_off,

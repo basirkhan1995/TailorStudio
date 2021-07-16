@@ -4,7 +4,7 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 
 class HttpService {
   Future<List<Customer>> getPosts() async {
-    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/sigleCustomer.php?userID="));
+    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/sigleCustomer.php"));
     if (res.statusCode == 200) {
       //print(res);
       List<dynamic> body = jsonDecode(res.body);

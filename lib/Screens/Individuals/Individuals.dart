@@ -9,7 +9,6 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/Individual_Details.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
-
 import '../../wait.dart';
 
 
@@ -83,9 +82,18 @@ class _IndividualState extends State<Individual> {
                                   backgroundColor: Colors.grey[300],
                                   radius: 25,
                                   //backgroundImage: NetworkImage(""),
-                                  child: Image.asset(
-                                      'photos/background/emptyAcc.png',
-                                      color: Colors.grey[600]),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(.1),
+                                        borderRadius: BorderRadius.circular(30)),
+                                    width: 150,
+                                    height: 150,
+                                    child: Icon(
+                                      Icons.person_rounded,
+                                      color: Colors.black.withOpacity(.5),
+                                      size: 35,
+                                    ),
+                                  ),
                                 ),
                                 title: Text(
                                     post.firstName + " " + post.lastName,

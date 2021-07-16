@@ -8,4 +8,6 @@ const WhiteColor = Color(0xffffffff);
 const GreyColor = Color(0xff434343);
 const LightPurple = Color(0xFFaa80ff);
 const Light = Color (0xFFAA80FF);
+const BlackColor= Color (0xFF000000);
+const Purple= Color (0xFF8585e0);
 

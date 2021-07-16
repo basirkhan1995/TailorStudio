@@ -78,7 +78,7 @@ class _BodyState extends State<Body> {
                 controller: password,
                 onChanged: (value) {},
               ),
-
+              SizedBox(height: 10),
              //Sign up Button
               RoundedButton(
                 text: "ایجــــاد حساب",

@@ -40,7 +40,7 @@ class _NewClientState extends State<NewClient> {
   TextEditingController controllerPacha = new TextEditingController();
   TextEditingController controllerYakhan = new TextEditingController();
 
-
+//  To Save userID in SharedPreferences
   void getInstance() async{
     loginData = await SharedPreferences.getInstance();
     setState(() {
@@ -92,8 +92,6 @@ class _NewClientState extends State<NewClient> {
     }
   }
 
-
-
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -124,13 +122,13 @@ class _NewClientState extends State<NewClient> {
                         )
                             : Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(80)),
                           width: 150,
                           height: 150,
                           child: Icon(
                             Icons.person_sharp,
-                            color: Colors.grey[700],
+                            color: Colors.grey[800],
                             size: 80,
                           ),
                         ),
@@ -140,7 +138,7 @@ class _NewClientState extends State<NewClient> {
                       padding: const EdgeInsets.only(left: 180,top: 130),
                       child: CircleAvatar(
                           radius: 20,
-                          backgroundColor: PurpleColor,
+                          backgroundColor: Colors.black.withOpacity(.3),
                           child: Center(
                             child: TextButton(
                                 onPressed: () async {
@@ -162,7 +160,7 @@ class _NewClientState extends State<NewClient> {
                   ],
                 ),
 
-                Divider(height: 40,color: Colors.black26,indent: 10,endIndent: 10),
+                Divider(height: 20,color: Colors.black.withOpacity(.1),indent: 10,endIndent: 10),
                  //Measurements
                 RoundedInputField(
                   onChanged: (value) {},
@@ -184,6 +182,7 @@ class _NewClientState extends State<NewClient> {
                   prefix: Icons.call_end_rounded,
                   controller: controllerPhone,
                 ),
+                Divider(height: 20,color: Colors.black.withOpacity(.1),indent: 10,endIndent: 10),
                 ListTile(
                     leading: CircleAvatar(
                         radius: 29,
