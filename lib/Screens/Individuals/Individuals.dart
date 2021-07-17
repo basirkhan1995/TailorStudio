@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Rounded_Input_Field.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
@@ -13,13 +12,16 @@ import '../../wait.dart';
 
 
 class Individual extends StatefulWidget {
+  // final String firstName;
+  // final String lastName;
+  // final String phone;
+
+
   @override
   _IndividualState createState() => _IndividualState();
 }
 
 class _IndividualState extends State<Individual> {
-  SharedPreferences loginData;
-  String userID = "userID";
 
   Future<List<Customer>> fetchCustomer() async {
     Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/Individuals_Select.php"));
@@ -37,19 +39,12 @@ class _IndividualState extends State<Individual> {
 
   @override
   void initState() {
-    initial();
+
     super.initState();
   }
 
-  void initial() async{
-    loginData = await SharedPreferences.getInstance();
-    setState(() {
-      userID = loginData.getString('userID');
-    });
-  }
   @override
   Widget build(BuildContext context) {
-    //final HttpService httpService = HttpService();
     return Scaffold(
       appBar: Env.appBar(context,'مشتریان'),
       floatingActionButton: FloatingActionButton(
@@ -63,8 +58,7 @@ class _IndividualState extends State<Individual> {
       body: Column(
         children: [
           RoundedInputField(
-            icon: Icons.search,
-            hintText: 'جستجو',
+            icon: Icons.search, hintText: 'جستجو',
           ),
           Expanded(
             child: FutureBuilder(
@@ -191,3 +185,4 @@ class _IndividualState extends State<Individual> {
     );
   }
 }
+

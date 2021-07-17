@@ -28,7 +28,7 @@ class Env {
       "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static SharedPreferences loginData;
-  static bool isLogin = false;
+  static bool isLogin;
 
 
 
@@ -97,7 +97,7 @@ class Env {
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
     isLogin = (loginData.getBool('login') ?? false);
-    if (isLogin == false) {
+    if (isLogin == true) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Dashboard()));
     }

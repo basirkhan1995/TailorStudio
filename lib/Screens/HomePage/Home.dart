@@ -78,6 +78,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     _controller2.dispose();
     super.dispose();
   }
+  void _logout(){
+    Navigator.popUntil(context, (ModalRoute.withName('/LoginScreen')));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +119,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             highlightColor: Colors.transparent,
             icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
             onPressed: () {
+              _logout();
+              Env.loginData.setBool('login', false);
               HapticFeedback.lightImpact();
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Profile();
+                    return LoginScreen();
                   },
                 ),
               );
@@ -141,10 +146,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+
               //Profile Header
               UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('photos/background/drawer3.jpg')
+                  )
                 ),
                 //Profile Link
                 accountName: InkWell(
@@ -153,46 +162,40 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           MaterialPageRoute(builder: (context) => Profile()));
                     },
                     child: Text(
-                      "$username",
+                      "$tailorName",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                           fontSize: 20,
-                          color: GreyColor),
+                          color:BlackColor.withOpacity(.7)),
                     )),
                 accountEmail: Text(
                   "$tailorEmail",
-                  style: TextStyle(color: GreyColor),
+                  style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500,),
                 ),
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.grey[300],
-                  child: Image.asset('photos/background/emptyAcc.png',
-                      color: Colors.grey[600]),
+                  child: Icon(
+                    Icons.person_rounded,
+                    color: Colors.black.withOpacity(.5),
+                    size: 50,
+                  ),
                   //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
                 ),
-                otherAccountsPictures: [
-                  CircleAvatar(
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Profile()));
-                        },
-                        child: Icon(Icons.edit, color: WhiteColor)),
-                    backgroundColor: PurpleColor,
-                  ),
-                ],
+
               ),
 
               // Drawer List of Objects
               ListTile(
-                leading: Icon(Icons.people_alt_rounded,
-                    size: 35, color: PurpleColor),
+                leading: Icon(Icons.person_add_alt_1_rounded,
+                    size: 30, color: Colors.black.withOpacity(.8)),
                 title: Text('مشتری جدید',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: GreyColor)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => NewClient()));
@@ -202,14 +205,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               ListTile(
                 leading: Icon(
                   Icons.photo_library,
-                  size: 35,
-                  color: PurpleColor,
+                  size: 30,
+                  color: Colors.black.withOpacity(.8),
                 ),
                 title: Text('نمایشگاه',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: GreyColor)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Album()));
@@ -219,14 +225,17 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               ListTile(
                 leading: Icon(
                   Icons.settings,
-                  size: 35,
-                  color: PurpleColor,
+                  size: 30,
+                  color: Colors.black.withOpacity(.8),
                 ),
                 title: Text('تنظیمات',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: GreyColor)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Settings()));
@@ -242,40 +251,49 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               ListTile(
                 leading: Icon(
                   Icons.star,
-                  size: 35,
-                  color: PurpleColor,
+                  size: 30,
+                  color: Colors.black.withOpacity(.8),
                 ),
                 title: Text('امتیاز دادن',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: GreyColor)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () {},
               ),
               ListTile(
                 leading: Icon(
                   Icons.share,
-                  size: 35,
-                  color: PurpleColor,
+                  size: 30,
+                  color: Colors.black.withOpacity(.8),
                 ),
                 title: Text('اشتراک گذاری',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: GreyColor)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () {},
               ),
               ListTile(
                 leading: Icon(
                   Icons.info,
-                  size: 35,
-                  color: PurpleColor,
+                  size: 30,
+                  color: Colors.black.withOpacity(.8),
                 ),
                 title: Text('درباره ما',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: GreyColor)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => AboutTailor()));
@@ -288,17 +306,22 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   color: Colors.red,
                 ),
                 title: Text('خـــروج',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red)),
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: 16,
+                      letterSpacing: 1,
+                      wordSpacing: 1,
+                      color: BlackColor.withOpacity(.7),
+                      fontWeight: FontWeight.w500,
+                    )),
                 onTap: () async {
-                  await Env.confirmDialog('WARNING', Env.confirmMessage,
-                      DialogType.WARNING, context, () {
-                    loginData.setBool('login', false);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                      await Env.confirmDialog('WARNING', Env.confirmMessage,
+                      DialogType.WARNING, context, (){
+                        loginData.setBool('login', false);
+
+                        return Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
                   });
+
+
                 },
               ),
             ],

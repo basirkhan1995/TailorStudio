@@ -3,10 +3,10 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
-import 'package:tailor/Components/Rounded_Input_Field.dart';
-import 'package:tailor/Components/Rounded_Number_Input.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
@@ -105,179 +105,247 @@ class _NewClientState extends State<NewClient> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5, top: 20),
-                        child: imageFile != null
-                            ? ClipRRect(
-                          borderRadius: BorderRadius.circular(70),
-                          child: Image.file(
-                            imageFile,
-                            width: 150,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                            : Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(80)),
-                          width: 150,
-                          height: 150,
-                          child: Icon(
-                            Icons.person_sharp,
-                            color: Colors.grey[800],
-                            size: 80,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 180,top: 130),
-                      child: CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.black.withOpacity(.3),
-                          child: Center(
-                            child: TextButton(
-                                onPressed: () async {
-                                  PickedFile pickedFile = await ImagePicker().getImage(
-                                    source: ImageSource.gallery,
-                                    maxWidth: 1800,
-                                    maxHeight: 1800,
-                                  );
-                                  if (pickedFile != null) {
-                                    setState(() {
-                                      imageFile = File(pickedFile.path);
-                                    });
-                                  }
-                                },
-                                child: Icon(
-                                  Icons.camera_alt,color: WhiteColor,size: 20,)),
-                          )),
-                    )
-                  ],
-                ),
 
-                Divider(height: 20,color: Colors.black.withOpacity(.1),indent: 10,endIndent: 10),
+                Text( 'شهرت مشتری:',textAlign: TextAlign.right, textDirection: TextDirection.rtl,style: PersianFonts.Samim.copyWith(
+                  fontSize: 20,
+                  letterSpacing: 1,
+                  wordSpacing: 1,
+                  color: PurpleColor,
+                  fontWeight: FontWeight.w600,
+                )),
+                SizedBox(height: 10),
                  //Measurements
-                RoundedInputField(
-                  onChanged: (value) {},
-                  message: "لطفا اسم مشتری را وارید نمایید",
-                  hintText: 'اســــم مشــــتری',
+                RoundedBorderedField(
+                  hintText: 'اسم مشتری',
                   controller: controllerFirstName,
+                  inputType: TextInputType.name,
+                  icon: Icons.person,
+                  onChanged: (value){
+                  },
+                  message: 'لطفا اسم مشتری را وارید نمایید!',
                 ),
-                RoundedInputField(
-                  onChanged: (value) {},
+                RoundedBorderedField(
                   hintText: 'تخلص',
-                  icon: Icons.people_alt,
-                  message: "لطفا تخلص را وارید نمایید",
                   controller: controllerLastName,
+                  inputType: TextInputType.name,
+                  icon: Icons.people_alt_rounded,
+                  onChanged: (value){
+                  },
+                  message: 'لطفا تخلص مشتری را وارید نمایید!',
                 ),
-                RoundedPhoneNo(
-                  onChanged: (value) {},
-                  hintText: 'شمـــــاره تماس',
-                  message: "لطفا شماره تماس را وارید نمایید",
-                  prefix: Icons.call_end_rounded,
+                RoundedBorderedField(
+                  hintText: 'شماره تماس',
                   controller: controllerPhone,
+                  inputType: TextInputType.number,
+                  icon: Icons.call,
+                  onChanged: (value){
+                  },
+                  message: 'لطفا شماره تماس مشتری را وارید نمایید!',
                 ),
-                Divider(height: 20,color: Colors.black.withOpacity(.1),indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/qad_peran.jpg')),
-                    title: Text('قـــــــد'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerQad,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
+                   SizedBox(height: 10),
+                Text('قد اندام مشتری',style: PersianFonts.Samim.copyWith(
+                  fontSize: 20,
+                  letterSpacing: 1,
+                  wordSpacing: 1,
+                  color: PurpleColor,
+                  fontWeight: FontWeight.w600,
+                )),
+                SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/qad_peran.jpg')),
+                      title: Text('قـــــــد'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerQad,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
                 ),
-                Divider(height: 10,indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/shana.jpg')),
-                    title: Text('شــــــانه'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerShana,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
-                ),
-                Divider(height: 10,indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/astin.jpg')),
-                    title: Text('آســتـــــــین'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerAstin,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
-                ),
-                Divider(height: 10,indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/gardan.jpg')),
-                    title: Text('یــــخن'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerYakhan,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
-                ),
-                Divider(height: 10,indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/baghal.jpg')),
-                    title: Text('بغـــــل'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerBaghal,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
-                ),
-                Divider(height: 10,indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/bar_daman.jpg')),
-                    title: Text('دامــــــن'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerDaman,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
+                SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/shana.jpg')),
+                      title: Text('شــــــانه'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerShana,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
                 ),
                 Divider(height: 10,indent: 10,endIndent: 10),
 
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/qad_tonban.jpg')),
-                    title: Text('قــــد تنبان'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerQadTunban,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/astin.jpg')),
+                      title: Text('آســتـــــــین'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerAstin,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
                 ),
                 Divider(height: 10,indent: 10,endIndent: 10),
-                ListTile(
-                    leading: CircleAvatar(
-                        radius: 29,
-                        backgroundImage: AssetImage('photos/Measure/pacha.jpg')),
-                    title: Text('پـــــاچه'),
-                    trailing:  RoundedMeasureField(
-                      controller: controllerPacha,
-                      hintText:'inch',
-                      message: 'خــالی',
-                    )
+
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/gardan.jpg')),
+                      title: Text('یــــخن'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerYakhan,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/baghal.jpg')),
+                      title: Text('بغـــــل'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerBaghal,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/bar_daman.jpg')),
+                      title: Text('دامــــــن'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerDaman,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/qad_tonban.jpg')),
+                      title: Text('قــــد تنبان'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerQadTunban,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
+                ),
+                Divider(height: 10,indent: 10,endIndent: 10),
+                Container(
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: WhiteColor,
+                          offset: Offset(2.0, 2.0), //(x,y)
+                          blurRadius: 80.0,
+                        )],
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: PurpleColor)
+                  ),
+                  child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 29,
+                          backgroundImage: AssetImage('photos/Measure/pacha.jpg')),
+                      title: Text('پـــــاچه'),
+                      trailing:  RoundedMeasureField(
+                        controller: controllerPacha,
+                        hintText:'inch',
+                        message: 'خــالی',
+                      )
+                  ),
                 ),
                 Divider(height: 10,indent: 10,endIndent: 10),
 

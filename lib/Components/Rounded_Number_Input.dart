@@ -23,30 +23,33 @@ class RoundedPhoneNo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: TextFormField(
-          textAlign: TextAlign.right,
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter> [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return message;
-            }if(value.trim().length <10){
-              return 'شماره تماس درست نیست، حد اقل 10 عدد باید باشد';
-            }
-            return null;
-          },
-          controller: controller,
-          onChanged: onChanged,
-          cursorColor: PurpleColor,
-          decoration: InputDecoration(
-            suffixIcon: Icon(icon,color: PurpleColor,size: 30),
-            prefixIcon: Icon(prefix,color: PurpleColor,size: 30),
-            hintText: hintText,
-            border: InputBorder.none,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: TextFormField(
+            textAlign: TextAlign.right,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter> [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            validator: (value) {
+              if(value == null || value.isEmpty){
+                return message;
+              }if(value.trim().length <10){
+                return 'شماره تماس درست نیست، حد اقل 10 عدد باید باشد';
+              }
+              return null;
+            },
+            controller: controller,
+            onChanged: onChanged,
+            cursorColor: PurpleColor,
+            decoration: InputDecoration(
+              suffixIcon: Icon(icon,color: PurpleColor,size: 30),
+              prefixIcon: Icon(prefix,color: PurpleColor,size: 30),
+              hintText: hintText,
+              border: InputBorder.none,
+            ),
           ),
         ),
       ),

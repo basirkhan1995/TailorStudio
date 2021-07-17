@@ -35,38 +35,41 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: TextFormField(
-          obscureText: !_Password_visible,
-          textAlign: TextAlign.right,
-          validator: (value) {
-            if(value == null || value.isEmpty){
-              return widget.message;
-            }if(value.trim().length <4){
-              return 'پسورد شما حداقل باید 4 عدد باشد';
-            }
-            return null;
-          },
-          keyboardType: widget.inputType,
-          controller: widget.controller,
-          onChanged: widget.onChanged,
-          cursorColor: PurpleColor,
-          decoration: InputDecoration(
-            prefixIcon: Icon(widget.icon,color: PurpleColor,size: 25),
-            suffixIcon: IconButton(
-              icon: Icon(
-                _Password_visible ? Icons.visibility : Icons.visibility_off,
-                color: PurpleColor,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: TextFormField(
+            obscureText: !_Password_visible,
+            textAlign: TextAlign.right,
+            validator: (value) {
+              if(value == null || value.isEmpty){
+                return widget.message;
+              }if(value.trim().length <4){
+                return 'پسورد شما حداقل باید 4 عدد باشد';
+              }
+              return null;
+            },
+            keyboardType: widget.inputType,
+            controller: widget.controller,
+            onChanged: widget.onChanged,
+            cursorColor: PurpleColor,
+            decoration: InputDecoration(
+              prefixIcon: Icon(widget.icon,color: PurpleColor,size: 25),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _Password_visible ? Icons.visibility : Icons.visibility_off,
+                  color: PurpleColor,
+                ),
+                onPressed: (){
+                  setState(() {
+                    _Password_visible = ! _Password_visible;
+                  });
+                },
               ),
-              onPressed: (){
-                setState(() {
-                  _Password_visible = ! _Password_visible;
-                });
-              },
+              hintText: widget.hintText,
+              border: InputBorder.none,
             ),
-            hintText: widget.hintText,
-            border: InputBorder.none,
           ),
         ),
       ),

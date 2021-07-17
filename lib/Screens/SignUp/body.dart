@@ -27,6 +27,8 @@ class _BodyState extends State<Body> {
   TextEditingController password = new TextEditingController();
   bool loading = false;
 
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -102,6 +104,9 @@ class _BodyState extends State<Body> {
                     String result = res.body.toString();
                     print(res.body);
                     if (result == "Exists") {
+                      setState(() {
+                        loading = false;
+                      });
                       Env.errorDialog(
                          Env.errorTitle,Env.userExistsMessage,
                           DialogType.ERROR, context, () { });

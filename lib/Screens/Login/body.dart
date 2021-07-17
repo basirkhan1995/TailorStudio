@@ -25,20 +25,17 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  bool loading = false;
 
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
-
+  bool loading = false;
   @override
   void initState() {
-    // TODO: implement initState
+   Env.checkIfUserIsLogin(context);
     super.initState();
-    Env.checkIfUserIsLogin(context);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +100,7 @@ class _BodyState extends State<Body> {
                     setState(() {
                       loading = true;
                     });
-                    http.Response res =
-                        await http.post(Uri.parse(Env.url + "login.php"),
+                    http.Response res = await http.post(Uri.parse(Env.url + "login.php"),
                             body: jsonEncode({
                               "userName": username.text,
                               "password": password.text,
@@ -113,12 +109,15 @@ class _BodyState extends State<Body> {
                     int result = int.parse(jsonData['userID']);
                     print(jsonData);
                     if (result > 0) {
+                      loading = false;
                       Env.loginData.setBool('login', true);
                       Env.loginData.setString('username', username.text);
                       Env.loginData.setString('userID', jsonData['userID']);
                       Env.loginData.setString('tailorName', jsonData['tailorName']);
                       Env.loginData.setString('studioName', jsonData['studioName']);
                       Env.loginData.setString('userEmail', jsonData['userEmail']);
+                      Env.loginData.setString('userPhone', jsonData['userPhone']);
+                      Env.loginData.setString('userAddress', jsonData['userAddress']);
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Dashboard()));
                     } else {

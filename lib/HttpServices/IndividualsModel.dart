@@ -25,6 +25,7 @@ class Customer {
   String daman;
   String qadTunban;
   String pacha;
+  String photo;
 
   Customer({
     @required this.customerID,
@@ -41,6 +42,7 @@ class Customer {
     @required this.daman,
     @required this.qadTunban,
     @required this.pacha,
+    @required this.photo,
   });
 
 
@@ -60,6 +62,7 @@ class Customer {
    daman: json["daman"]as String,
    qadTunban: json["qadTunban"]as String,
    pacha: json["pacha"]as String,
+   photo: json["photo"] as String,
  );
 
   }
@@ -79,5 +82,6 @@ class Customer {
     "daman": daman,
     "qadTunban": qadTunban,
     "pacha": pacha,
+    "photo": photo,
   };
 }
