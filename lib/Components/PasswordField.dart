@@ -40,6 +40,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: TextFormField(
+            textInputAction: TextInputAction.next,
             obscureText: !_Password_visible,
             textAlign: TextAlign.right,
             validator: (value) {

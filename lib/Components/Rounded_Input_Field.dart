@@ -30,6 +30,7 @@ class RoundedInputField extends StatelessWidget {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: TextFormField(
+            textInputAction: TextInputAction.next,
             textAlign: TextAlign.right,
             validator: (value) {
               if(value == null || value.isEmpty){

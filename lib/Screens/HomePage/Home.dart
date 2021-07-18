@@ -186,9 +186,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
               // Drawer List of Objects
               ListTile(
-                leading: Icon(Icons.person_add_alt_1_rounded,
-                    size: 30, color: Colors.black.withOpacity(.8)),
-                title: Text('مشتری جدید',
+                leading: Icon(Icons.person_add,
+                    size: 30, color: PurpleColor.withOpacity(.9),),
+                title: Text('ثبت مشتری جدید',
                     style: PersianFonts.Samim.copyWith(
                       fontSize: 16,
                       letterSpacing: 1,
@@ -206,7 +206,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 leading: Icon(
                   Icons.photo_library,
                   size: 30,
-                  color: Colors.black.withOpacity(.8),
+                  color: PurpleColor.withOpacity(.9),
                 ),
                 title: Text('نمایشگاه',
                     style: PersianFonts.Samim.copyWith(
@@ -226,7 +226,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 leading: Icon(
                   Icons.settings,
                   size: 30,
-                  color: Colors.black.withOpacity(.8),
+                  color:PurpleColor.withOpacity(.9),
                 ),
                 title: Text('تنظیمات',
                     style: PersianFonts.Samim.copyWith(
@@ -252,7 +252,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 leading: Icon(
                   Icons.star,
                   size: 30,
-                  color: Colors.black.withOpacity(.8),
+                  color: PurpleColor.withOpacity(.9),
                 ),
                 title: Text('امتیاز دادن',
                     style: PersianFonts.Samim.copyWith(
@@ -268,7 +268,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 leading: Icon(
                   Icons.share,
                   size: 30,
-                  color: Colors.black.withOpacity(.8),
+                  color: PurpleColor.withOpacity(.9),
                 ),
                 title: Text('اشتراک گذاری',
                     style: PersianFonts.Samim.copyWith(
@@ -284,7 +284,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 leading: Icon(
                   Icons.info,
                   size: 30,
-                  color: Colors.black.withOpacity(.8),
+                  color: PurpleColor.withOpacity(.9),
                 ),
                 title: Text('درباره ما',
                     style: PersianFonts.Samim.copyWith(
@@ -303,24 +303,22 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 leading: Icon(
                   Icons.transit_enterexit_rounded,
                   size: 35,
-                  color: Colors.red,
+                  color: Colors.red.shade900,
                 ),
                 title: Text('خـــروج',
                     style: PersianFonts.Samim.copyWith(
                       fontSize: 16,
                       letterSpacing: 1,
                       wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
+                      color: Colors.red.shade900,
                       fontWeight: FontWeight.w500,
                     )),
                 onTap: () async {
                       await Env.confirmDialog('WARNING', Env.confirmMessage,
                       DialogType.WARNING, context, (){
                         loginData.setBool('login', false);
-
                         return Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
                   });
-
 
                 },
               ),
@@ -387,8 +385,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: LightColor,
-                      offset: Offset(2.0, 2.0), //(x,y)
+                      spreadRadius: 5,
+                      color: Colors.grey.withOpacity(0.5),
+                      offset: Offset(0,3), //(x,y)
                       blurRadius: 80.0,
                     ),
                   ],
@@ -427,11 +426,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                             style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 20,
+                              fontSize: _w / 22,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(

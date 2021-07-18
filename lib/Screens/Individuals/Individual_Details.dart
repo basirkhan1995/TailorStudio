@@ -4,15 +4,19 @@ import 'package:slimy_card/slimy_card.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
- 
+import 'Individuals.dart';
 
 class IndDetails extends StatefulWidget {
+  final Individual data;
+  // In the constructor, require a Todo.
+  IndDetails({Key key, @required this.data}) : super(key: key);
   @override
   _IndDetailsState createState() => _IndDetailsState();
 }
 class _IndDetailsState extends State<IndDetails> {
   @override
   void initState() {
+
     super.initState();
   }
 

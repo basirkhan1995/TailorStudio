@@ -27,8 +27,11 @@ class RoundedBorderedField extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: .2, vertical: 4),
         child: TextFormField(
+          cursorColor: PurpleColor,
+          cursorHeight: 25,
+          cursorWidth: 1,
           validator: (value) {
             if(value == null || value.isEmpty){
               return message;
@@ -42,7 +45,7 @@ class RoundedBorderedField extends StatelessWidget {
             errorBorder: OutlineInputBorder(
               gapPadding: 5,
               borderSide: BorderSide(width: 1, color: PurpleColor),
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(10),
             ),
               prefixIcon: Icon(icon,color: PurpleColor,size: 25),
               suffixIcon: Icon(prefix,color: PurpleColor,size: 25),
@@ -50,12 +53,12 @@ class RoundedBorderedField extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 gapPadding: 5,
                 borderSide: BorderSide(width: 1, color: PurpleColor),
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
               ),
               focusedBorder: OutlineInputBorder(
                 gapPadding: 5,
                 borderSide: BorderSide(width: 1.5, color: PurpleColor),
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
               )),
         ),
       ),

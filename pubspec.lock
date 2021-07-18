@@ -127,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  fitted_text_field_container:
+    dependency: "direct main"
+    description:
+      name: fitted_text_field_container
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flare_dart:
     dependency: transitive
     description:

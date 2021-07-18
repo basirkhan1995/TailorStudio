@@ -19,13 +19,22 @@ class RoundedButton extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double _w = MediaQuery.of(context).size.width;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 2),
+      margin: EdgeInsets.symmetric(vertical: 1,horizontal: 10),
       width: size.width * 0.95,
+      height: 45,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: FlatButton(
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-          color: color,
+        borderRadius: BorderRadius.circular(10.0),
+        child: TextButton(
+          style: ButtonStyle(
+            elevation: MaterialStateProperty.all(40),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed))
+                  return Theme.of(context).colorScheme.primary.withOpacity(0.5);
+                return PurpleColor; // Use the component's default.
+              },
+            ),
+          ),
           onPressed: press,
           child: Text(
             text,

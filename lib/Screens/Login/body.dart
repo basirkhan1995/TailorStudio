@@ -96,7 +96,7 @@ class _BodyState extends State<Body> {
                      var networkResult = await Connectivity().checkConnectivity();
                     if (networkResult == ConnectivityResult.none) {
                     return Env.errorDialog(Env.internetTitle, Env.noInternetMessage, DialogType.ERROR, context, () { });
-                      }
+                    }
                     setState(() {
                       loading = true;
                     });

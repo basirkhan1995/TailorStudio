@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tailor/Components/Rounded_Measure_Input.dart';
 import 'package:tailor/Components/Rounded_Number_Input.dart';
 import 'package:tailor/Constants/Methods.dart';
 
@@ -29,10 +28,6 @@ class NewOrder extends StatelessWidget {
                   hintText: 'Qty',
                   message: 'لطفا نمبر فرمایش را وارید نمایید',
                 ),
-               RoundedMeasureField(
-                 hintText: 'sdf',
-                 message: 'sfsdfsd',
-               )
               ],
             ),
           ),

@@ -12,10 +12,6 @@ import '../../wait.dart';
 
 
 class Individual extends StatefulWidget {
-  // final String firstName;
-  // final String lastName;
-  // final String phone;
-
 
   @override
   _IndividualState createState() => _IndividualState();

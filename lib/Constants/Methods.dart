@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/Login/login.dart';
@@ -29,8 +31,6 @@ class Env {
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static SharedPreferences loginData;
   static bool isLogin;
-
-
 
   //Static Appbar
   static Widget appBar(context, title) {
@@ -92,7 +92,6 @@ class Env {
       leading: leading,
     );
   }
-
 //auto login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
@@ -103,10 +102,25 @@ class Env {
     }
   }
 
-  // Custom Text Style
-  static titleStyle() {
-    return TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 20, color: WhiteColor);
+  //Static TextStyle
+  static style() {
+    return PersianFonts.Samim.copyWith(
+      fontSize: 17,
+      letterSpacing: 1,
+      wordSpacing: 1,
+      color: PurpleColor,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  static fontStyle(double size, Color paint) {
+    return PersianFonts.Samim.copyWith(
+      fontSize: size,
+      letterSpacing: 1,
+      wordSpacing: 1,
+      color: paint,
+      fontWeight: FontWeight.w500,
+    );
   }
 
   //General Alert Dialog function
@@ -170,4 +184,36 @@ class Env {
       btnCancelColor: Colors.red.shade900,
     ).show();
   }
-}
+
+
+  static Widget myMeasure(title,image,controller){
+    return Padding(
+      padding: const EdgeInsets.only(top: 3, bottom: 3),
+      child: Container(
+        padding: EdgeInsets.only(top: 6, bottom: 6),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: PurpleColor)
+        ),
+        child: ListTile(
+          leading: CircleAvatar(
+              radius: 30,
+              backgroundImage: AssetImage(image)),
+          title: Text(title,style:Env.style()),
+          trailing: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: 48),
+            child: IntrinsicWidth(
+              child: MeasureField(
+                controller: controller,
+                hintText: 'inch ',
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+}//class Env

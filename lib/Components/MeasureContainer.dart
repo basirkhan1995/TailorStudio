@@ -12,13 +12,14 @@ class MeasureContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 1),
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      width: size.width * 0.3,
-      height: 100,
       decoration: BoxDecoration(
+        border:Border.all(color: PurpleColor),
         borderRadius: BorderRadius.circular(10),
       ),
+      margin: EdgeInsets.symmetric(vertical: 1.0),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      width: size.width * 0.3,
+      height: 100,
       child: child,
     );
   }
