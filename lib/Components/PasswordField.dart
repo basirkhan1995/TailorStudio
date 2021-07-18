@@ -26,11 +26,11 @@ class PasswordInputField extends StatefulWidget {
 }
 
 class _PasswordInputFieldState extends State<PasswordInputField> {
-  bool _Password_visible;
+  bool _passwordVisible;
 
   @override
   void initState(){
-    _Password_visible = false;
+    _passwordVisible = false;
   }
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
           textDirection: TextDirection.rtl,
           child: TextFormField(
             textInputAction: TextInputAction.next,
-            obscureText: !_Password_visible,
+            obscureText: !_passwordVisible,
             textAlign: TextAlign.right,
             validator: (value) {
               if(value == null || value.isEmpty){
@@ -59,12 +59,12 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
               prefixIcon: Icon(widget.icon,color: PurpleColor,size: 25),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _Password_visible ? Icons.visibility : Icons.visibility_off,
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off,
                   color: PurpleColor,
                 ),
                 onPressed: (){
                   setState(() {
-                    _Password_visible = ! _Password_visible;
+                    _passwordVisible = ! _passwordVisible;
                   });
                 },
               ),

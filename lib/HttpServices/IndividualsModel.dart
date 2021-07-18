@@ -17,14 +17,14 @@ class Customer {
   String phone;
   String email;
   String tailor;
-  String qad;
-  String shana;
-  String astin;
-  String yakhan;
-  String baghal;
-  String daman;
-  String qadTunban;
-  String pacha;
+  String height;
+  String shoulder;
+  String sleeve;
+  String collar;
+  String waist;
+  String skirt;
+  String pantHeight;
+  String legWidth;
   String photo;
 
   Customer({
@@ -34,14 +34,14 @@ class Customer {
     @required this.phone,
     @required this.email,
     @required this.tailor,
-    @required this.qad,
-    @required this.shana,
-    @required this.astin,
-    @required this.yakhan,
-    @required this.baghal,
-    @required this.daman,
-    @required this.qadTunban,
-    @required this.pacha,
+    @required this.height,
+    @required this.shoulder,
+    @required this.sleeve,
+    @required this.collar,
+    @required this.waist,
+    @required this.skirt,
+    @required this.pantHeight,
+    @required this.legWidth,
     @required this.photo,
   });
 
@@ -54,14 +54,14 @@ class Customer {
    phone: json["phone"]as String,
    email: json["email"]as String,
    tailor: json["tailor"]as String,
-   qad: json["qad"]as String,
-   shana: json["shana"]as String,
-   astin: json["astin"]as String,
-   yakhan: json["yakhan"]as String,
-   baghal: json["baghal"]as String,
-   daman: json["daman"]as String,
-   qadTunban: json["qadTunban"]as String,
-   pacha: json["pacha"]as String,
+   height: json["height"]as String,
+   shoulder: json["shoulder"]as String,
+   sleeve: json["sleeve"]as String,
+   collar: json["collar"]as String,
+   waist: json["waist"]as String,
+   skirt: json["skirt"]as String,
+   pantHeight: json["pantHeight"]as String,
+   legWidth: json["legWidth"]as String,
    photo: json["photo"] as String,
  );
 
@@ -74,14 +74,14 @@ class Customer {
     "phone": phone,
     "email": email,
     "tailor": tailor,
-    "qad": qad,
-    "shana": shana,
-    "astin": astin,
-    "yakhan": yakhan,
-    "baghal": baghal,
-    "daman": daman,
-    "qadTunban": qadTunban,
-    "pacha": pacha,
+    "height": height,
+    "shoulder": shoulder,
+    "sleeve": sleeve,
+    "collar": collar,
+    "Waist": waist,
+    "skirt": skirt,
+    "pantHeight": pantHeight,
+    "legWidth": legWidth,
     "photo": photo,
   };
 }

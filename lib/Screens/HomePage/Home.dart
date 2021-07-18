@@ -34,6 +34,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   Animation<double> _animation;
   Animation<double> _animation2;
 
+
+
   @override
   void initState() {
     initial();
@@ -78,13 +80,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     _controller2.dispose();
     super.dispose();
   }
+
+  //removes navigation path
   void _logout(){
     Navigator.popUntil(context, (ModalRoute.withName('/LoginScreen')));
   }
 
   @override
   Widget build(BuildContext context) {
-    // double _w = MediaQuery.of(context).size.width;
     return Scaffold(
       endDrawer: drawer(),
       extendBodyBehindAppBar: true,
@@ -131,198 +134,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 ),
               );
             },
-          ),
-        ),
-      ),
-    );
-  }
-
-  //My Drawer
-  Widget drawer() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Drawer(
-        elevation: 20,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-
-              //Profile Header
-              UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('photos/background/drawer3.jpg')
-                  )
-                ),
-                //Profile Link
-                accountName: InkWell(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Profile()));
-                    },
-                    child: Text(
-                      "$tailorName",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                          color:BlackColor.withOpacity(.7)),
-                    )),
-                accountEmail: Text(
-                  "$tailorEmail",
-                  style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500,),
-                ),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.grey[300],
-                  child: Icon(
-                    Icons.person_rounded,
-                    color: Colors.black.withOpacity(.5),
-                    size: 50,
-                  ),
-                  //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
-                ),
-
-              ),
-
-              // Drawer List of Objects
-              ListTile(
-                leading: Icon(Icons.person_add,
-                    size: 30, color: PurpleColor.withOpacity(.9),),
-                title: Text('ثبت مشتری جدید',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NewClient()));
-                },
-              ),
-
-              ListTile(
-                leading: Icon(
-                  Icons.photo_library,
-                  size: 30,
-                  color: PurpleColor.withOpacity(.9),
-                ),
-                title: Text('نمایشگاه',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Album()));
-                },
-              ),
-
-              ListTile(
-                leading: Icon(
-                  Icons.settings,
-                  size: 30,
-                  color:PurpleColor.withOpacity(.9),
-                ),
-                title: Text('تنظیمات',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
-                },
-              ),
-
-              Divider(
-                indent: 10,
-                endIndent: 10,
-                thickness: 1,
-                color: LightColor,
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.star,
-                  size: 30,
-                  color: PurpleColor.withOpacity(.9),
-                ),
-                title: Text('امتیاز دادن',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.share,
-                  size: 30,
-                  color: PurpleColor.withOpacity(.9),
-                ),
-                title: Text('اشتراک گذاری',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () {},
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.info,
-                  size: 30,
-                  color: PurpleColor.withOpacity(.9),
-                ),
-                title: Text('درباره ما',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: BlackColor.withOpacity(.7),
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AboutTailor()));
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.transit_enterexit_rounded,
-                  size: 35,
-                  color: Colors.red.shade900,
-                ),
-                title: Text('خـــروج',
-                    style: PersianFonts.Samim.copyWith(
-                      fontSize: 16,
-                      letterSpacing: 1,
-                      wordSpacing: 1,
-                      color: Colors.red.shade900,
-                      fontWeight: FontWeight.w500,
-                    )),
-                onTap: () async {
-                      await Env.confirmDialog('WARNING', Env.confirmMessage,
-                      DialogType.WARNING, context, (){
-                        loginData.setBool('login', false);
-                        return Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
-                  });
-
-                },
-              ),
-            ],
           ),
         ),
       ),
@@ -385,8 +196,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      spreadRadius: 5,
-                      color: Colors.grey.withOpacity(0.5),
+                      color: LightColor,
                       offset: Offset(0,3), //(x,y)
                       blurRadius: 80.0,
                     ),
@@ -468,6 +278,75 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       ),
     );
   }
+
+  // Custom ListTile
+  Widget myTile(String title, IconData icon, Widget route){
+    return ListTile(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => route));
+      },
+    title: Text(title, style:Env.style(16,BlackColor.withOpacity(.7))
+    ),
+    leading: Icon(icon,size: 30,color:PurpleColor),
+    );
+  }
+
+  //My Drawer
+  Widget drawer() {
+    return Directionality( textDirection: TextDirection.rtl,
+      child: Drawer(
+      elevation: 20,
+      child: SingleChildScrollView(
+      child: Column(
+      children: <Widget>[
+              //Profile Header
+                UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                 image: DecorationImage(fit: BoxFit.cover,
+                 image: AssetImage('photos/background/drawer3.jpg')
+                    )
+                ),
+                accountName: InkWell(
+                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));},
+                child: Text("$tailorName", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color:BlackColor.withOpacity(.7)),)),
+                accountEmail: Text("$tailorEmail",style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500)),
+                currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.grey[300],
+                child: Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 50),
+                  //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
+                )),
+
+              // Drawer List of Objects
+              myTile('ثبت مشتری', Icons.person_add_alt_1_rounded, NewClient()),
+              myTile('نمایشگاه', Icons.photo, Album()),
+              myTile('فرمایش ها', Icons.shopping_cart, Orders()),
+              myTile('تنظیمات', Icons.settings, Settings()),
+              Divider(height: 10,indent: 20,endIndent: 20),
+              myTile('امتیاز دادن', Icons.star, AboutTailor()),
+              myTile('درباره ما', Icons.info, AboutTailor()),
+              //myTile('تماس با ما', Icons.call, NewClient()),
+
+              //Logout
+              ListTile(
+                leading: Icon(
+                  Icons.transit_enterexit_rounded, size: 35, color: Colors.red.shade900),
+                title: Text('خـــروج',style: Env.style(17,Colors.red.shade900)),
+                onTap: () async {
+                  await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, (){
+                        loginData.setBool('login', false);
+                        return Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
+                      });
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }
 
 //Custom Scaffold Background Color

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
-import 'Input_Field_Container.dart';
 
 class RoundedBorderedField extends StatelessWidget {
   final String hintText;
@@ -29,6 +28,7 @@ class RoundedBorderedField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: .2, vertical: 4),
         child: TextFormField(
+          textInputAction: TextInputAction.next,
           cursorColor: PurpleColor,
           cursorHeight: 25,
           cursorWidth: 1,

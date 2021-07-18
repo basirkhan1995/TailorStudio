@@ -31,4 +31,19 @@ class HttpService {
     }
   }
 
+  Future<List<Customer>> getCustomer() async {
+    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/Individuals_Select.php"));
+    if (res.statusCode == 200) {
+      //print(res);
+      List<dynamic> body = jsonDecode(res.body);
+      List<Customer> posts =
+      body.map((dynamic item) => Customer.fromJson(item)).toList();
+      //print(posts);
+      return posts;
+    } else {
+      throw "Error has occured";
+    }
+  }
+
+
 }

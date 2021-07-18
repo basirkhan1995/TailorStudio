@@ -20,7 +20,7 @@ class Individual extends StatefulWidget {
 class _IndividualState extends State<Individual> {
 
   Future<List<Customer>> fetchCustomer() async {
-    Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/Individuals_Select.php"));
+    Response res = await get(Uri.parse(Env.url + "Individuals_Select.php"));
     if (res.statusCode == 200) {
       //print(res);
       List<dynamic> body = jsonDecode(res.body);
@@ -29,7 +29,7 @@ class _IndividualState extends State<Individual> {
       //print(posts);
       return posts;
     } else {
-      throw "Error has occured";
+      throw "Error";
     }
   }
 

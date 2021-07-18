@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
-import 'Input_Field_Container.dart';
 
 class MeasureField extends StatelessWidget {
   final String hintText;
@@ -23,11 +22,16 @@ class MeasureField extends StatelessWidget {
           cursorColor: PurpleColor,
           cursorHeight: 25,
           cursorWidth: 1,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.right,
           keyboardType: TextInputType.number,
           controller: controller,
           decoration: InputDecoration(
+            hintText: '0.00',
             prefixText: hintText,
+            prefixStyle: TextStyle(
+              fontSize: 17,
+              color: PurpleColor
+            ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(width: 1.5, color: PurpleColor),
 

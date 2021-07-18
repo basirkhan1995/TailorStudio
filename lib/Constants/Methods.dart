@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,20 +15,17 @@ import 'package:tailor/Screens/Settings/Settings.dart';
 class Env {
   //Server Side prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
+
   //Method for Dialog Message
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
   static String internetTitle = 'No Internet!';
-  static String userExistsMessage =
-      "این حساب کاربری تکراری میباشد، لطفا اسم دیگری را امتحان کنید";
-  static String wrongInput =
-      "حساب و رمز عبور شما اشتباه میباشد لطفا دوباره کوشش نمایید";
+  static String userExistsMessage = "این حساب کاربری تکراری میباشد، لطفا اسم دیگری را امتحان کنید";
+  static String wrongInput = "حساب و رمز عبور شما اشتباه میباشد لطفا دوباره کوشش نمایید";
   static String successMessage = "حساب کاربری شما موفقانه ایجاد گردید";
   static String confirmMessage = 'آیا میخواهید از حساب خود خارج شوید؟';
-  static String noInternetMessage =
-      'شما به انترنت وصل نیستید، لطفا انترنت خود را چک کنید و دوباره امتحان کنید';
-  static String inputError =
-      "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
+  static String noInternetMessage = 'شما به انترنت وصل نیستید، لطفا انترنت خود را چک کنید و دوباره امتحان کنید';
+  static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static SharedPreferences loginData;
   static bool isLogin;
@@ -77,21 +75,6 @@ class Env {
     );
   }
 
-  static Widget tile(title, subtitle, trailing, leading) {
-    return ListTile(
-      title: Text(title,
-          style: PersianFonts.Samim.copyWith(
-            fontSize: 17,
-            letterSpacing: 1,
-            wordSpacing: 1,
-            color: WhiteColor,
-            fontWeight: FontWeight.w600,
-          )),
-      subtitle: subtitle,
-      trailing: trailing,
-      leading: leading,
-    );
-  }
 //auto login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
@@ -102,13 +85,14 @@ class Env {
     }
   }
 
+
   //Static TextStyle
-  static style() {
+  static style(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
-      fontSize: 17,
+      fontSize: size,
       letterSpacing: 1,
       wordSpacing: 1,
-      color: PurpleColor,
+      color: paint,
       fontWeight: FontWeight.w500,
     );
   }
@@ -144,6 +128,7 @@ class Env {
   }
 
   //Exist Account Error Message
+
   static errorDialog(String title, String msg, DialogType dialogType,
       BuildContext context, VoidCallback onOkPress) {
     return AwesomeDialog(
@@ -185,7 +170,6 @@ class Env {
     ).show();
   }
 
-
   static Widget myMeasure(title,image,controller){
     return Padding(
       padding: const EdgeInsets.only(top: 3, bottom: 3),
@@ -199,7 +183,7 @@ class Env {
           leading: CircleAvatar(
               radius: 30,
               backgroundImage: AssetImage(image)),
-          title: Text(title,style:Env.style()),
+          title: Text(title,style:Env.style(17, PurpleColor)),
           trailing: ConstrainedBox(
             constraints: BoxConstraints(
                 minWidth: 48),
@@ -214,6 +198,5 @@ class Env {
       ),
     );
   }
-
 
 }//class Env

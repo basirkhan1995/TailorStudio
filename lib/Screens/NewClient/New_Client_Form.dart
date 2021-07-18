@@ -6,14 +6,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
-import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'dart:io';
 
-import 'Measurements.dart';
 
 
 class NewClient extends StatefulWidget {
@@ -70,14 +68,14 @@ class _NewClientState extends State<NewClient> {
           "lastName": lastName.text,
           "phone": phone.text,
           "tailor": "$user",
-          "qad": height.text,
-          "shana":shoulder.text,
-          "astin":sleeve.text,
-          "yakhan":collar.text,
-          "baghal":waist.text,
-          "daman":skirt.text,
-          "qadTunban":pantHeight.text,
-          "pacha":legWidth.text,
+          "height": height.text,
+          "shoulder":shoulder.text,
+          "sleeve":sleeve.text,
+          "collar":collar.text,
+          "waist":waist.text,
+          "skirt":skirt.text,
+          "pantHeight":pantHeight.text,
+          "legWidth":legWidth.text,
         }));
     String result = res.body.toString();
     print(result);
@@ -156,7 +154,7 @@ class _NewClientState extends State<NewClient> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('قد اندام مشتری',style: Env.style()),
+                      Text('قد اندام مشتری',style: Env.style(20, PurpleColor)),
                       Icon(Icons.format_list_numbered_rtl_rounded,size: 30, color: PurpleColor),
                     ],
                   ),
@@ -172,42 +170,16 @@ class _NewClientState extends State<NewClient> {
                   Env.myMeasure('قد تنبان', 'photos/Measure/qad_tonban.jpg',pantHeight),
                   Env.myMeasure('پــــاچه', 'photos/Measure/pacha.jpg',legWidth),
 
-
-
-
-
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(10),
-                  //       border: Border.all(color: PurpleColor)
-                  //   ),
-                  //   child: ListTile(
-                  //       leading: CircleAvatar(
-                  //           radius: 30,
-                  //           backgroundImage: AssetImage('photos/Measure/qad_peran.jpg')),
-                  //       title: Text('قد'),
-                  //     trailing: ConstrainedBox(
-                  //       constraints: BoxConstraints(
-                  //         minWidth: 48),
-                  //       child: IntrinsicWidth(
-                  //       child: MeasureField(
-                  //         hintText: 'inch ',
-                  //       ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
                   SizedBox(height: 10),
-                  //btn
-                  RoundedButton(
-                    textColor: WhiteColor,
-                    color: PurpleColor,
-                    text: "ثبت",
+
+                  /// Submit Button
+                  RoundedButton(textColor: WhiteColor, color: PurpleColor, text: "ثبت",
                     press: (){
                       if(_formKey.currentState.validate()){
-                        sendData();
+                  /// Function Send Data
+                     sendData();
                       }}),
+
                   SizedBox(height: 20,)
                 ],
               ),
@@ -217,6 +189,7 @@ class _NewClientState extends State<NewClient> {
       ),
     );
   }
+
 
   gallery(){
     return FloatingActionButton(
@@ -238,9 +211,6 @@ class _NewClientState extends State<NewClient> {
       tooltip: 'Gallery',
       child: Icon(Icons.photo_library),
     );
-
-
-
-
   }
+
 }
