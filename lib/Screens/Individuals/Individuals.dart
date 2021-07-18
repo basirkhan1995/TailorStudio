@@ -73,18 +73,10 @@ class _IndividualState extends State<Individual> {
                                   radius: 25,
                                   //backgroundImage: NetworkImage(""),
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(.1),
-                                        borderRadius: BorderRadius.circular(30)),
-                                    width: 150,
-                                    height: 150,
-                                    child: Icon(
-                                      Icons.person_rounded,
-                                      color: Colors.black.withOpacity(.5),
-                                      size: 35,
-                                    ),
-                                  ),
-                                ),
+                                    decoration: BoxDecoration( color: Colors.black.withOpacity(.1),
+                                    borderRadius: BorderRadius.circular(30)),
+                                    width: 150, height: 150,
+                                    child: Icon( Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 35))),
                                 title: Text(
                                     post.firstName + " " + post.lastName,
                                     style: TextStyle(

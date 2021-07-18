@@ -18,11 +18,12 @@ class MeasureField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
         child: TextFormField(
+          maxLines: 1,
           textInputAction: TextInputAction.next,
           cursorColor: PurpleColor,
           cursorHeight: 25,
           cursorWidth: 1,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.left,
           keyboardType: TextInputType.number,
           controller: controller,
           decoration: InputDecoration(

@@ -1,6 +1,5 @@
-import 'dart:convert';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:persian_fonts/persian_fonts.dart';
@@ -9,10 +8,9 @@ import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/Screens/HomePage/Home.dart';
+import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'dart:io';
-
-
+import 'dart:convert';
 
 class NewClient extends StatefulWidget {
   @override
@@ -50,7 +48,8 @@ class _NewClientState extends State<NewClient> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
+
     super.initState();
     initial();
   }
@@ -79,16 +78,14 @@ class _NewClientState extends State<NewClient> {
         }));
     String result = res.body.toString();
     print(result);
-    if(result=="Failed"){
-      Env.errorDialog(
-          Env.errorTitle,Env.userExistsMessage,
-          DialogType.ERROR, context, () { });
+    if(result == "success"){
+      await Env.responseDialog(
+      Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Individual()));
     }else {
       //print(result);
-      await Env.responseDialog(
-          Env.successTitle,Env.successCustomerAcc,
-          DialogType.SUCCES, context, () { });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+      await Env.errorDialog(
+          Env.errorTitle,Env.userExistsMessage,DialogType.ERROR, context, () { });
     }
   }
 
@@ -150,14 +147,16 @@ class _NewClientState extends State<NewClient> {
                     },
                     message: 'لطفا شماره تماس مشتری را وارید نمایید!',
                   ),
+
                      SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                     Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text('قد اندام مشتری',style: Env.style(20, PurpleColor)),
                       Icon(Icons.format_list_numbered_rtl_rounded,size: 30, color: PurpleColor),
                     ],
                   ),
+
                   SizedBox(height: 10),
 
                    //Measurements
@@ -191,6 +190,7 @@ class _NewClientState extends State<NewClient> {
   }
 
 
+  /// Function, Upload Customer Picture from Gallery
   gallery(){
     return FloatingActionButton(
       onPressed: ()async{
@@ -202,7 +202,6 @@ class _NewClientState extends State<NewClient> {
         if (pickedFile != null) {
           setState(() {
             imageFile = File(pickedFile.path);
-
           });
         }
       },

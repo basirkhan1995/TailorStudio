@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,13 +9,13 @@ import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/Login/login.dart';
-import 'package:tailor/Screens/Settings/Settings.dart';
 
 class Env {
-  //Server Side prefix Link Details
+
+  ///Server prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
 
-  //Method for Dialog Message
+  /// Dialog Messages
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
   static String internetTitle = 'No Internet!';
@@ -38,6 +37,10 @@ class Env {
       child: ClipRRect(
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         child: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded, color: BlackColor.withOpacity(.7)),
+            onPressed: () => Navigator.of(context).pop(),
+          ) ,
           centerTitle: true,
           brightness: Brightness.light,
           backgroundColor: LightColor,
@@ -52,17 +55,17 @@ class Env {
               )),
           actions: [
             IconButton(
-              tooltip: 'Settings',
+              tooltip: 'Home',
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
+              icon: Icon(Icons.home_rounded, color: Colors.black.withOpacity(.7)),
               onPressed: () {
                 HapticFeedback.lightImpact();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return Settings();
+                      return Dashboard();
                     },
                   ),
                 );
@@ -143,12 +146,7 @@ class Env {
   }
 
   //Confirm Dialog
-  static confirmDialog(
-    String title,
-    String msg,
-    DialogType dialogType,
-    BuildContext context,
-    VoidCallback onOkPress,
+  static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, VoidCallback onOkPress,
   ) {
     return AwesomeDialog(
       context: context,
@@ -160,6 +158,7 @@ class Env {
       btnCancelText: 'نخیر',
       btnOkColor: PurpleColor,
       btnOkOnPress: () {
+
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       },

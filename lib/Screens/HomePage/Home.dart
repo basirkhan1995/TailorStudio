@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
@@ -91,13 +90,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     return Scaffold(
       endDrawer: drawer(),
       extendBodyBehindAppBar: true,
-      appBar: appBar(),
+      appBar: apBar(),
       body: dashboard(),
     );
   }
 
   //My Appbar
-  Widget appBar() {
+  Widget apBar() {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
@@ -334,10 +333,20 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   Icons.transit_enterexit_rounded, size: 35, color: Colors.red.shade900),
                 title: Text('خـــروج',style: Env.style(17,Colors.red.shade900)),
                 onTap: () async {
-                  await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, (){
-                        loginData.setBool('login', false);
-                        return Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen()));
-                      });
+                  ///TODO Confirm Dialog is not working
+                  //await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, (){});
+                    _logout();
+                    Env.loginData.setBool('login', false);
+                    HapticFeedback.lightImpact();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return LoginScreen();
+                        },
+                      ),
+                    );
+
                 },
               ),
             ],

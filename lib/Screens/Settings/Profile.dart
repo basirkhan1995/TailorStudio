@@ -69,6 +69,7 @@ class ProfileState extends State<Profile> {
                                 Icons.camera_alt,color: WhiteColor,size: 25,)),
                         )),
                   ),
+
                 ],
               ),
             ),
@@ -103,6 +104,7 @@ class ProfileState extends State<Profile> {
                 ListTile(
                   leading: Icon(Icons.location_on,color: GreyColor,size: 28,),
                   title: Text('آدرس',style: TextStyle(color: GreyColor),),
+
                   subtitle: Text(address??'آدرس خود را درج کنید',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),
                 ),
               ],
