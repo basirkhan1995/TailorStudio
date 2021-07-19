@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,7 +89,6 @@ class Env {
     }
   }
 
-
   //Static TextStyle
   static style(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
@@ -158,7 +158,6 @@ class Env {
       btnCancelText: 'نخیر',
       btnOkColor: PurpleColor,
       btnOkOnPress: () {
-
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
       },
@@ -169,6 +168,7 @@ class Env {
     ).show();
   }
 
+  //Measurement Method
   static Widget myMeasure(title,image,controller){
     return Padding(
       padding: const EdgeInsets.only(top: 3, bottom: 3),
@@ -189,13 +189,83 @@ class Env {
             child: IntrinsicWidth(
               child: MeasureField(
                 controller: controller,
-                hintText: 'inch ',
+                hintText: '0.00 ',
+                prefix: 'inch ',
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  //Measurement Method
+  static Widget myOrder(title,controller,hint,prefix){
+    return Padding(
+      padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
+      child: Container(
+        padding: EdgeInsets.only(top: 3, bottom: 6,left: 10,right: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: PurpleColor)
+        ),
+        child: ListTile(
+          title: Text(title,style:Env.style(17, PurpleColor)),
+          trailing: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: 48),
+            child: IntrinsicWidth(
+              child: MeasureField(
+                controller: controller,
+                hintText: hint,
+                prefix: prefix,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  static dateTimePicker(String label){
+    return Padding(
+      padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
+      child: Container(
+        padding: EdgeInsets.only(top: 3, bottom: 6,left: 10,right: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: PurpleColor)
+        ),
+        child: DateTimePicker(
+          timeFieldWidth: 50,
+          style: style(18, PurpleColor),
+          type: DateTimePickerType.dateTimeSeparate,
+          dateMask: 'd MMM, yyyy',
+          initialValue: DateTime.now().toString(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2100),
+          icon: Icon(Icons.event,color: PurpleColor,size: 30),
+          dateLabelText: label,
+          timeLabelText: "ساعت",
+          selectableDayPredicate: (date) {
+            // Disable weekend days to select from the calendar
+            if (date.weekday == 6 || date.weekday == 7) {
+              return false;
+            }
+
+            return true;
+          },
+          onChanged: (val) => print(val),
+          validator: (val) {
+            print(val);
+            return null;
+          },
+          onSaved: (val) => print(val),
+        ),
+      ),
+    );
+
   }
 
 }//class Env

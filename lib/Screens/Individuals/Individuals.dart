@@ -16,7 +16,6 @@ class Individual extends StatefulWidget {
   @override
   _IndividualState createState() => _IndividualState();
 }
-
 class _IndividualState extends State<Individual> {
 
   Future<List<Customer>> fetchCustomer() async {
@@ -64,24 +63,18 @@ class _IndividualState extends State<Individual> {
                 if (snapshot.hasData) {
                   List<Customer> posts = snapshot.data;
                   return ListView(
-                    children: posts
-                        .map((Customer post) => Padding(
+                    children: posts.map((Customer post) => Padding(
                               padding: const EdgeInsets.only(top: 1),
                               child: ListTile(
                                 leading: CircleAvatar(
-                                  backgroundColor: Colors.grey[300],
-                                  radius: 25,
+                                  backgroundColor: Colors.grey[300], radius: 25,
                                   //backgroundImage: NetworkImage(""),
                                   child: Container(
                                     decoration: BoxDecoration( color: Colors.black.withOpacity(.1),
-                                    borderRadius: BorderRadius.circular(30)),
-                                    width: 150, height: 150,
-                                    child: Icon( Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 35))),
-                                title: Text(
-                                    post.firstName + " " + post.lastName,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: GreyColor)),
+               borderRadius: BorderRadius.circular(30)), width: 150, height: 150,
+               child: Icon( Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 35))),
+             title: Text(
+             post.firstName + " " + post.lastName, style: TextStyle(fontWeight: FontWeight.bold, color: GreyColor)),
                                 subtitle: Text(
                                     post.email == null ? " " : post.email,
                                     style: TextStyle(fontSize: 12)),

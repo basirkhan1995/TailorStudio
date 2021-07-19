@@ -50,6 +50,7 @@ class ConnectivityProvider with ChangeNotifier{
     } on SocketException catch (_) {
       isConnected = false;
     }
+
     return isConnected;
   }
 

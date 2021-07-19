@@ -1,147 +1,115 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:http/http.dart' as http;
+import 'package:tailor/HttpServices/RegisterModel.dart';
 
-class EditProfile extends StatelessWidget {
+Future<Register> fetchAlbum() async {
+  final response = await http.get(
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Register.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+Future<Register> updateAlbum(String tailorName,String studioName,String userEmail, String userAddress,String userPhone) async {
+  final response = await http.put(
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'tailorName': tailorName,
+      'studioName': studioName,
+      'userEmail': userEmail,
+      'userAddress': userAddress,
+      'userPhone': userPhone,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Register.fromJson(jsonDecode(response.body));
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to update album.');
+  }
+}
+
+
+
+class EditProfile extends StatefulWidget {
   const EditProfile({Key key}) : super(key: key);
 
   @override
+  _EditProfileState createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  final TextEditingController _tName = TextEditingController();
+  final TextEditingController _sName = TextEditingController();
+  final TextEditingController _address = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+
+  // Future<Register> _futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureAlbum = fetchAlbum();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-
-        centerTitle: true,
-        backgroundColor: PurpleColor,
-        title: Text('تغـــــــییر پروفایل'),
+        title: Text('Update Data Example'),
       ),
-
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Stack(
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage('photos/pictures/me.jpg'),
-                      radius: 80,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 205,top: 135,right: 100),
-                  child: CircleAvatar(
-                      radius: 22,
-                      backgroundColor: PurpleColor,
-                      child: Center(
-                        child: TextButton(
-                            onPressed: null,
-                            child: Icon(
-                              Icons.camera_alt,color: WhiteColor,size: 25,)),
-                      )),
-                ),
-              ],
-            ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TextField(
+            controller: _tName,
+            decoration: InputDecoration(hintText: 'first name'),
           ),
-
-          //Form
-          SingleChildScrollView(
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Form(
-                child: Column(
-                  children: [
-                    Container(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        textDirection: TextDirection.rtl,
-                        decoration: InputDecoration(
-                          enabled: true,
-                          hintText: '  ایمل آدرس',
-                          prefix: Icon(Icons.email,size: 25,color: PurpleColor,),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                           color: PurpleColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(height: 8,),
-                    Container(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        textDirection: TextDirection.rtl,
-                        decoration: InputDecoration(
-                          enabled: true,
-                          hintText: '  اسم خیاطی',
-                          prefix: Icon(Icons.shop,size: 25,color: PurpleColor,),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: PurpleColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(height: 8,),
-                    Container(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        textDirection: TextDirection.rtl,
-                        decoration: InputDecoration(
-                          enabled: true,
-                          hintText: '  شماره تماس',
-                          prefix: Icon(Icons.phone,size: 25,color: PurpleColor,),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: PurpleColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-               Divider(height: 8,),
-                    Container(
-                      width: size.width * 0.9,
-                      child: TextFormField(
-                        textDirection: TextDirection.rtl,
-                        decoration: InputDecoration(
-                          enabled: true,
-                          hintText: '    آدرس',
-                          prefix: Icon(Icons.location_on,size: 25,color: PurpleColor,),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: PurpleColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Divider(height: 15,),
-
-
-                    //Button Save
-                    Container(
-                      width: size.width * 0.95,
-                      height: 40,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(PurpleColor),
-                        ),
-                          onPressed: null,
-                          child: Text('ثبت',
-                            style: TextStyle(color: WhiteColor,fontSize: 20,fontWeight: FontWeight.bold,
-                                ))),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
+          TextField(
+            controller: _sName,
+            decoration: InputDecoration(hintText: 'tailor name'),
+          ),
+          TextField(
+            controller: _email,
+            decoration: InputDecoration(hintText: 'Email'),
+          ),
+          TextField(
+            controller: _address,
+            decoration: InputDecoration(hintText: 'Address'),
+          ),
+          TextField(
+            controller: _phone,
+            decoration: InputDecoration(hintText: 'Phone'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _futureAlbum = updateAlbum(
+                  _tName.text, _sName.text, _address.text, _email.text, _phone.text,
+                );
+              });
+            },
+            child: Text('Update Data'),
+          ),
         ],
       ),
     );

@@ -1,4 +1,7 @@
+import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tailor/Screens/Individuals/Individuals.dart';
@@ -28,16 +31,20 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   bool checkLogin;
   int currentIndex = 0;
 
+  // StreamSubscription _connectionChangeStream;
+  // bool isOffline = false;
+
   AnimationController _controller;
   AnimationController _controller2;
   Animation<double> _animation;
   Animation<double> _animation2;
 
-
-
   @override
   void initState() {
-    initial();
+    //Check Connection Class Object
+    // ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+    // _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
+
     super.initState();
     _controller2 = AnimationController(
       vsync: this,
@@ -60,6 +67,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
     _controller.forward();
     _controller2.forward();
+
+    initial();
   }
 
   void initial() async {
@@ -73,6 +82,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     });
   }
 
+  void connectionChanged(dynamic hasConnection) {
+    setState(() {
+      // isOffline = !hasConnection;
+    });
+  }
+
+
   @override
   void dispose() {
     _controller.dispose();
@@ -85,13 +101,36 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     Navigator.popUntil(context, (ModalRoute.withName('/LoginScreen')));
   }
 
+  //ask for App exit
+  Future<bool> _onWillPop() {
+    return AwesomeDialog(
+      context: context,
+      animType: AnimType.TOPSLIDE,
+      dialogType: DialogType.QUESTION,
+      title: 'Exit',
+      desc: "آیا از برنامه میخواهید خارج شوید؟",
+      btnCancelText: 'نخیر',
+      btnOkText: 'بلی',
+      btnOkColor: PurpleColor,
+      btnOkOnPress: () => exit(0),
+      btnCancelOnPress: () {
+        Navigator.pop(context);
+      },
+      btnCancelColor: Colors.red.shade900,
+    ).show() ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      endDrawer: drawer(),
-      extendBodyBehindAppBar: true,
-      appBar: apBar(),
-      body: dashboard(),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        endDrawer: drawer(),
+        extendBodyBehindAppBar: true,
+        appBar: apBar(),
+        body: dashboard(),
+      ),
     );
   }
 
@@ -162,7 +201,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               card('لیست فرمایشات', 'فرمایش مشتریان', Icons.shopping_cart,
                   Orders(), 0xFF6F35A5),
               card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
-                  Album(), 0xFF944dff),
+                  Album(), 0xFFac3973),
               card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
                   0xFF3385ff),
             ],

@@ -4,11 +4,13 @@ import 'package:tailor/Constants/ConstantColors.dart';
 
 class MeasureField extends StatelessWidget {
   final String hintText;
+  final String prefix;
   final TextEditingController controller;
   const MeasureField({
     Key key,
     this.controller,
     this.hintText,
+    this.prefix,
   }) : super(key: key);
 
   @override
@@ -16,26 +18,25 @@ class MeasureField extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         child: TextFormField(
           maxLines: 1,
           textInputAction: TextInputAction.next,
           cursorColor: PurpleColor,
           cursorHeight: 25,
           cursorWidth: 1,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.right,
           keyboardType: TextInputType.number,
           controller: controller,
           decoration: InputDecoration(
-            hintText: '0.00',
-            prefixText: hintText,
+            hintText: hintText,
+            prefixText: prefix,
             prefixStyle: TextStyle(
               fontSize: 17,
               color: PurpleColor
             ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(width: 1.5, color: PurpleColor),
-
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(width: 2, color: PurpleColor),

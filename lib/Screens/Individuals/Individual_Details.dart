@@ -1,16 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:slimy_card/slimy_card.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
-import '../../wait.dart';
+
+
+
 
 
 class IndDetails extends StatefulWidget {
+  final Customer student;
+  IndDetails({this.student});
 
   @override
   _IndDetailsState createState() => _IndDetailsState();
@@ -22,20 +24,6 @@ class _IndDetailsState extends State<IndDetails> {
     super.initState();
   }
 
-  Future<List<Customer>> fetchCustomer() async {
-    Response res = await get(Uri.parse(Env.url+"Individuals_Select.php"));
-    if (res.statusCode == 200) {
-      //print(res);
-      List<dynamic> body = jsonDecode(res.body);
-      List<Customer> posts =
-      body.map((dynamic item) => Customer.fromJson(item)).toList();
-      //print(posts);
-      return posts;
-    } else {
-      throw "Error has occured";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -44,37 +32,6 @@ class _IndDetailsState extends State<IndDetails> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Expanded(
-              child: FutureBuilder(
-                  future: fetchCustomer(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      List<Customer> posts = snapshot.data;
-                      return ListView(
-                        children: posts.map((Customer post) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Text(post.firstName),
-                            subtitle: Text(post.lastName),
-                            //tileColor: Colors.lightBlueAccent,
-                          ),
-                        ))
-                            .toList(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Container(
-                        child: Text(snapshot.error),
-                      );
-                    } else {
-                      return Container(
-                        child: LoadingCircle(),
-                      );
-                    }
-                  }
-              ),
-            ),
-
-
             SizedBox(height: 50),
             SlimyCard(
               topCardHeight: 180,
@@ -98,27 +55,15 @@ class _IndDetailsState extends State<IndDetails> {
       textDirection: TextDirection.rtl,
       child: Column(
         children: [
-         Row(children: [
-           Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: Text('اسم: ',style: PersianFonts.Samim.copyWith(
-             fontSize: _w /20,
-             letterSpacing: 1,
-             wordSpacing: 1,
-             color: WhiteColor,
-             fontWeight: FontWeight.w600,
+         Padding(
+           padding: const EdgeInsets.all(8.0),
+           child: Text("Name:",style: PersianFonts.Samim.copyWith(
+           fontSize: _w /20,
+           letterSpacing: 1,
+           wordSpacing: 1,
+           color: WhiteColor,
+           fontWeight: FontWeight.w600,
          ))),
-           Padding(
-               padding: const EdgeInsets.only(right: 5),
-               child: Text(""+ " " + " ی",style: PersianFonts.Samim.copyWith(
-                 fontSize: _w /20,
-                 letterSpacing: 1,
-                 wordSpacing: 1,
-                 color: WhiteColor,
-                 fontWeight: FontWeight.w500,
-               ))),
-
-         ]),
 
           Row(children: [
             Padding(

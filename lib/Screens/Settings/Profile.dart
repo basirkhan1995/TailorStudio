@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/Screens/Settings/EditProfile.dart';
 
 
 
@@ -19,7 +20,7 @@ class ProfileState extends State<Profile> {
   String address = "ندارد";
 
 
- @override
+  @override
   void initState() {
     initial();
     super.initState();
@@ -79,6 +80,12 @@ class ProfileState extends State<Profile> {
                   leading: Icon(Icons.person_rounded,color: GreyColor,size: 28),
                   title: Text('اسم',style: TextStyle(color: GreyColor),),
                   subtitle: Text(tailorName,style: TextStyle(fontSize: 17,color: GreyColor,fontWeight:FontWeight.w500)),
+                 trailing: TextButton(
+                   onPressed: (){
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfile()));
+                   },
+                   child: Icon(Icons.edit),
+                 ),
                 ),
                 Divider(indent: 70,endIndent: 20),
                 ListTile(
@@ -115,5 +122,3 @@ class ProfileState extends State<Profile> {
     );
   }
 }
-
-

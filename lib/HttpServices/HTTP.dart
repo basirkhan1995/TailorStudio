@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
+import 'package:http/http.dart' as http;
 
 class HttpService {
   Future<List<Customer>> getPosts() async {
@@ -17,6 +18,8 @@ class HttpService {
     }
   }
 
+
+  //Single Customer
   Future<List<Customer>> fetchCustomer() async {
     Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/Individuals_Select.php"));
     if (res.statusCode == 200) {
@@ -43,6 +46,19 @@ class HttpService {
     } else {
       throw "Error has occured";
     }
+  }
+
+  //Update
+  Future<http.Response> updateAlbum(String title) {
+    return http.put(
+      Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+      }),
+    );
   }
 
 

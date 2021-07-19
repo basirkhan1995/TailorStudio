@@ -5,6 +5,9 @@ import 'SplashScreen.dart';
 import 'package:tailor/GetStarted.dart';
 
 void main() {
+  // ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
+  // connectionStatus.initialize();
+  // connectionStatus.dispose();
   //StatusBar
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
