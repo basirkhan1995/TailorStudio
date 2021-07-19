@@ -62,7 +62,7 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _phone = TextEditingController();
 
-  // Future<Register> _futureAlbum;
+   Future<Register> _futureAlbum;
 
   @override
   void initState() {
