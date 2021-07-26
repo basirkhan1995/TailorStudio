@@ -35,10 +35,6 @@ class NewOrder extends StatelessWidget {
                   Env.dateTimePicker('تاریخ فرمایش'),
                   Env.dateTimePicker('تاریخ تاریخ تسلیمی'),
 
-
-
-
-
                 ],
               ),
             ),

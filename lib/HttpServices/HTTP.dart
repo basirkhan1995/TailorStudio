@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:http/http.dart' as http;
 
+
 class HttpService {
   Future<List<Customer>> getPosts() async {
     Response res = await get(Uri.parse("https://tailorstudio.000webhostapp.com/sigleCustomer.php"));
@@ -14,10 +15,9 @@ class HttpService {
       //print(posts);
       return posts;
     } else {
-      throw "Error has occured";
+      throw "Error has occurred";
     }
   }
-
 
   //Single Customer
   Future<List<Customer>> fetchCustomer() async {

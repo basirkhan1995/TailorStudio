@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'Screens/Login/login.dart';
 import 'SplashScreen.dart';
 import 'package:tailor/GetStarted.dart';
 
 void main() {
-  // ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
-  // connectionStatus.initialize();
-  // connectionStatus.dispose();
+
   //StatusBar
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -18,7 +17,7 @@ void main() {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
       ));
-  runApp(MaterialApp(
+  runApp(GetMaterialApp(
     title: 'TailorStudio',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(

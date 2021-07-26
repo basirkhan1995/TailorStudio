@@ -62,6 +62,7 @@ class _LoadingCircleState extends State<LoadingCircle>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent.withOpacity(0.0),
       body: Center(
         child: Container(
           height: 100,

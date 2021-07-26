@@ -48,8 +48,6 @@ class _NewClientState extends State<NewClient> {
 
   @override
   void initState() {
-
-
     super.initState();
     initial();
   }

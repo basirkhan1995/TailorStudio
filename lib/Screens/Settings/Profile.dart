@@ -77,7 +77,7 @@ class ProfileState extends State<Profile> {
             Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.person_rounded,color: GreyColor,size: 28),
+                  leading: Icon(Icons.person_rounded,color: PurpleColor,size: 28),
                   title: Text('اسم',style: TextStyle(color: GreyColor),),
                   subtitle: Text(tailorName,style: TextStyle(fontSize: 17,color: GreyColor,fontWeight:FontWeight.w500)),
                  trailing: TextButton(
@@ -90,26 +90,26 @@ class ProfileState extends State<Profile> {
                 Divider(indent: 70,endIndent: 20),
                 ListTile(
 
-                  leading: Icon(Icons.email,color: GreyColor,size: 25,),
+                  leading: Icon(Icons.email,color: PurpleColor,size: 25,),
                   title: Text('ایمل آدرس',style: TextStyle(color: GreyColor),),
                   subtitle: Text(email??'ایمل ندارید',style: TextStyle(fontSize: 14,color: GreyColor,fontWeight: FontWeight.w500)),
                 ),
                 Divider( indent: 70,endIndent: 20,),
                 ListTile(
-                  leading: Icon(Icons.shop_rounded,color:GreyColor,size: 25,),
+                  leading: Icon(Icons.shop_rounded,color:PurpleColor,size: 25,),
                   title: Text('خیاطی',style: TextStyle(color: GreyColor)),
                   subtitle: Text('$studioName',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),
                 ),
                 Divider( indent: 70,endIndent: 20),
                 ListTile(
-                  leading: Icon(Icons.call,color: GreyColor,size: 28,),
+                  leading: Icon(Icons.call,color: PurpleColor,size: 28,),
                   title: Text('شماره تماس',style: TextStyle(color: GreyColor),),
                   subtitle: Text(phone??'شماره تماس ندارید',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),
                 ),
 
                 Divider( indent: 70,endIndent: 20),
                 ListTile(
-                  leading: Icon(Icons.location_on,color: GreyColor,size: 28,),
+                  leading: Icon(Icons.location_on,color: PurpleColor,size: 28,),
                   title: Text('آدرس',style: TextStyle(color: GreyColor),),
 
                   subtitle: Text(address??'آدرس خود را درج کنید',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),

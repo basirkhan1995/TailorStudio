@@ -17,6 +17,7 @@ import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 
+
 class Dashboard extends StatefulWidget {
   @override
   _DashboardState createState() => _DashboardState();
@@ -24,10 +25,10 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   SharedPreferences loginData;
-  String tailorName = "Tailor Name";
-  String studioName = "Tailor Studio";
+  String tailorName  = "Tailor Name";
+  String studioName  = "Tailor Studio";
   String tailorEmail = "Tailor Email";
-  String username = "username";
+  String username    = "username";
   bool checkLogin;
   int currentIndex = 0;
 
@@ -41,10 +42,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    //Check Connection Class Object
-    // ConnectionStatusSingleton connectionStatus = ConnectionStatusSingleton.getInstance();
-    // _connectionChangeStream = connectionStatus.connectionChange.listen(connectionChanged);
-
     super.initState();
     _controller2 = AnimationController(
       vsync: this,
@@ -81,13 +78,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       checkLogin = loginData.getBool('login');
     });
   }
-
-  void connectionChanged(dynamic hasConnection) {
-    setState(() {
-      // isOffline = !hasConnection;
-    });
-  }
-
 
   @override
   void dispose() {
@@ -357,12 +347,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 )),
 
               // Drawer List of Objects
+              Divider(height: 20,indent: 20,endIndent: 20),
               myTile('ثبت مشتری', Icons.person_add_alt_1_rounded, NewClient()),
               myTile('نمایشگاه', Icons.photo, Album()),
               myTile('فرمایش ها', Icons.shopping_cart, Orders()),
               myTile('تنظیمات', Icons.settings, Settings()),
               Divider(height: 10,indent: 20,endIndent: 20),
-              myTile('امتیاز دادن', Icons.star, AboutTailor()),
+              myTile('امتیاز دادن', Icons.star,AboutTailor()),
               myTile('درباره ما', Icons.info, AboutTailor()),
               //myTile('تماس با ما', Icons.call, NewClient()),
 

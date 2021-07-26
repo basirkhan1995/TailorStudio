@@ -4,6 +4,7 @@ import 'package:slimy_card/slimy_card.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
+import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 
 
@@ -23,7 +24,6 @@ class _IndDetailsState extends State<IndDetails> {
 
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -50,14 +50,14 @@ class _IndDetailsState extends State<IndDetails> {
   // This widget will be passed as Top Card's Widget.
   Widget topCardWidget() {
     double _w = MediaQuery.of(context).size.width;
-
+    final customer = Customer();
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Column(
         children: [
          Padding(
            padding: const EdgeInsets.all(8.0),
-           child: Text("Name:",style: PersianFonts.Samim.copyWith(
+           child: Text("Name: ",style: PersianFonts.Samim.copyWith(
            fontSize: _w /20,
            letterSpacing: 1,
            wordSpacing: 1,
