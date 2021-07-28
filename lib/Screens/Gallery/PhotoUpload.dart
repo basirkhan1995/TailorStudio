@@ -17,6 +17,25 @@ class MyGallery extends StatefulWidget {
 class _MyGalleryState extends State<MyGallery> {
   File imageFile;
 
+  // void sendData() async {
+  //   http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
+  //     "fileName": imageFile.path,
+  //     "customerID": id,
+  //   }));
+  //   String result = res.body.toString();
+  //   print(result);
+  //   if(result == "Success"){
+  //     await Env.responseDialog(
+  //         Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
+  //     Navigator.push(context, MaterialPageRoute(builder: (context) => MyGallery()));
+  //   }else {
+  //     print(result);
+  //     await Env.errorDialog(
+  //         Env.errorTitle,'عکس شما ارسال نگردید!',DialogType.ERROR, context, () { });
+  //   }
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -79,7 +98,6 @@ class _MyGalleryState extends State<MyGallery> {
               ),
             )
           ],
-
         ),
       ),
     );

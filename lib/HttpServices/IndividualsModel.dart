@@ -25,7 +25,7 @@ class Customer {
   String skirt;
   String pantHeight;
   String legWidth;
-  String photo;
+  String fileName;
 
   Customer({
     @required this.customerID,
@@ -42,7 +42,7 @@ class Customer {
     @required this.skirt,
     @required this.pantHeight,
     @required this.legWidth,
-    @required this.photo,
+    @required this.fileName,
   });
 
 
@@ -62,7 +62,7 @@ class Customer {
    skirt: json["skirt"]as String,
    pantHeight: json["pantHeight"]as String,
    legWidth: json["legWidth"]as String,
-   photo: json["photo"] as String,
+   fileName: json["fileName"] as String,
  );
 
   }
@@ -82,6 +82,6 @@ class Customer {
     "skirt": skirt,
     "pantHeight": pantHeight,
     "legWidth": legWidth,
-    "photo": photo,
+    "fileName": fileName,
   };
 }

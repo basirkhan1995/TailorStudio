@@ -4,16 +4,12 @@ import 'package:slimy_card/slimy_card.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
-import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 
 
-
-
-
 class IndDetails extends StatefulWidget {
-  final Customer student;
-  IndDetails({this.student});
+  final Customer post;
+  IndDetails(this.post);
 
   @override
   _IndDetailsState createState() => _IndDetailsState();
@@ -50,7 +46,7 @@ class _IndDetailsState extends State<IndDetails> {
   // This widget will be passed as Top Card's Widget.
   Widget topCardWidget() {
     double _w = MediaQuery.of(context).size.width;
-    final customer = Customer();
+    //final customer = Customer();
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Column(
@@ -68,22 +64,14 @@ class _IndDetailsState extends State<IndDetails> {
           Row(children: [
             Padding(
                 padding: const EdgeInsets.only(right: 5),
-                child: Text('تماس: ',style: PersianFonts.Samim.copyWith(
+                child: Text(widget.post.phone + 'تماس: ',style: PersianFonts.Samim.copyWith(
                   fontSize: _w /20,
                   letterSpacing: 1,
                   wordSpacing: 1,
                   color: WhiteColor,
                   fontWeight: FontWeight.w600,
                 ))),
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('0787130301 ',style: PersianFonts.Samim.copyWith(
-                  fontSize: _w /20,
-                  letterSpacing: 1,
-                  wordSpacing: 1,
-                  color: WhiteColor,
-                  fontWeight: FontWeight.w500,
-                ))),
+
           ]),
           Row(children: [
             Padding(

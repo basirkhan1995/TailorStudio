@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
@@ -18,7 +17,6 @@ class NewClient extends StatefulWidget {
 }
 
 class _NewClientState extends State<NewClient> {
-  //variables
   final _formKey = GlobalKey <FormState>();
   SharedPreferences loginData;
   String user ="";
@@ -61,29 +59,23 @@ class _NewClientState extends State<NewClient> {
 
   void sendData() async {
      http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
-          "firstName": firstName.text,
-          "lastName": lastName.text,
-          "phone": phone.text,
-          "tailor": "$user",
-          "height": height.text,
-          "shoulder":shoulder.text,
-          "sleeve":sleeve.text,
-          "collar":collar.text,
-          "waist":waist.text,
-          "skirt":skirt.text,
-          "pantHeight":pantHeight.text,
-          "legWidth":legWidth.text,
+          "firstName": firstName.text, "lastName": lastName.text,
+          "phone": phone.text, "tailor": "$user",
+          "height": height.text, "shoulder":shoulder.text,
+          "sleeve":sleeve.text, "collar":collar.text,
+          "waist":waist.text, "skirt":skirt.text,
+          "pantHeight":pantHeight.text, "legWidth":legWidth.text,
         }));
     String result = res.body.toString();
     print(result);
-    if(result == "success"){
+    if(result == "Success"){
       await Env.responseDialog(
       Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
       Navigator.push(context, MaterialPageRoute(builder: (context) => Individual()));
     }else {
-      //print(result);
+      print(result);
       await Env.errorDialog(
-          Env.errorTitle,Env.userExistsMessage,DialogType.ERROR, context, () { });
+          Env.errorTitle,'مشتری شما ثبت نگردید لطفا دوباره کوشش نمایید!',DialogType.ERROR, context, () { });
     }
   }
 
@@ -105,15 +97,16 @@ class _NewClientState extends State<NewClient> {
                      SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text( 'شـهرت مشـــــتری',textAlign: TextAlign.right, textDirection: TextDirection.rtl,style: PersianFonts.Samim.copyWith(
-                        fontSize: 17,
-                        letterSpacing: 1,
-                        wordSpacing: 1,
-                        color: PurpleColor,
-                        fontWeight: FontWeight.w500,
-                      )),
-                      Icon(Icons.person,size: 30, color: PurpleColor),
+                    children:[
+                      Text('شـهرت مشـــــتری',textAlign: TextAlign.right, textDirection: TextDirection.rtl,
+                          style: Env.style(17,PurpleColor)),
+                          Container(
+                            height: 35,
+                              width: 35,
+                              decoration: BoxDecoration(
+                                  color: PurpleColor,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Icon(Icons.person,size: 26, color: WhiteColor)),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -150,8 +143,12 @@ class _NewClientState extends State<NewClient> {
 
                      Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('قد اندام مشتری',style: Env.style(20, PurpleColor)),
-                      Icon(Icons.format_list_numbered_rtl_rounded,size: 30, color: PurpleColor),
+                      Text('اندازه مشـــــــتری',style: Env.style(17, PurpleColor)),
+                      Container(
+                        height: 35, width: 35, decoration: BoxDecoration(
+                              color: PurpleColor,
+                              borderRadius: BorderRadius.circular(50)),
+                              child: Icon(Icons.format_list_numbered_rtl_rounded,size: 25, color: WhiteColor)),
                     ],
                   ),
 
@@ -170,14 +167,15 @@ class _NewClientState extends State<NewClient> {
                   SizedBox(height: 10),
 
                   /// Submit Button
-                  RoundedButton(textColor: WhiteColor, color: PurpleColor, text: "ثبت",
+                  RoundedButton(
+                      textColor: WhiteColor, color: PurpleColor, text: "ثبت کــــــــــردن",
                     press: (){
                       if(_formKey.currentState.validate()){
                   /// Function Send Data
                      sendData();
                       }}),
 
-                  SizedBox(height: 20,)
+                  SizedBox(height: 20)
                 ],
               ),
             ),

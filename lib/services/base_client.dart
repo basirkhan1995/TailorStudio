@@ -2,16 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:tailor/controller/base_controller.dart';
 import 'app_exceptions.dart';
 
-class BaseClient {
+class BaseClient extends BaseController {
   static const int TIME_OUT_DURATION = 20;
   //GET
   Future<dynamic> get(String baseUrl, String api) async {
     var uri = Uri.parse(baseUrl + api);
     try {
-      var response =
-          await http.get(uri).timeout(Duration(seconds: TIME_OUT_DURATION));
+      var response = await http.get(uri).timeout(Duration(seconds: TIME_OUT_DURATION));
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection', uri.toString());
@@ -59,8 +59,7 @@ class BaseClient {
     var uri = Uri.parse(baseUrl + api);
     var payload = json.encode(payloadObj);
     try {
-      var response = await http
-          .put(uri, body: payload)
+      var response = await http.put(uri, body: payload)
           .timeout(Duration(seconds: TIME_OUT_DURATION));
       return _processResponse(response);
     } on SocketException {

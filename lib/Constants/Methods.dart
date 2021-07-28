@@ -15,6 +15,7 @@ class Env {
 
   ///Server prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
+  static String urlPhoto = "https://tailorstudio.000webhostapp.com/Images/";
 
   /// Dialog Messages
   static String successTitle = "Done";
@@ -29,6 +30,7 @@ class Env {
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static SharedPreferences loginData;
   static bool isLogin;
+
 
   //Static Appbar
   static Widget appBar(context, title) {
@@ -144,7 +146,6 @@ class Env {
       btnOkOnPress: onOkPress,
     ).show();
   }
-
   //Confirm Dialog
   static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, VoidCallback onOkPress,
   ) {
@@ -253,7 +254,6 @@ class Env {
             if (date.weekday == 6 || date.weekday == 7) {
               return false;
             }
-
             return true;
           },
           onChanged: (val) => print(val),

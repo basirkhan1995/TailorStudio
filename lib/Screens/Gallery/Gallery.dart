@@ -4,7 +4,6 @@ import 'package:tailor/Screens/Gallery/PhotoUpload.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 
 class Album extends StatelessWidget {
-  const Album({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

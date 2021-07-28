@@ -19,6 +19,8 @@ import 'package:persian_fonts/persian_fonts.dart';
 
 
 class Dashboard extends StatefulWidget {
+  // final Customer post;
+  // Dashboard(this.post);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -150,14 +152,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             highlightColor: Colors.transparent,
             icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
             onPressed: () {
-              _logout();
-              Env.loginData.setBool('login', false);
               HapticFeedback.lightImpact();
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return LoginScreen();
+                    return Settings();
                   },
                 ),
               );
@@ -247,7 +247,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       child: Icon(
                         icon,
                         color: WhiteColor,
-                        size: _w / 8,
+                        size: _w / 7,
                       ),
                     ),
                     SizedBox(width: _w / 40),
@@ -264,7 +264,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                             style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 22,
+                              fontSize: _w / 20,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
@@ -312,11 +312,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     return ListTile(
       onTap: () {
         HapticFeedback.lightImpact();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => route));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
-    title: Text(title, style:Env.style(16,BlackColor.withOpacity(.7))
-    ),
+    title: Text(title, style:Env.style(16,BlackColor.withOpacity(.7))),
     leading: Icon(icon,size: 30,color:PurpleColor),
     );
   }
@@ -332,31 +330,32 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               //Profile Header
                 UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
-                 image: DecorationImage(fit: BoxFit.cover,
-                 image: AssetImage('photos/background/drawer3.jpg')
-                    )
+                  color: Colors.white38
+                 // image: DecorationImage(fit: BoxFit.cover,
+                 // image: AssetImage('photos/background/drawer1.jpg')
+                 //    )
                 ),
                 accountName: InkWell(
                 onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));},
                 child: Text("$tailorName", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color:BlackColor.withOpacity(.7)),)),
                 accountEmail: Text("$tailorEmail",style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500)),
                 currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.grey[300],
-                child: Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 50),
+                  backgroundColor: Colors.grey[300],
+                  child: Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 50),
                   //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
                 )),
 
               // Drawer List of Objects
-              Divider(height: 20,indent: 20,endIndent: 20),
+              SizedBox(height: 10),
               myTile('ثبت مشتری', Icons.person_add_alt_1_rounded, NewClient()),
               myTile('نمایشگاه', Icons.photo, Album()),
               myTile('فرمایش ها', Icons.shopping_cart, Orders()),
               myTile('تنظیمات', Icons.settings, Settings()),
               Divider(height: 10,indent: 20,endIndent: 20),
               myTile('امتیاز دادن', Icons.star,AboutTailor()),
+              myTile('تماس با ما', Icons.perm_contact_calendar, AboutTailor()),
               myTile('درباره ما', Icons.info, AboutTailor()),
               //myTile('تماس با ما', Icons.call, NewClient()),
-
               //Logout
               ListTile(
                 leading: Icon(
@@ -364,7 +363,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 title: Text('خـــروج',style: Env.style(17,Colors.red.shade900)),
                 onTap: () async {
                   ///TODO Confirm Dialog is not working
-                  //await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, (){});
+                  await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, (){});
                     _logout();
                     Env.loginData.setBool('login', false);
                     HapticFeedback.lightImpact();

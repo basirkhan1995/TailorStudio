@@ -27,11 +27,11 @@ class NewOrder extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Env.myOrder('آی دی فرمایش', orderID,'#00000', '#:'),
-                  Env.myOrder('تعداد جوره', qty,'00', 'جوره '),
-                  Env.myOrder('مقدار پول', amount,'0.0000 ','Afs'),
-                  Env.myOrder('رسید', advanceAmount,'  0.0000 ', 'Afs'),
-                  Env.myOrder('مجموعه بیلانس', orderID,'0.0000', 'Afs'),
+                  Env.myOrder('آی دی فرمایش', orderID,'#', '#:'),
+                  Env.myOrder('تعداد جوره', qty,'0', 'جوره '),
+                  Env.myOrder('مقدار پول', amount,'0 ','Afs'),
+                  Env.myOrder('رسید', advanceAmount,'  0 ', 'Afs'),
+                  Env.myOrder('مجموعه بیلانس', orderID,'0', 'Afs'),
                   Env.dateTimePicker('تاریخ فرمایش'),
                   Env.dateTimePicker('تاریخ تاریخ تسلیمی'),
 

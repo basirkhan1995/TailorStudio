@@ -4,7 +4,6 @@ import 'package:persian_fonts/persian_fonts.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
-import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import 'dart:ui';
 import 'package:tailor/Screens/Orders/OrderDetails.dart';
 
@@ -74,17 +73,14 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
             physics:
             BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
+
               SizedBox(height: _w / 5.5),
-              card('#50002', 'پیراهن تنبان کرزیی', Icons.insert_chart_rounded,
-                  OrderDetails(),'Pending'),
-              card('#50005', 'واسکت پاکستانی', Icons.insert_chart_rounded,
-                  OrderDetails(),'Pending'),
-              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded,
-                  Orders(),'Pending'),
-              card('#50005', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded,
-                  OrderDetails(),'Pending'),
-              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded,
-                  OrderDetails(),'Completed'),
+
+              card('#50002', 'پیراهن تنبان کرزیی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
+              card('#50005', 'واسکت پاکستانی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
+              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, Orders(),'Pending'),
+              card('#50005', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
+              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Completed'),
             ],
           ),
         ),
@@ -114,15 +110,14 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: LightColor,
+                      color: GreyColor.withOpacity(.5),
                       offset: Offset(2.0, 2.0), //(x,y)
                       blurRadius: 40.0,
                     ),
                   ],
-                  color: Purple,
+                  color: PurpleColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(
-                      color: Colors.white.withOpacity(.1), width: 1)),
+                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
               child: Padding(
                 padding: EdgeInsets.all(_w / 50),
                 child: Row(
@@ -137,7 +132,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
                       child: Icon(
                         icon,
                         color: WhiteColor,
-                        size: _w / 8,
+                        size: _w / 4,
                       ),
                     ),
                     SizedBox(width: _w / 40),
@@ -154,7 +149,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
                             style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /20,
+                              fontSize: _w /18,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
