@@ -15,7 +15,7 @@ class Register{
     this.userAddress,
     this.userName,
     this.password,
-    this.userImage,
+    this.fileName,
   });
   String userID;
   String tailorName;
@@ -25,7 +25,7 @@ class Register{
   String userAddress;
   String userName;
   String password;
-  String userImage;
+  String fileName;
   factory Register.fromJson(Map<String, dynamic> json) => Register(
       userID: json["userID"],
       tailorName: json['tailorName'],
@@ -35,7 +35,7 @@ class Register{
       userAddress: json['userAddress'],
       userName: json["userName"],
       password: json["password"],
-      userImage: json['userImage'],
+      fileName: json['fileName'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,6 +47,6 @@ class Register{
     "userAddress":userAddress,
     "userName": userName,
     "password": password,
-    "userImage":userImage,
+    "userImage":fileName,
   };
 }

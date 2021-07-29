@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,6 +21,7 @@ class ProfileState extends State<Profile> {
   String email ="ندارد";
   String phone = "ندارد";
   String address = "ندارد";
+  String userID ="";
   File imageFile;
 
   @override
@@ -39,109 +38,85 @@ class ProfileState extends State<Profile> {
       email = loginData.getString('userEmail');
       phone = loginData.getString('userPhone');
       address = loginData.getString('userAddress');
+      userID = loginData.getString('userID');
     });
   }
 
   void uploadProfile() async {
-    http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
+    http.Response res = await http.post(Uri.parse(Env.url+"uploadUserProfile.php"),body: jsonEncode({
       "fileName": imageFile.path,
+      "userID": userID,
     }));
     String result = res.body.toString();
     print(result);
-    if(result == "Success"){
-      await Env.responseDialog(
-          Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
-    }else {
-      print(result);
+    if(imageFile.path == null){
       await Env.errorDialog(
-          Env.errorTitle,'مشتری شما ثبت نگردید لطفا دوباره کوشش نمایید!',DialogType.ERROR, context, () { });
+          Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });
+    }else if (result == "Success"){
+      print(result);
+      await Env.responseDialog(Env.successTitle,'عکس شما موفقانه آپلود گردید',DialogType.SUCCES, context, () { });
+    }else if (result == "Failed"){
+      await Env.errorDialog(
+          Env.successTitle,'عکس شما آپلود نگردید لطفا دوباره کوشش کنید',DialogType.ERROR, context, () { });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    //Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: AnimatedFloatingActionButton(
-        fabButtons: [
-          gallery(),
-        ],
-        animatedIconData: AnimatedIcons.menu_close,
-        colorStartAnimation: PurpleColor,
-        colorEndAnimation: Colors.red.shade900,
-      ),
-      appBar: Env.appBar(context,'تنظیمات پروفایل'),
+      appBar: Env.myBar('تنظیمات پروفایل', Icons.check, ()=>uploadProfile(), context),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10, top: 20),
-              child: Container(
-                height: 200,
-                width: size.width *0.95,
-                child: imageFile != null
-                    ? ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.file(
-                    imageFile,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.fitHeight,
-                  ),
-                )
-                    : Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10)),
-                  width: size.width * 0.9,
-                  height: 100,
-                  child: Icon(
-                    Icons.photo,
-                    color: PurpleColor,
-                    size: 150,
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  _showPicker(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: CircleAvatar(
+                    radius: 80,
+                    backgroundColor: PurpleColor,
+                    child: imageFile != null
+                        ? ClipRRect(
+                      borderRadius: BorderRadius.circular(75),
+                      child: Image.file(
+                        imageFile,
+                        width: 155,
+                        height: 155,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                        : Container(
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(80)),
+                      width: 155,
+                      height: 155,
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: PurpleColor,
+                        size: 34,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-
             Column(
               children: [
-                InkWell(
-                  child: Text('Edit Profile',style: Env.style(20, PurpleColor)),
-                ),
-                ListTile(
-                  leading: Icon(Icons.person_rounded,color: PurpleColor,size: 28),
-                  title: Text('اسم',style: TextStyle(color: GreyColor),),
-                  subtitle: Text(tailorName,style: TextStyle(fontSize: 17,color: GreyColor,fontWeight:FontWeight.w500)),
-                ),
-                Divider(indent: 70,endIndent: 20),
-                ListTile(
-
-                  leading: Icon(Icons.email,color: PurpleColor,size: 25,),
-                  title: Text('ایمل آدرس',style: TextStyle(color: GreyColor),),
-                  subtitle: Text(email??'ایمل ندارید',style: TextStyle(fontSize: 14,color: GreyColor,fontWeight: FontWeight.w500)),
-                ),
-                Divider( indent: 70,endIndent: 20,),
-                ListTile(
-                  leading: Icon(Icons.shop_rounded,color:PurpleColor,size: 25,),
-                  title: Text('خیاطی',style: TextStyle(color: GreyColor)),
-                  subtitle: Text('$studioName',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),
-                ),
-                Divider( indent: 70,endIndent: 20),
-                ListTile(
-                  leading: Icon(Icons.call,color: PurpleColor,size: 28,),
-                  title: Text('شماره تماس',style: TextStyle(color: GreyColor),),
-                  subtitle: Text(phone??'شماره تماس ندارید',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),
-                ),
-
-                Divider( indent: 70,endIndent: 20),
-                ListTile(
-                  leading: Icon(Icons.location_on,color: PurpleColor,size: 28,),
-                  title: Text('آدرس',style: TextStyle(color: GreyColor),),
-
-                  subtitle: Text(address??'آدرس خود را درج کنید',style: TextStyle(fontSize: 17,color: GreyColor,fontWeight: FontWeight.w500)),
-                ),
+                Env.tile('اسم', tailorName??'', Icons.person_rounded, VoidCallback, context),
+                Divider(endIndent: 20,indent: 20),
+                Env.tile('خیاطی', studioName??'', Icons.home, VoidCallback, context),
+                Divider(endIndent: 20,indent: 20),
+                Env.tile('شماره تماس', phone??'', Icons.call, VoidCallback, context),
+                Divider(endIndent: 20,indent: 20),
+                Env.tile('ایمل آدرس', email??'ایمل نداریذ', Icons.email_rounded, VoidCallback, context),
+                Divider(endIndent: 20,indent: 20),
+                Env.tile('آدرس', address??'', Icons.location_on, VoidCallback, context),
               ],
             )
           ],
@@ -151,24 +126,60 @@ class ProfileState extends State<Profile> {
   }
 
   //Gallery Float Button
-  gallery(){
-    return FloatingActionButton(
-      onPressed: ()async{
+  gallery()async{
         PickedFile pickedFile = await ImagePicker().getImage(
           source: ImageSource.gallery,
-          maxWidth: 200,
-          maxHeight: 200,
+          maxWidth: 400,
+          maxHeight: 400,
         );
         if (pickedFile != null) {
           setState(() {
             imageFile = File(pickedFile.path);
           });
         }
-      },
-      backgroundColor: PurpleColor,
-      heroTag: 'gallery',
-      tooltip: 'Gallery',
-      child: Icon(Icons.photo_library),
+  }
+  camera()async{
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 400,
+      maxHeight: 400,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
+    }
+  }
+  //jjj
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library,color: PurpleColor,size: 30),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        gallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera,color: PurpleColor,size: 30),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      camera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
     );
   }
 

@@ -15,7 +15,7 @@ class Customer {
   String firstName;
   String lastName;
   String phone;
-  String email;
+  String email ="No email exist";
   String tailor;
   String height;
   String shoulder;

@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
-import 'package:tailor/Screens/Login/login.dart';
+//import 'package:tailor/Screens/Login/login.dart';
 
 class Env {
 
@@ -30,6 +30,7 @@ class Env {
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static SharedPreferences loginData;
   static bool isLogin;
+  static bool checkYesNoLogin;
 
 
   //Static Appbar
@@ -102,15 +103,6 @@ class Env {
     );
   }
 
-  static fontStyle(double size, Color paint) {
-    return PersianFonts.Samim.copyWith(
-      fontSize: size,
-      letterSpacing: 1,
-      wordSpacing: 1,
-      color: paint,
-      fontWeight: FontWeight.w500,
-    );
-  }
 
   //General Alert Dialog function
   static responseDialog(
@@ -147,8 +139,7 @@ class Env {
     ).show();
   }
   //Confirm Dialog
-  static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, VoidCallback onOkPress,
-  ) {
+  static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
     return AwesomeDialog(
       context: context,
       animType: AnimType.TOPSLIDE,
@@ -159,11 +150,15 @@ class Env {
       btnCancelText: 'نخیر',
       btnOkColor: PurpleColor,
       btnOkOnPress: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        loginData.setBool('login', false);
+        voidCallBack(() {
+          checkYesNoLogin = true;
+        });
       },
       btnCancelOnPress: () {
-        Navigator.pop(context);
+        voidCallBack(() {
+          checkYesNoLogin = false;
+        });
       },
       btnCancelColor: Colors.red.shade900,
     ).show();
@@ -264,6 +259,245 @@ class Env {
           onSaved: (val) => print(val),
         ),
       ),
+    );
+  }
+
+  static popMenu(Color paint, String title,IconData icon, VoidCallback press){
+    return PopupMenuButton(
+      icon: Icon(Icons.more_vert,
+          color: PurpleColor),
+      elevation: 20,
+      shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+              color: PurpleColor, width: 2)),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+            child: Row(
+              mainAxisAlignment:MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(child: Text('Create order'),onTap: press,
+                ),
+                Spacer(),
+                Icon(Icons.shopping_cart,color: PurpleColor),
+                Divider(height: 1),
+              ],
+            )),
+        PopupMenuItem(
+            child: Row(
+              mainAxisAlignment:MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(child: Text('Edit'),onTap: press),
+                Icon(Icons.edit,color: PurpleColor)
+              ],
+            )),
+        PopupMenuItem(
+            child: Row(
+              children: [
+                InkWell(
+                  child: Text('Delete',style: Env.style(16, Colors.red.shade900)),
+                  onTap: press,
+                ),
+                Spacer(),
+                Icon(Icons.delete,color:Colors.red.shade900)],
+            )),
+
+      ],
+    );
+  }
+
+  //Dashboard Widgets
+ static Widget card(String title, String subtitle, IconData icon, Widget route, paint,context,animation1, animation2) {
+    double _w = MediaQuery.of(context).size.width;
+    return Opacity(
+      opacity: animation1.value,
+      child: Transform.translate(
+        offset: Offset(0, animation2.value),
+        child: Container(
+          height: _w / 2.3,
+          width: _w,
+          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onTap: () {
+              HapticFeedback.lightImpact();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => route));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: LightColor,
+                      offset: Offset(0,3), //(x,y)
+                      blurRadius: 80.0,
+                    ),
+                  ],
+                  color: Color(paint),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  border: Border.all(
+                      color: Colors.white.withOpacity(.1), width: 1)),
+              child: Padding(
+                padding: EdgeInsets.all(_w / 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: _w / 3,
+                      width: _w / 3,
+                      decoration: BoxDecoration(
+                          color: WhiteColor.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Icon(
+                        icon,
+                        color: WhiteColor,
+                        size: _w / 7,
+                      ),
+                    ),
+                    SizedBox(width: _w / 40),
+                    SizedBox(
+                      width: _w / 2.05,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 20,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: WhiteColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            subtitle,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 30,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: WhiteColor,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          Text(
+                            'Tap to know more',
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: _w / 30,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Custom ListTile
+ static Widget myTile(String title, IconData icon, Widget route,context){
+    return ListTile(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
+      },
+      title: Text(title, style:Env.style(16,BlackColor.withOpacity(.7))),
+      leading: Icon(icon,size: 30,color:PurpleColor),
+    );
+  }
+
+  // Custom Full ListTile
+  static Widget tile(title,subtitle, IconData icon, VoidCallback,context){
+    return ListTile(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        VoidCallback();
+      },
+      leading: Icon(icon,size: 30,color:PurpleColor),
+      title: Text(title, style:Env.style(17,PurpleColor)),
+      subtitle: Text(subtitle,style: style(18, BlackColor.withOpacity(.5)),),
+    );
+
+  }
+
+  //My Appbar
+  static Widget myBar(title, IconData icon, VoidCallback, context,) {
+    double _w = MediaQuery.of(context).size.width;
+    return PreferredSize(
+      preferredSize: Size(double.infinity, kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        child: AppBar(
+          actions: [
+            IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: Icon(icon, color: Colors.black.withOpacity(.7)),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                VoidCallback();
+              },
+            ),
+          ],
+          centerTitle: true,
+          brightness: Brightness.light,
+          backgroundColor: LightColor,
+          elevation: 0,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: _w / 17,
+              color: Colors.black.withOpacity(.7),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          leading: IconButton(
+            tooltip: 'naviation',
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black.withOpacity(.7)),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  static bottomSheet(context) {
+     showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new TextFormField(),
+                ],
+              ),
+            ),
+          );
+        }
     );
   }
 

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,12 +16,11 @@ import 'package:tailor/Screens/Settings/Profile.dart';
 import 'package:tailor/Screens/Settings/Settings.dart';
 import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
-import 'package:persian_fonts/persian_fonts.dart';
-
 
 class Dashboard extends StatefulWidget {
-  // final Customer post;
-  // Dashboard(this.post);
+  final Future<List<Customer>> customer;
+  Dashboard({this.customer});
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -31,6 +31,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String studioName  = "Tailor Studio";
   String tailorEmail = "Tailor Email";
   String username    = "username";
+  String userID      = "userID";
+  String fileName = "fileName";
   bool checkLogin;
   int currentIndex = 0;
 
@@ -77,6 +79,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       tailorName = loginData.getString('tailorName');
       studioName = loginData.getString('studioName');
       tailorEmail = loginData.getString('userEmail');
+      fileName = loginData.getString('fileName');
       checkLogin = loginData.getBool('login');
     });
   }
@@ -173,27 +176,23 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     double _w = MediaQuery.of(context).size.width;
     return Stack(
       children: [
-        // background color
         BackgroundColor(),
-
-        /// ListView
         Directionality(
           textDirection: TextDirection.rtl,
           child: ListView(
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
               SizedBox(height: _w / 5.5),
-              card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری',
-                  Icons.person_add_alt_1, NewClient(), 0xff6666ff),
-              card('لیست مشتریان', 'اندازه و فرمایش مشتری',
-                  Icons.people_alt_rounded, Individual(), 0xff3366cc),
-              card('لیست فرمایشات', 'فرمایش مشتریان', Icons.shopping_cart,
-                  Orders(), 0xFF6F35A5),
-              card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
-                  Album(), 0xFFac3973),
-              card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
-                  0xFF3385ff),
+              Env.card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری',
+                  Icons.person_add_alt_1, NewClient(), 0xff6666ff, context, _animation,_animation2),
+              Env.card('لیست مشتریان', 'اندازه و فرمایش مشتری',
+                  Icons.people_alt_rounded, Individual(), 0xff3366cc, context, _animation,_animation2),
+              Env.card('لیست فرمایشات', 'فرمایش مشتریان', Icons.shopping_cart,
+                  Orders(), 0xFF6F35A5, context, _animation,_animation2),
+              Env.card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
+                  Album(), 0xFFac3973, context, _animation,_animation2),
+              Env.card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
+                  0xFF3385ff, context, _animation,_animation2),
             ],
           ),
         ),
@@ -201,123 +200,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 
-  //Dashboard Widgets
-  Widget card(String title, String subtitle, IconData icon, Widget route, paint) {
-    double _w = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: _animation.value,
-      child: Transform.translate(
-        offset: Offset(0, _animation2.value),
-        child: Container(
-          height: _w / 2.3,
-          width: _w,
-          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => route));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: LightColor,
-                      offset: Offset(0,3), //(x,y)
-                      blurRadius: 80.0,
-                    ),
-                  ],
-                  color: Color(paint),
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(
-                      color: Colors.white.withOpacity(.1), width: 1)),
-              child: Padding(
-                padding: EdgeInsets.all(_w / 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: _w / 3,
-                      width: _w / 3,
-                      decoration: BoxDecoration(
-                          color: WhiteColor.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Icon(
-                        icon,
-                        color: WhiteColor,
-                        size: _w / 7,
-                      ),
-                    ),
-                    SizedBox(width: _w / 40),
-                    SizedBox(
-                      width: _w / 2.05,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 20,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 30,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            'Tap to know more',
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: _w / 30,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Custom ListTile
-  Widget myTile(String title, IconData icon, Widget route){
-    return ListTile(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
-      },
-    title: Text(title, style:Env.style(16,BlackColor.withOpacity(.7))),
-    leading: Icon(icon,size: 30,color:PurpleColor),
-    );
-  }
 
   //My Drawer
   Widget drawer() {
@@ -342,19 +224,21 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.grey[300],
                   child: Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 50),
-                  //backgroundImage: NetworkImage('photos/pictures/pro.jpg'),
+                 //backgroundImage: NetworkImage(Env.urlPhoto + fileName),
                 )),
 
               // Drawer List of Objects
               SizedBox(height: 10),
-              myTile('ثبت مشتری', Icons.person_add_alt_1_rounded, NewClient()),
-              myTile('نمایشگاه', Icons.photo, Album()),
-              myTile('فرمایش ها', Icons.shopping_cart, Orders()),
-              myTile('تنظیمات', Icons.settings, Settings()),
+              Env.myTile('ثبت مشتری', Icons.person_add_alt_1_rounded, NewClient(),context),
+              Divider(),
+              Env.myTile('نمایشگاه', Icons.photo, Album(),context),
+              Divider(),
+              Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(),context),
+              Env.myTile('تنظیمات', Icons.settings, Settings(),context),
               Divider(height: 10,indent: 20,endIndent: 20),
-              myTile('امتیاز دادن', Icons.star,AboutTailor()),
-              myTile('تماس با ما', Icons.perm_contact_calendar, AboutTailor()),
-              myTile('درباره ما', Icons.info, AboutTailor()),
+              Env. myTile('امتیاز دادن', Icons.star,AboutTailor(),context),
+              Env.myTile('تماس با ما', Icons.perm_contact_calendar, AboutTailor(),context),
+              Env.myTile('درباره ما', Icons.info, AboutTailor(),context),
               //myTile('تماس با ما', Icons.call, NewClient()),
               //Logout
               ListTile(
@@ -363,18 +247,26 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 title: Text('خـــروج',style: Env.style(17,Colors.red.shade900)),
                 onTap: () async {
                   ///TODO Confirm Dialog is not working
-                  await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, (){});
+                  await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, setState);
+                  if(Env.checkYesNoLogin == true){
+                    print("It returns in if "+ Env.checkYesNoLogin.toString());
                     _logout();
-                    Env.loginData.setBool('login', false);
-                    HapticFeedback.lightImpact();
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return LoginScreen();
-                        },
-                      ),
-                    );
+                        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  }else{
+                    print("It returns in Else "+Env.checkYesNoLogin.toString());
+                    Navigator.pop(context);
+                  }
+
+                    //HapticFeedback.lightImpact();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return LoginScreen();
+                    //     },
+                    //   ),
+                    // );
 
                 },
               ),

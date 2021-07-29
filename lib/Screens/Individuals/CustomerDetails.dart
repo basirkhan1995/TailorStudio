@@ -12,35 +12,90 @@ class CustomerDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context, 'Customer Details'),
-      body:Center(
-        child: ContainedTabBarView(
-          tabs: [
-            Text('اندازه مشــــــتری',style: Env.style(17, PurpleColor)),
-            Text('فرمایش مشتری',style: Env.style(17, PurpleColor)),
-          ],
-          views: [
-            ListView(children: [
-              Container(
-                child: Column(
-                  children: [
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                    Text('Number   '+post.phone),
-                  ],
-                ),
-              )
-            ],),
-            Container(color: Purple.withOpacity(.3))
-          ],
-          onChange: (index) => print(index),
-        ),
-      ),
+      appBar: Env.appBar(context, 'معلومات مشتری'),
+      body: DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              bottom: TabBar(
+                  unselectedLabelColor: PurpleColor,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: PurpleColor),
+                  tabs: [
+                    Tab(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: PurpleColor, width: 1)),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("APPS"),
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: PurpleColor, width: 1)),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("MOVIES"),
+                        ),
+                      ),
+                    ),
+                    Tab(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: PurpleColor, width: 1)),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text("GAMES"),
+                        ),
+                      ),
+                    ),
+                  ]),
+            ),
+            body: TabBarView(children: [
+              Icon(Icons.apps),
+              Icon(Icons.movie),
+              Icon(Icons.games),
+            ]),
+          ))
+      //Center(
+        // child: ContainedTabBarView(
+        //   tabs: [
+        //     Text('شهرت مشتری',style: Env.style(17, PurpleColor)),
+        //     Text('اندازه مشـتری',style: Env.style(17, PurpleColor)),
+        //     Text('فرمایش مشتری',style: Env.style(17, PurpleColor)),
+        //   ],
+        //   views: <Widget> [
+        //     Example1(),
+        //     Example1(),
+        //     Example1(),
+        //
+        //     // Container(color: Purple.withOpacity(.3)),
+        //     // Container(
+        //     //   child: Column(
+        //     //     children: [
+        //     //       Text('ID Number#: ' + post.customerID),
+        //     //       Text('First Name: ' + post.firstName),
+        //     //       Text('Last Name: ' + post.lastName),
+        //     //       Text('Phone: ' + post.phone),
+        //     //
+        //     //     ],
+        //     //   ),
+        //     // ),
+        //     // Container(color: Purple.withOpacity(.3))
+        //   ],
+        //   onChange: (index) => print(index),
+        // ),
+      //),
     );
   }
 }
@@ -49,50 +104,13 @@ class Example1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Example 1'),
-      ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(8.0),
-          color: Colors.blue,
-          width: 200,
-          height: 300,
-          child: ContainedTabBarView(
-            tabs: [
-              Text('First'),
-              Text('Second'),
-            ],
-            views: [
-              Container(color: Colors.red),
-              Container(color: Colors.green)
-            ],
-            onChange: (index) => print(index),
-          ),
+
         ),
       ),
     );
   }
 }
 
-class Example2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Example 2'),
-      ),
-      body: ContainedTabBarView(
-        tabs: [
-          Text('First', style: TextStyle(color: Colors.black)),
-          Text('Second', style: TextStyle(color: Colors.black))
-        ],
-        views: [
-          Container(color: Colors.red),
-          Container(color: Colors.green),
-        ],
-        onChange: (index) => print(index),
-      ),
-    );
-  }
-}

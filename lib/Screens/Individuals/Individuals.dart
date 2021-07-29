@@ -12,19 +12,23 @@ import '../../wait.dart';
 import 'package:http/http.dart' as http;
 
 class Individual extends StatefulWidget {
+  final Future<List<Customer>> customer;
+  Individual({this.customer});
+
   @override
   _IndividualState createState() => _IndividualState();
 }
 
 class _IndividualState extends State<Individual> {
 
-  deleteAlbum(id) async {
-    print('start');
-    final http.Response response = await http.get(
-      'https://tailorstudio.000webhostapp.com/Individuals_Delete.php?id=$id', headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',},);
-    print('end');
 
+//Delete Customer
+  deleteCustomer(id) async {
+    final http.Response response = await http.get(
+        Env.url+'Individuals_Delete.php?id=$id',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
     if (response.statusCode == 200) {
       //print('delete success\n' + response.body);
       return Customer.fromJson(json.decode(response.body));
@@ -35,8 +39,8 @@ class _IndividualState extends State<Individual> {
   }
 
   SharedPreferences loginData;
-  String user ="";
-  String customerID ;
+  String user = "";
+  String customerID;
 
   @override
   void initState() {
@@ -44,25 +48,27 @@ class _IndividualState extends State<Individual> {
     initial();
   }
 
-  void initial() async{
+  void initial() async {
     loginData = await SharedPreferences.getInstance();
     setState(() {
       user = loginData.getString('userID');
     });
   }
+
   Future<List<Customer>> fetchCustomer() async {
-    Response res = await get(Uri.parse(Env.url + "sigleCustomer.php?id=$user")).timeout(Duration(seconds: 5));
+    Response res = await get(Uri.parse(Env.url + "sigleCustomer.php?id=$user"))
+        .timeout(Duration(seconds: 5));
     if (res.statusCode == 200) {
       //print(res);
       List<dynamic> body = jsonDecode(res.body);
-      List<Customer> posts = body.map((dynamic item) => Customer.fromJson(item)).toList();
+      List<Customer> posts =
+          body.map((dynamic item) => Customer.fromJson(item)).toList();
       //print(posts);
       return posts;
     } else {
       throw "Error";
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,108 +89,102 @@ class _IndividualState extends State<Individual> {
             hintText: 'جستجو',
           ),
           Expanded(
-            child: FutureBuilder(
-              future: fetchCustomer(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Customer>> snapshot) {
-                if (snapshot.hasData) {
-                  List<Customer> posts = snapshot.data;
-                  return ListView(
-                    children: posts
-                        .map((Customer post) => Padding(
-                              padding: const EdgeInsets.only(top: 1),
-                              child: ListTile(
-                                leading:CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.grey[300],
-                                  child: post.fileName == null ? Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 35) :
-                                  CircleAvatar(
-                                    radius: 30,
-                                     backgroundImage: NetworkImage(Env.urlPhoto+post.fileName),
-                                     ),
-                                ),
-                                title: Text(
-                                    post.firstName + " " + post.lastName,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: GreyColor)),
-                                subtitle: Text(
-                                    post.email == null ? " " : post.email,
-                                    style: TextStyle(fontSize: 12)),
-                                trailing: PopupMenuButton(
-                                  // onSelected: (int index) {
-                                  //   if (index == 1) {
-                                  //     Navigator.push(
-                                  //         context,
-                                  //         MaterialPageRoute(
-                                  //             builder: (context) =>
-                                  //                 NewOrder()));
-                                  //   } else {
-                                  //     ///Delete
-                                  //     //deleteAlbum(post.customerID);
-                                  //   }
-                                  // },
-                                  icon:
-                                      Icon(Icons.more_vert, color: PurpleColor),
-                                  elevation: 20,
-                                  shape: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                          color: PurpleColor, width: 2)),
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                        value: 1,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text('Create order'),
-                                            Icon(Icons.shopping_cart,
-                                                color: PurpleColor),
-                                            Divider(
-                                              height: 1,
-                                            ),
-                                          ],
-                                        )),
-                                    PopupMenuItem(
-                                        value: 2,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                                child: Text('Edit')),
-                                            Icon(Icons.edit, color: PurpleColor)
-                                          ],
-                                        )),
-                                    PopupMenuItem(
-                                        value: 3,
-                                        child: TextButton(
-                                          child: Text('Delete'),
-                                          onPressed: (){
-                                            deleteAlbum(post.customerID);
-                                            Navigator.pop(context);
-                                          }
-
-                                        )),
-                                  ],
-                                ),
-                                //Individuals Details
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CustomerDetails(post)));
-                                },
-                              ),
-                            ))
-                        .toList(),
-                  );
-                } else {
-                  return LoadingCircle();
-                  //return LoadingCircle();
-                }
+            child: RefreshIndicator(
+              color: PurpleColor,
+              strokeWidth: 3,
+              onRefresh: () {
+                return Future.delayed(
+                  Duration(microseconds: 1),() {
+                    setState(() {
+                      fetchCustomer();
+                    });
+                  },
+                );
               },
+              child: FutureBuilder(
+                future: fetchCustomer(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Customer>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Customer> posts = snapshot.data;
+                    return ListView(
+                      children: posts
+                          .map((Customer post) => Padding(
+                                padding: const EdgeInsets.only(top: 1),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: Colors.grey[300],
+                                    child: post.fileName == null
+                                        ? Icon(Icons.person_rounded,
+                                            color: Colors.black.withOpacity(.5),
+                                            size: 35)
+                                        : CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage: NetworkImage(
+                                                Env.urlPhoto + post.fileName),
+                                          ),
+                                  ),
+                                  title: Text(
+                                      post.firstName + " " + post.lastName, style: TextStyle(fontWeight: FontWeight.bold,
+                                      color: GreyColor)),
+                                  subtitle: Text(
+                                      "ID Number#: "+ post.customerID, style: TextStyle(fontSize: 12)),
+                                  trailing: PopupMenuButton(
+                                    icon: Icon(Icons.more_vert,
+                                        color: PurpleColor),
+                                    elevation: 20,
+                                    shape: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none),
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                          child: Row(
+                                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(child: Text('Create order')),
+                                              Spacer(),
+                                              Icon(Icons.shopping_cart,color: PurpleColor),
+                                              Divider(height: 1),
+                                            ],
+                                          )),
+                                      PopupMenuItem(
+                                          child: Row(
+                                            mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(child: Text('Edit')),
+                                              Icon(Icons.edit,color: PurpleColor)
+                                            ],
+                                          )),
+                                      PopupMenuItem(
+                                          child: Row(
+                                            children: [
+                                               InkWell(
+                                                 child: Text('Delete',style: Env.style(16, Colors.red.shade900)),
+                                                 onTap: (){
+                                                   deleteCustomer(post.customerID);
+                                                   Navigator.pop(context);
+                                                 },
+                                               ),
+                                               Spacer(),
+                                              Icon(Icons.delete,color:Colors.red.shade900)],
+                                          )),
+                                    ],
+                                  ),
+                                  //Individuals Details
+                                  onTap: () {Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => CustomerDetails(post)));
+                                  },
+                                ),
+                              ))
+                          .toList(),
+                    );
+                  } else {
+                    return LoadingCircle();
+                    //return LoadingCircle();
+                  }
+                },
+              ),
             ),
           ),
         ],

@@ -26,7 +26,7 @@ class _NewClientState extends State<NewClient> {
   TextEditingController firstName = new TextEditingController();
   TextEditingController lastName = new TextEditingController();
   TextEditingController phone = new TextEditingController();
-  TextEditingController measure = new TextEditingController();
+  TextEditingController email = new TextEditingController();
   TextEditingController waist = new TextEditingController();
   TextEditingController sleeve = new TextEditingController();
   TextEditingController shoulder = new TextEditingController();
@@ -59,12 +59,18 @@ class _NewClientState extends State<NewClient> {
 
   void sendData() async {
      http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
-          "firstName": firstName.text, "lastName": lastName.text,
-          "phone": phone.text, "tailor": "$user",
-          "height": height.text, "shoulder":shoulder.text,
-          "sleeve":sleeve.text, "collar":collar.text,
-          "waist":waist.text, "skirt":skirt.text,
-          "pantHeight":pantHeight.text, "legWidth":legWidth.text,
+          "firstName": firstName.text,
+          "lastName": lastName.text,
+          "phone": phone.text,
+          "tailor": "$user",
+          "height": height.text,
+          "shoulder":shoulder.text,
+          "sleeve":sleeve.text,
+          "collar":collar.text,
+          "waist":waist.text,
+          "skirt":skirt.text,
+          "pantHeight":pantHeight.text,
+          "legWidth":legWidth.text,
         }));
     String result = res.body.toString();
     print(result);
