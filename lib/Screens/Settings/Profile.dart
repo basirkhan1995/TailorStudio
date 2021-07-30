@@ -114,7 +114,7 @@ class ProfileState extends State<Profile> {
                 Divider(endIndent: 20,indent: 20),
                 Env.tile('شماره تماس', phone??'', Icons.call, VoidCallback, context),
                 Divider(endIndent: 20,indent: 20),
-                Env.tile('ایمل آدرس', email??'ایمل نداریذ', Icons.email_rounded, VoidCallback, context),
+                Env.tile('ایمل آدرس', email??'ایمل ندارید', Icons.email_rounded, VoidCallback, context),
                 Divider(endIndent: 20,indent: 20),
                 Env.tile('آدرس', address??'', Icons.location_on, VoidCallback, context),
               ],
@@ -154,10 +154,18 @@ class ProfileState extends State<Profile> {
 
   void _showPicker(context) {
     showModalBottomSheet(
+        shape:RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15.0),
+              topLeft: Radius.circular(15.0),
+          ),
+        ),
+    elevation: 10,
         context: context,
         builder: (BuildContext bc) {
           return SafeArea(
             child: Container(
+
               child: new Wrap(
                 children: <Widget>[
                   new ListTile(

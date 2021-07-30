@@ -103,6 +103,17 @@ class Env {
     );
   }
 
+  //Custom style
+  //Static TextStyle
+  static txtStyle(double size) {
+    return PersianFonts.Samim.copyWith(
+      fontSize: size,
+      letterSpacing: 1,
+      wordSpacing: 1,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
 
   //General Alert Dialog function
   static responseDialog(
@@ -439,13 +450,59 @@ class Env {
   }
 
   //My Appbar
-  static Widget myBar(title, IconData icon, VoidCallback, context,) {
+  static Widget myBar(title, IconData icon, VoidCallback, context) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
       child: ClipRRect(
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         child: AppBar(
+          actions: [
+            IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: Icon(icon, color: Colors.black.withOpacity(.7)),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                VoidCallback();
+              },
+            ),
+          ],
+          centerTitle: true,
+          brightness: Brightness.light,
+          backgroundColor: LightColor,
+          elevation: 0,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: _w / 17,
+              color: Colors.black.withOpacity(.7),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          leading: IconButton(
+            tooltip: 'naviation',
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black.withOpacity(.7)),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Widget Bar(title, IconData icon, VoidCallback, context,bottom) {
+    double _w = MediaQuery.of(context).size.width;
+    return PreferredSize(
+      preferredSize: Size(double.infinity, kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        child: AppBar(
+          bottom: bottom,
           actions: [
             IconButton(
               splashColor: Colors.transparent,
