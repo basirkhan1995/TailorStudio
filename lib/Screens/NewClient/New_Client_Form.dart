@@ -7,9 +7,10 @@ import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/Screens/Individuals/Individuals.dart';
 import 'dart:io';
 import 'dart:convert';
+
+import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 
 class NewClient extends StatefulWidget {
   @override
@@ -105,14 +106,7 @@ class _NewClientState extends State<NewClient> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children:[
                       Text('شـهرت مشـــــتری',textAlign: TextAlign.right, textDirection: TextDirection.rtl,
-                          style: Env.style(17,PurpleColor)),
-                          Container(
-                            height: 35,
-                              width: 35,
-                              decoration: BoxDecoration(
-                                  color: PurpleColor,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(Icons.person,size: 26, color: WhiteColor)),
+                          style: Env.style(20,PurpleColor)),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -149,12 +143,7 @@ class _NewClientState extends State<NewClient> {
 
                      Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text('اندازه مشـــــــتری',style: Env.style(17, PurpleColor)),
-                      Container(
-                        height: 35, width: 35, decoration: BoxDecoration(
-                              color: PurpleColor,
-                              borderRadius: BorderRadius.circular(50)),
-                              child: Icon(Icons.format_list_numbered_rtl_rounded,size: 25, color: WhiteColor)),
+                      Text('اندازه مشـــــــتری',style: Env.style(20, PurpleColor)),
                     ],
                   ),
 

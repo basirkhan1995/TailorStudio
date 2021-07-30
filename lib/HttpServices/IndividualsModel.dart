@@ -4,45 +4,43 @@
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-
 List<Customer> customerFromJson(String str) => List<Customer>.from(json.decode(str).map((x) => Customer.fromJson(x)));
 
 String customerToJson(List<Customer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Customer {
-  String customerID;
-  String firstName;
-  String lastName;
-  String phone;
-  String email ="No email exist";
-  String tailor;
-  String height;
-  String shoulder;
-  String sleeve;
-  String collar;
-  String waist;
-  String skirt;
-  String pantHeight;
-  String legWidth;
-  String fileName;
+  final String customerID;
+  final String firstName;
+  final String lastName;
+  final String phone;
+  final String email ;
+  final String tailor;
+  final String height;
+  final String shoulder;
+  final String sleeve;
+  final String collar;
+  final String waist;
+  final String skirt;
+  final String pantHeight;
+  final String legWidth;
+  final String fileName;
 
   Customer({
-    @required this.customerID,
-    @required this.firstName,
-    @required this.lastName,
-    @required this.phone,
-    @required this.email,
-    @required this.tailor,
-    @required this.height,
-    @required this.shoulder,
-    @required this.sleeve,
-    @required this.collar,
-    @required this.waist,
-    @required this.skirt,
-    @required this.pantHeight,
-    @required this.legWidth,
-    @required this.fileName,
+     this.customerID,
+     this.firstName,
+     this.lastName,
+     this.phone,
+     this.email,
+     this.tailor,
+     this.height,
+     this.shoulder,
+     this.sleeve,
+     this.collar,
+     this.waist,
+     this.skirt,
+     this.pantHeight,
+     this.legWidth,
+     this.fileName,
   });
 
 
@@ -62,7 +60,7 @@ class Customer {
    skirt: json["skirt"]as String,
    pantHeight: json["pantHeight"]as String,
    legWidth: json["legWidth"]as String,
-   fileName: json["fileName"] as String,
+   fileName: json["photo"] as String,
  );
 
   }
@@ -82,6 +80,6 @@ class Customer {
     "skirt": skirt,
     "pantHeight": pantHeight,
     "legWidth": legWidth,
-    "fileName": fileName,
+    "photo": fileName,
   };
 }

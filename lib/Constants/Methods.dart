@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
-//import 'package:tailor/Screens/Login/login.dart';
+
 
 class Env {
 
@@ -436,11 +436,11 @@ class Env {
   }
 
   // Custom Full ListTile
-  static Widget tile(title,subtitle, IconData icon, VoidCallback,context){
+  static Widget tile(title,subtitle, IconData icon, voidCallback,context){
     return ListTile(
       onTap: () {
         HapticFeedback.lightImpact();
-        VoidCallback();
+        voidCallback();
       },
       leading: Icon(icon,size: 30,color:PurpleColor),
       title: Text(title, style:Env.style(17,PurpleColor)),
@@ -450,7 +450,7 @@ class Env {
   }
 
   //My Appbar
-  static Widget myBar(title, IconData icon, VoidCallback, context) {
+  static Widget myBar(title, IconData icon, voidCallback, context) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
@@ -464,7 +464,7 @@ class Env {
               icon: Icon(icon, color: Colors.black.withOpacity(.7)),
               onPressed: () {
                 HapticFeedback.lightImpact();
-                VoidCallback();
+                voidCallback();
               },
             ),
           ],
@@ -481,7 +481,7 @@ class Env {
             ),
           ),
           leading: IconButton(
-            tooltip: 'naviation',
+            tooltip: 'navigation',
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black.withOpacity(.7)),
@@ -495,7 +495,7 @@ class Env {
     );
   }
 
-  static Widget Bar(title, IconData icon, VoidCallback, context,bottom) {
+  static Widget bar(title, IconData icon, voidCallback, context,bottom) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
@@ -510,7 +510,7 @@ class Env {
               icon: Icon(icon, color: Colors.black.withOpacity(.7)),
               onPressed: () {
                 HapticFeedback.lightImpact();
-                VoidCallback();
+                voidCallback();
               },
             ),
           ],
@@ -527,7 +527,7 @@ class Env {
             ),
           ),
           leading: IconButton(
-            tooltip: 'naviation',
+            tooltip: 'navigation',
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black.withOpacity(.7)),

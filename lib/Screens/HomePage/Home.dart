@@ -5,7 +5,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
-import 'package:tailor/Screens/Individuals/Individuals.dart';
+import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
@@ -32,7 +32,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String tailorEmail = "Tailor Email";
   String username    = "username";
   String userID      = "userID";
-  String fileName = "fileName";
   bool checkLogin;
   int currentIndex = 0;
 
@@ -79,7 +78,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       tailorName = loginData.getString('tailorName');
       studioName = loginData.getString('studioName');
       tailorEmail = loginData.getString('userEmail');
-      fileName = loginData.getString('fileName');
       checkLogin = loginData.getBool('login');
     });
   }
@@ -224,20 +222,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.grey[300],
                   child: Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 50),
-                 //backgroundImage: NetworkImage(Env.urlPhoto + fileName),
+                 //backgroundImage: NetworkImage(Env.urlPhoto),
                 )),
 
               // Drawer List of Objects
               SizedBox(height: 10),
-              Env.myTile('ثبت مشتری', Icons.person_add_alt_1_rounded, NewClient(),context),
-              Divider(),
-              Env.myTile('نمایشگاه', Icons.photo, Album(),context),
-              Divider(),
+              Env.myTile('ثبت مشتری جدید', Icons.person_add_alt_1_rounded, NewClient(),context),
               Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(),context),
+              Env.myTile('مشتریان', Icons.people_alt_rounded, Individual(),context),
+              Env.myTile('نمایشگاه', Icons.photo, Album(),context),
               Env.myTile('تنظیمات', Icons.settings, Settings(),context),
               Divider(height: 10,indent: 20,endIndent: 20),
               Env. myTile('امتیاز دادن', Icons.star,AboutTailor(),context),
-              Env.myTile('تماس با ما', Icons.perm_contact_calendar, AboutTailor(),context),
               Env.myTile('درباره ما', Icons.info, AboutTailor(),context),
               //myTile('تماس با ما', Icons.call, NewClient()),
               //Logout

@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
@@ -5,7 +7,7 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
-
+import 'package:http/http.dart' as http;
 
 class MyGallery extends StatefulWidget {
   const MyGallery({Key key}) : super(key: key);
@@ -17,23 +19,23 @@ class MyGallery extends StatefulWidget {
 class _MyGalleryState extends State<MyGallery> {
   File imageFile;
 
-  // void sendData() async {
-  //   http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
-  //     "fileName": imageFile.path,
-  //     "customerID": id,
-  //   }));
-  //   String result = res.body.toString();
-  //   print(result);
-  //   if(result == "Success"){
-  //     await Env.responseDialog(
-  //         Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
-  //     Navigator.push(context, MaterialPageRoute(builder: (context) => MyGallery()));
-  //   }else {
-  //     print(result);
-  //     await Env.errorDialog(
-  //         Env.errorTitle,'عکس شما ارسال نگردید!',DialogType.ERROR, context, () { });
-  //   }
-  // }
+  void uploadGallery() async {
+    http.Response res = await http.post(Uri.parse(Env.url+"GalleryUpload.php"),body: jsonEncode({
+      "fileName": imageFile.path,
+    }));
+    String result = res.body.toString();
+    print(result);
+    if(imageFile.path == null){
+      await Env.errorDialog(
+          Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });
+    }else if (result == "Success"){
+      print(result);
+      await Env.responseDialog(Env.successTitle,'عکس شما موفقانه آپلود گردید',DialogType.SUCCES, context, () { });
+    }else if (result == "Failed"){
+      await Env.errorDialog(
+          Env.successTitle,'عکس شما آپلود نگردید لطفا دوباره کوشش کنید',DialogType.ERROR, context, () { });
+    }
+  }
 
 
   @override
@@ -93,7 +95,7 @@ class _MyGalleryState extends State<MyGallery> {
                 color: PurpleColor,
                 text: 'ثبت کردن',
                 press: (){
-
+                  uploadGallery();
                 },
               ),
             )

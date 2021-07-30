@@ -35,7 +35,7 @@ class Register{
       userAddress: json['userAddress'],
       userName: json["userName"],
       password: json["password"],
-      fileName: json['fileName'],
+      fileName: json['userImage'],
       );
 
   Map<String, dynamic> toJson() => {
