@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Components/RoundedBorderedField.dart';
+import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
@@ -19,6 +21,8 @@ class _CustomerFameState extends State<CustomerFame> {
   SharedPreferences loginData;
   File imageFile;
 
+  TextEditingController email = new TextEditingController();
+
   @override
   void initState() {
 
@@ -31,8 +35,7 @@ class _CustomerFameState extends State<CustomerFame> {
       "customerID": widget.post.customerID
     }));
     String result = res.body.toString();
-    print(result);
-    print(widget.post.customerID);
+    // print(widget.post.customerID);
     if(imageFile.path == null){
       await Env.errorDialog(
           Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });
@@ -87,6 +90,11 @@ class _CustomerFameState extends State<CustomerFame> {
                       ),
                     ),
                   ),
+
+                  ///
+
+                  ///
+
                   SizedBox(height: 10),
                   InkWell(
                       onTap: ()=>uploadProfile(),
@@ -98,7 +106,7 @@ class _CustomerFameState extends State<CustomerFame> {
                   Divider(height: 1,indent: 10,endIndent: 10),
                   Env.tile('شماره تماس', widget.post.phone??'شماره درج نشده',Icons.call, VoidCallback, context),
                   Divider(height: 1,indent: 10,endIndent: 10),
-                  Env.tile('ایمل', widget.post.email??'ایمل درج نشده',Icons.email_rounded, VoidCallback, context),
+                  Env.tile('ایمل', widget.post.email??'ایمل درج نشده',Icons.email_rounded, ()=>_emailEdit(context), context),
                 ],
               )
           ),
@@ -169,4 +177,43 @@ class _CustomerFameState extends State<CustomerFame> {
         }
     );
   }
+
+
+  _emailEdit(context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+        backgroundColor: Colors.black,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal:18 ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text('Enter your email',style:Env.style(16, WhiteColor)),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: RoundedBorderedField(
+                  hintText: 'Email',
+                  controller: email,
+                  icon: Icons.email,
+                ),
+              ),
+              SizedBox(height: 10),
+              RoundedButton(text: 'Update'),
+              SizedBox(height: 10),
+            ],
+          ),
+        ));
+  }
+
 }

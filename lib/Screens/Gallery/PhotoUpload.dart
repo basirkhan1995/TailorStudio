@@ -24,7 +24,6 @@ class _MyGalleryState extends State<MyGallery> {
       "fileName": imageFile.path,
     }));
     String result = res.body.toString();
-    print(result);
     if(imageFile.path == null){
       await Env.errorDialog(
           Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });

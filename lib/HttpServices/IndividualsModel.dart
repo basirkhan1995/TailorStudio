@@ -60,7 +60,7 @@ class Customer {
    skirt: json["skirt"]as String,
    pantHeight: json["pantHeight"]as String,
    legWidth: json["legWidth"]as String,
-   fileName: json["photo"] as String,
+   fileName: json["fileName"] as String,
  );
 
   }
