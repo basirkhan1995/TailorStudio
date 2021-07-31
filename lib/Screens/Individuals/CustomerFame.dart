@@ -20,14 +20,28 @@ class CustomerFame extends StatefulWidget {
 class _CustomerFameState extends State<CustomerFame> {
   SharedPreferences loginData;
   File imageFile;
-
-  TextEditingController email = new TextEditingController();
-
+  TextEditingController newValue = new TextEditingController();
   @override
   void initState() {
 
     super.initState();
   }
+
+  // void updateField() async {
+  //   // http.Response res = await http.post(Uri.parse(Env.url+"customerEmailUpdate.php"),body: jsonEncode({
+  //   //   "email": email.text,
+  //   //   "customerID": widget.post.customerID
+  //   // }));
+  //   // String result = res.body.toString();
+  //   // // print(widget.post.customerID);
+  //   //  if (result == "Success"){
+  //   //   print(result);
+  //   //   await Env.responseDialog(Env.successTitle,'ایمل شما موفقانه آپدیت گردید',DialogType.SUCCES, context, () { });
+  //   // }else if (result == "Failed"){
+  //   //   await Env.errorDialog(
+  //   //       Env.successTitle,'ایمل شما آپدید نگردید',DialogType.ERROR, context, () { });
+  //   // }
+  // }
 
   void uploadProfile() async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
@@ -63,50 +77,42 @@ class _CustomerFameState extends State<CustomerFame> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 30),
-                      child: CircleAvatar(
-                        radius: 80,
-                        backgroundColor: PurpleColor,
+                      child: CircleAvatar(radius: 80, backgroundColor: PurpleColor,
                         child: imageFile != null
                             ? ClipRRect(
                           borderRadius: BorderRadius.circular(75),
                           child: Image.file(
-                            imageFile,
-                            width: 155,
-                            height: 155,
-                            fit: BoxFit.cover,
+                            imageFile, width: 155, height: 155, fit: BoxFit.cover,
                           ),
-                        )
-                            :Container(
-                          width: 155,
-                          height: 155,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: NetworkImage(Env.urlPhoto +'${widget.post.fileName}'),
-                                  fit: BoxFit.cover
-                              ),
-                              color: Colors.grey[200], borderRadius: BorderRadius.circular(80)),
-                          //child: Icon(Icons.person,size: 100,color: BlackColor.withOpacity(.5)):Text('')
-                        )
+                        ):CircleAvatar(radius: 77,
+                          backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                          foregroundImage: NetworkImage(Env.urlPhoto + '${widget.post.fileName}'),
+                        ),
+                        //     :Container(
+                        //   width: 155,
+                        //   height: 155,
+                        //   decoration: BoxDecoration(
+                        //       image: DecorationImage(
+                        //           image: NetworkImage(Env.urlPhoto +'${widget.post.fileName}'),
+                        //           fit: BoxFit.cover
+                        //       ),
+                        //       color: Colors.grey[200], borderRadius: BorderRadius.circular(80)),
+                        //   //child: Icon(Icons.person,size: 100,color: BlackColor.withOpacity(.5)):Text('')
+                        // )
                       ),
                     ),
                   ),
 
-                  ///
-
-                  ///
-
                   SizedBox(height: 10),
-                  InkWell(
-                      onTap: ()=>uploadProfile(),
-                      child: Text('Submit',style: Env.style(20, PurpleColor),)),
+                  InkWell(onTap: ()=>uploadProfile(), child: Text('Submit',style: Env.style(20, PurpleColor),)),
                   SizedBox(height: 10),
-                  Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, VoidCallback, context),
+                  Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
                   Divider(height: 2,indent: 10,endIndent: 10),
-                  Env.tile('تخلص', widget.post.lastName??'تخلص درج نشده',Icons.people_rounded, VoidCallback, context),
+                  Env.tile('تخلص', widget.post.lastName??'تخلص درج نشده',Icons.people_rounded, ()=> _updateData(context,widget.post.lastName, 2), context),
                   Divider(height: 1,indent: 10,endIndent: 10),
-                  Env.tile('شماره تماس', widget.post.phone??'شماره درج نشده',Icons.call, VoidCallback, context),
+                  Env.tile('شماره تماس', widget.post.phone??'شماره درج نشده',Icons.call, ()=> _updateData(context,widget.post.phone ,3), context),
                   Divider(height: 1,indent: 10,endIndent: 10),
-                  Env.tile('ایمل', widget.post.email??'ایمل درج نشده',Icons.email_rounded, ()=>_emailEdit(context), context),
+                  Env.tile('ایمل', widget.post.email??'ایمل درج نشده',Icons.email_rounded, ()=> _updateData(context,widget.post.email, 4), context),
                 ],
               )
           ),
@@ -126,7 +132,6 @@ class _CustomerFameState extends State<CustomerFame> {
       });
     }
   }
-
   camera()async{
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
@@ -139,7 +144,6 @@ class _CustomerFameState extends State<CustomerFame> {
       });
     }
   }
-
   void _showPicker(context) {
     showModalBottomSheet(
         shape:RoundedRectangleBorder(
@@ -178,12 +182,14 @@ class _CustomerFameState extends State<CustomerFame> {
     );
   }
 
-
-  _emailEdit(context) {
+  _updateData(context, value, int fieldNo) {
+    value == null ? newValue.text = "N/A" : newValue.text = value;
+    var myData;
+    //print("Current Value is =" + value);
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
-        backgroundColor: Colors.black,
+        backgroundColor: WhiteColor,
         context: context,
         isScrollControlled: true,
         builder: (context) => Padding(
@@ -192,9 +198,10 @@ class _CustomerFameState extends State<CustomerFame> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text('Enter your email',style:Env.style(16, WhiteColor)),
+                child: Text('Do you want update ' + newValue.text + " ?", style:Env.style(16, PurpleColor)),
               ),
               SizedBox(
                 height: 8.0,
@@ -202,14 +209,79 @@ class _CustomerFameState extends State<CustomerFame> {
               Padding(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: RoundedBorderedField(
-                  hintText: 'Email',
-                  controller: email,
-                  icon: Icons.email,
-                ),
+                child: Column(
+                  children: [
+                    RoundedBorderedField(
+                      inputType: fieldNo == 3 ? TextInputType.number : TextInputType.text,
+                      hintText: '',
+                      controller: newValue,
+                      icon: Icons.info,
+                    ),
+                    SizedBox(height: 10),
+                    RoundedButton(
+                      text: 'آپدیت کردن',
+                      press: () async {
+                        switch(fieldNo){
+                          case 1:
+                            myData = {
+                              "email": widget.post.email,
+                              "firstName": newValue.text,
+                              "lastName": widget.post.lastName,
+                              "phone": widget.post.phone,
+                              "customerID": widget.post.customerID
+                            };
+                            break;
+                          case 2:
+                            myData = {
+                              "email": widget.post.email,
+                              "firstName": widget.post.firstName,
+                              "lastName": newValue.text,
+                              "phone": widget.post.phone,
+                              "customerID": widget.post.customerID
+                            };
+                            break;
+                          case 3:
+                            myData = {
+                              "email": widget.post.email,
+                              "firstName": widget.post.firstName,
+                              "lastName": widget.post.lastName,
+                              "phone": newValue.text,
+                              "customerID": widget.post.customerID
+                            };
+                            break;
+                          case 4:
+                            myData = {
+                              "email": newValue.text,
+                              "firstName": widget.post.firstName,
+                              "lastName": widget.post.lastName,
+                              "phone": widget.post.phone,
+                              "customerID": widget.post.customerID
+                            };
+                            break;
+                          default:
+                            myData = {
+                              "email": widget.post.email,
+                              "firstName": widget.post.firstName,
+                              "lastName": widget.post.lastName,
+                              "phone": widget.post.phone,
+                              "customerID": widget.post.customerID
+                            };
+                        }
+                        http.Response res = await http.post(Uri.parse(Env.url+"customerEmailUpdate.php"),body: jsonEncode(myData));
+                        String result = res.body.toString();
+                        if (result == "Success"){
+                          print("Update Success"+result);
+                          await Env.responseDialog(Env.successTitle,'موفقانه آپدیت شد!',DialogType.SUCCES, context, () { });
+                          Navigator.pop(context);
+                        }else if (result == "Failed"){
+                          await Env.errorDialog(
+                              Env.successTitle,'خطا در آپدیت',DialogType.ERROR, context, () { });
+                        }
+                      },
+                    ),
+                  ],
+                )
               ),
-              SizedBox(height: 10),
-              RoundedButton(text: 'Update'),
               SizedBox(height: 10),
             ],
           ),

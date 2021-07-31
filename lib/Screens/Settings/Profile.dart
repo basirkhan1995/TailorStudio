@@ -22,6 +22,7 @@ class ProfileState extends State<Profile> {
   String phone = "ندارد";
   String address = "ندارد";
   String userID ="";
+  String fileName ="";
   File imageFile;
 
   @override
@@ -39,6 +40,7 @@ class ProfileState extends State<Profile> {
       phone = loginData.getString('userPhone');
       address = loginData.getString('userAddress');
       userID = loginData.getString('userID');
+      fileName = loginData.getString('fileName');
     });
   }
 
@@ -89,18 +91,9 @@ class ProfileState extends State<Profile> {
                         height: 155,
                         fit: BoxFit.cover,
                       ),
-                    )
-                        : Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(80)),
-                      width: 155,
-                      height: 155,
-                      child: Icon(
-                        Icons.camera_alt,
-                        color: PurpleColor,
-                        size: 34,
-                      ),
+                    ) : CircleAvatar(radius: 77,
+                      backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                      //foregroundImage: NetworkImage(Env.urlPhoto + '${widget.post.fileName}'),
                     ),
                   ),
                 ),

@@ -118,6 +118,7 @@ class _BodyState extends State<Body> {
                       Env.loginData.setString('userEmail', jsonData['userEmail']);
                       Env.loginData.setString('userPhone', jsonData['userPhone']);
                       Env.loginData.setString('userAddress', jsonData['userAddress']);
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Dashboard()));
                     } else {

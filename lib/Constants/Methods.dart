@@ -31,7 +31,7 @@ class Env {
   static SharedPreferences loginData;
   static bool isLogin;
   static bool checkYesNoLogin;
-
+  static bool check;
 
   //Static Appbar
   static Widget appBar(context, title) {
@@ -162,6 +162,32 @@ class Env {
       btnOkColor: PurpleColor,
       btnOkOnPress: () {
         loginData.setBool('login', false);
+        voidCallBack(() {
+          checkYesNoLogin = true;
+        });
+      },
+      btnCancelOnPress: () {
+        voidCallBack(() {
+          checkYesNoLogin = false;
+        });
+      },
+      btnCancelColor: Colors.red.shade900,
+    ).show();
+  }
+
+  //Confirm Delete Dialog
+//Confirm Dialog
+  static confirmDelete(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
+    return AwesomeDialog(
+      context: context,
+      animType: AnimType.TOPSLIDE,
+      dialogType: dialogType,
+      title: title,
+      desc: msg,
+      btnOkText: 'بلی',
+      btnCancelText: 'نخیر',
+      btnOkColor: PurpleColor,
+      btnOkOnPress: () {
         voidCallBack(() {
           checkYesNoLogin = true;
         });

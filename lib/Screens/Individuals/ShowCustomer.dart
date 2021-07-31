@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -109,21 +110,19 @@ class _IndividualState extends State<Individual> {
                   if (snapshot.hasData) {
                     List<Customer> posts = snapshot.data;
                     return ListView(
-                      children: posts
-                          .map((Customer post) => Padding(
+                      children: posts.map((Customer post) => Padding(
                         padding: const EdgeInsets.only(top: 1),
                         child: ListTile(
                           leading: CircleAvatar(
                             radius: 30,
                             backgroundColor: Colors.grey[300],
-                            child: post.fileName == null
-                                ? Icon(Icons.person_rounded,
-                                color: Colors.black.withOpacity(.5),
-                                size: 35)
-                                : CircleAvatar(
+                            child: post.fileName == null ?
+                                CircleAvatar(radius: 60,
+                                 backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                            ):CircleAvatar(
                               radius: 30,
-                              backgroundImage: NetworkImage(
-                                  Env.urlPhoto + post.fileName),
+                              foregroundImage: NetworkImage(Env.urlPhoto + post.fileName),
+                              backgroundImage: AssetImage('photos/background/no_user.jpg'),
                             ),
                           ),
                           title: Text(
@@ -166,9 +165,17 @@ class _IndividualState extends State<Individual> {
                                     children: [
                                       InkWell(
                                         child: Text('Delete',style: Env.style(16, Colors.red.shade900)),
-                                        onTap: (){
-                                          deleteCustomer(post.customerID);
-                                          Navigator.pop(context);
+                                        onTap: ()async{
+                                          Env.checkYesNoLogin = false;
+                                          await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
+                                          if(Env.checkYesNoLogin == true){
+                                            print("result = " + Env.checkYesNoLogin.toString());
+                                            deleteCustomer(post.customerID);
+                                            Navigator.pop(context);
+                                          }else{
+                                            print("result = "+ Env.checkYesNoLogin.toString());
+                                            Navigator.pop(context);
+                                          }
                                         },
                                       ),
                                       Spacer(),
