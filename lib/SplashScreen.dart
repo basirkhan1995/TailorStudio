@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tailor/Screens/Login/login.dart';
 import 'dart:async';
 import 'Constants/ConstantColors.dart';
 import 'package:tailor/GetStarted.dart';
@@ -51,7 +52,7 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
 
     Timer(Duration(seconds: 4), () {
       setState(() {
-        Navigator.pushReplacement(context, PageTransition(GetStarted()));
+        Navigator.pushReplacement(context, PageTransition(LoginScreen()));
       });
     });
   }

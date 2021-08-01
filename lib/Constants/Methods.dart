@@ -475,6 +475,19 @@ class Env {
 
   }
 
+  static Widget customTile(title, subtitle, voidCallback,context){
+    return ListTile(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        voidCallback();
+      },
+      leading: Icon(Icons.bar_chart_sharp,size: 50,color: PurpleColor,),
+      title: Text(title , style:Env.style(17,PurpleColor)),
+      subtitle: Text(subtitle,style: TextStyle(fontSize: 18),),
+      trailing: Icon(Icons.edit,color: Colors.red.shade900,size: 30),
+    );
+  }
+
   //My Appbar
   static Widget myBar(title, IconData icon, voidCallback, context) {
     double _w = MediaQuery.of(context).size.width;

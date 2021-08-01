@@ -22,14 +22,23 @@ class CustomerMeasure extends StatelessWidget {
       child: Container(
           child: ListView(
             children: [
-              Env.tile('شانه', post.shoulder??'', Icons.arrow_back_ios, ()=>_updateData(context, post.shoulder, 1), context),
-              Env.tile('یخن', post.collar??'', Icons.arrow_back_ios, ()=>_updateData(context, post.collar, 2), context),
-              Env.tile('آستین', post.sleeve??'', Icons.arrow_back_ios, ()=>_updateData(context, post.sleeve, 3), context),
-              Env.tile('بغل', post.waist??'', Icons.arrow_back_ios, ()=>_updateData(context, post.waist, 4), context),
-              Env.tile('قد', post.height??'', Icons.arrow_back_ios, ()=>_updateData(context, post.height, 5), context),
-              Env.tile('دامن', post.skirt??'', Icons.arrow_back_ios, ()=>_updateData(context, post.skirt, 6), context),
-              Env.tile('قد تنبان', post.pantHeight??'', Icons.arrow_back_ios, ()=>_updateData(context, post.pantHeight, 7), context),
-              Env.tile('پاچه', post.legWidth??'', Icons.arrow_back_ios, ()=>_updateData(context, post.legWidth,8), context)
+              SizedBox(height: 10),
+              Env.customTile('شانه', post.shoulder??'',()=>_updateData(context, post.shoulder, 1), context),
+              Env.customTile('یخن', post.collar??'',()=>_updateData(context, post.collar, 2), context),
+              Env.customTile('آستین', post.sleeve??'', ()=>_updateData(context, post.sleeve, 3), context),
+              Env.customTile('بغل', post.waist??'', ()=>_updateData(context, post.waist, 4), context),
+              Env.customTile('قد', post.height??'',()=>_updateData(context, post.height, 5), context),
+              Env.customTile('دامن', post.skirt??'',()=>_updateData(context, post.skirt, 6), context),
+              Env.customTile('قد تنبان', post.pantHeight??'',()=>_updateData(context, post.pantHeight, 7), context),
+              Env.customTile('پاچه', post.legWidth??'',()=>_updateData(context, post.legWidth, 8), context),
+              // Env.tile('شانه', post.shoulder??'', Icons.arrow_back_ios, ()=>_updateData(context, post.shoulder, 1), context),
+              // Env.tile('یخن', post.collar??'', Icons.arrow_back_ios, ()=>_updateData(context, post.collar, 2), context),
+              // Env.tile('آستین', post.sleeve??'', Icons.arrow_back_ios, ()=>_updateData(context, post.sleeve, 3), context),
+              // Env.tile('بغل', post.waist??'', Icons.arrow_back_ios, ()=>_updateData(context, post.waist, 4), context),
+              // Env.tile('قد', post.height??'', Icons.arrow_back_ios, ()=>_updateData(context, post.height, 5), context),
+              // Env.tile('دامن', post.skirt??'', Icons.arrow_back_ios, ()=>_updateData(context, post.skirt, 6), context),
+              // Env.tile('قد تنبان', post.pantHeight??'', Icons.arrow_back_ios, ()=>_updateData(context, post.pantHeight, 7), context),
+              // Env.tile('پاچه', post.legWidth??'', Icons.arrow_back_ios, ()=>_updateData(context, post.legWidth,8), context)
             ],
           )
       ),

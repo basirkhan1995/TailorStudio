@@ -40,21 +40,6 @@ class _MyGalleryState extends State<MyGallery> {
     }
   }
 
-  // upload(String fileName) {
-  //   http.post(uploadEndPoint, body: {
-  //     "image": base64Image,
-  //     "name": imageFile.path,
-  //   }).then((result) {
-  //     setStatus(result.statusCode == 200 ? result.body:errMessage);
-  //   }).catchError((error) {
-  //     setStatus(error);
-  //   });
-  // }
-  // setStatus(String message) {
-  //   setState(() {
-  //     status = message;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
