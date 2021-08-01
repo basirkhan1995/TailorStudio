@@ -3,18 +3,23 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Components/Button.dart';
+import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:tailor/HttpServices/RegisterModel.dart';
 
 class Profile extends StatefulWidget {
-
+  final Register post;
+  Profile(this.post);
   @override
   ProfileState createState() => ProfileState();
 }
 
 class ProfileState extends State<Profile> {
+  TextEditingController newValue = new TextEditingController();
   SharedPreferences loginData;
   String tailorName = "ندارد";
   String studioName = "ندارد";
@@ -93,7 +98,7 @@ class ProfileState extends State<Profile> {
                       ),
                     ) : CircleAvatar(radius: 77,
                       backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                      //foregroundImage: NetworkImage(Env.urlPhoto + '${widget.post.fileName}'),
+                      foregroundImage: NetworkImage(Env.urlPhoto + "mypic.jpg"),
                     ),
                   ),
                 ),
@@ -101,15 +106,15 @@ class ProfileState extends State<Profile> {
             ),
             Column(
               children: [
-                Env.tile('اسم', tailorName??'', Icons.person_rounded, VoidCallback, context),
+                Env.tile('اسم', tailorName??'', Icons.person_rounded, ()=>_updateData(context,tailorName??"", 1), context),
                 Divider(endIndent: 20,indent: 20),
-                Env.tile('خیاطی', studioName??'', Icons.home, VoidCallback, context),
+                Env.tile('خیاطی', studioName??'', Icons.home, ()=>_updateData(context,studioName??"", 2), context),
                 Divider(endIndent: 20,indent: 20),
-                Env.tile('شماره تماس', phone??'', Icons.call, VoidCallback, context),
+                Env.tile('شماره تماس', phone??'', Icons.call, ()=>_updateData(context,phone??"", 3), context),
                 Divider(endIndent: 20,indent: 20),
-                Env.tile('ایمل آدرس', email??'ایمل ندارید', Icons.email_rounded, VoidCallback, context),
+                Env.tile('ایمل آدرس', email??'', Icons.email_rounded, ()=>_updateData(context,email??"", 4), context),
                 Divider(endIndent: 20,indent: 20),
-                Env.tile('آدرس', address??'', Icons.location_on, VoidCallback, context),
+                Env.tile('آدرس', address??'', Icons.location_on, ()=>_updateData(context,address??"", 5), context),
               ],
             )
           ],
@@ -182,6 +187,134 @@ class ProfileState extends State<Profile> {
           );
         }
     );
+  }
+
+  _updateData(context, value, int fieldNo) {
+    value == null ? newValue.text = "N/A" : newValue.text = value;
+    var myData;
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+        backgroundColor: WhiteColor,
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal:18 ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text('Do you want update ' + newValue.text + "?", style:Env.style(16, PurpleColor)),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  children: [
+                    RoundedBorderedField(
+                        inputType: fieldNo == 3 ? TextInputType.number : TextInputType.text,
+                        hintText: '',
+                        controller: newValue,
+                        icon: Icons.info_outline
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Button(text: 'Save',textColor: PurpleColor,paint: WhiteColor,
+                            press: () async {
+                              switch(fieldNo){
+                                case 1:
+                                  myData = {
+                                    "tailorName": newValue.text,
+                                    "studioName": studioName,
+                                    "userPhone": phone,
+                                    "userEmail": email,
+                                    "userAddress": address,
+                                    "userID": userID
+                                  };
+                                  break;
+                                case 2:
+                                  myData = {
+                                    "tailorName": tailorName,
+                                    "studioName": newValue.text,
+                                    "userPhone": phone,
+                                    "userEmail": email,
+                                    "userAddress": address,
+                                    "userID": userID
+
+                                  };
+                                  break;
+                                case 3:
+                                  myData = {
+                                    "tailorName": tailorName,
+                                    "studioName": studioName,
+                                    "userPhone": newValue.text,
+                                    "userEmail": widget.post.userEmail,
+                                    "userAddress": address,
+                                    "userID": userID
+                                  };
+                                  break;
+                                case 4:
+                                  myData = {
+                                    "tailorName": tailorName,
+                                    "studioName": studioName,
+                                    "userPhone": widget.post.userPhone,
+                                    "userEmail": newValue.text,
+                                    "userAddress": address,
+                                    "userID": userID
+                                  };
+                                  break;
+                                case 5:
+                                  myData = {
+                                    "tailorName": tailorName,
+                                    "studioName": studioName,
+                                    "userPhone": phone,
+                                    "userEmail": email,
+                                    "userAddress": newValue.text,
+                                    "userID": userID
+                                  };
+                                  break;
+                                default:
+                                  myData = {
+                                    "tailorName": tailorName,
+                                    "studioName": studioName,
+                                    "userPhone": phone,
+                                    "userEmail": email,
+                                    "userAddress": address,
+                                    "userID": userID
+                                  };
+                              }
+                              http.Response res = await http.post(Uri.parse(Env.url+"userUpdate.php"),body: jsonEncode(myData));
+                              String result = res.body.toString();
+                              if (result == "Success"){
+                                print("Update Success"+result);
+                                await Env.responseDialog(Env.successTitle,'موفقانه آپدیت شد!',DialogType.SUCCES, context, () { });
+                                Navigator.pop(context);
+                              }else if (result == "Failed"){
+                                await Env.errorDialog(
+                                    Env.successTitle,'خطا در آپدیت',DialogType.ERROR, context, () { });
+                              }
+                            },
+                          ),
+                          Button(text: 'Cancel',textColor: PurpleColor,paint: WhiteColor,press: (){
+                            Navigator.pop(context);
+                          },),
+                        ]),
+                  ],
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+        ));
   }
 
 }

@@ -14,8 +14,8 @@ import '../../wait.dart';
 import 'package:http/http.dart' as http;
 
 class Individual extends StatefulWidget {
-  final Future<List<Customer>> customer;
-  Individual({this.customer});
+  // final Future<List<Customer>> customer;
+  // Individual({this.customer});
 
   @override
   _IndividualState createState() => _IndividualState();
@@ -58,7 +58,7 @@ class _IndividualState extends State<Individual> {
   }
 
   Future<List<Customer>> fetchCustomer() async {
-    Response res = await get(Uri.parse(Env.url + "sigleCustomer.php?id=$user"))
+    Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=$user"))
         .timeout(Duration(seconds: 5));
     if (res.statusCode == 200) {
       //print(res);

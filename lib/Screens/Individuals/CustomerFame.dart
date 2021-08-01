@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
-import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
@@ -18,30 +18,17 @@ class CustomerFame extends StatefulWidget {
   _CustomerFameState createState() => _CustomerFameState();
 }
 class _CustomerFameState extends State<CustomerFame> {
-  SharedPreferences loginData;
-  File imageFile;
   TextEditingController newValue = new TextEditingController();
+  SharedPreferences loginData;
+  String image;
+  File imageFile;
+
   @override
   void initState() {
 
     super.initState();
   }
 
-  // void updateField() async {
-  //   // http.Response res = await http.post(Uri.parse(Env.url+"customerEmailUpdate.php"),body: jsonEncode({
-  //   //   "email": email.text,
-  //   //   "customerID": widget.post.customerID
-  //   // }));
-  //   // String result = res.body.toString();
-  //   // // print(widget.post.customerID);
-  //   //  if (result == "Success"){
-  //   //   print(result);
-  //   //   await Env.responseDialog(Env.successTitle,'ایمل شما موفقانه آپدیت گردید',DialogType.SUCCES, context, () { });
-  //   // }else if (result == "Failed"){
-  //   //   await Env.errorDialog(
-  //   //       Env.successTitle,'ایمل شما آپدید نگردید',DialogType.ERROR, context, () { });
-  //   // }
-  // }
 
   void uploadProfile() async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
@@ -185,7 +172,6 @@ class _CustomerFameState extends State<CustomerFame> {
   _updateData(context, value, int fieldNo) {
     value == null ? newValue.text = "N/A" : newValue.text = value;
     var myData;
-    //print("Current Value is =" + value);
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
@@ -201,7 +187,7 @@ class _CustomerFameState extends State<CustomerFame> {
               SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Text('Do you want update ' + newValue.text + " ?", style:Env.style(16, PurpleColor)),
+                child: Text('Do you want update ' + newValue.text + "?", style:Env.style(16, PurpleColor)),
               ),
               SizedBox(
                 height: 8.0,
@@ -215,72 +201,79 @@ class _CustomerFameState extends State<CustomerFame> {
                       inputType: fieldNo == 3 ? TextInputType.number : TextInputType.text,
                       hintText: '',
                       controller: newValue,
-                      icon: Icons.info,
+                      icon: Icons.info_outline
                     ),
                     SizedBox(height: 10),
-                    RoundedButton(
-                      text: 'آپدیت کردن',
-                      press: () async {
-                        switch(fieldNo){
-                          case 1:
-                            myData = {
-                              "email": widget.post.email,
-                              "firstName": newValue.text,
-                              "lastName": widget.post.lastName,
-                              "phone": widget.post.phone,
-                              "customerID": widget.post.customerID
-                            };
-                            break;
-                          case 2:
-                            myData = {
-                              "email": widget.post.email,
-                              "firstName": widget.post.firstName,
-                              "lastName": newValue.text,
-                              "phone": widget.post.phone,
-                              "customerID": widget.post.customerID
-                            };
-                            break;
-                          case 3:
-                            myData = {
-                              "email": widget.post.email,
-                              "firstName": widget.post.firstName,
-                              "lastName": widget.post.lastName,
-                              "phone": newValue.text,
-                              "customerID": widget.post.customerID
-                            };
-                            break;
-                          case 4:
-                            myData = {
-                              "email": newValue.text,
-                              "firstName": widget.post.firstName,
-                              "lastName": widget.post.lastName,
-                              "phone": widget.post.phone,
-                              "customerID": widget.post.customerID
-                            };
-                            break;
-                          default:
-                            myData = {
-                              "email": widget.post.email,
-                              "firstName": widget.post.firstName,
-                              "lastName": widget.post.lastName,
-                              "phone": widget.post.phone,
-                              "customerID": widget.post.customerID
-                            };
-                        }
-                        http.Response res = await http.post(Uri.parse(Env.url+"customerEmailUpdate.php"),body: jsonEncode(myData));
-                        String result = res.body.toString();
-                        if (result == "Success"){
-                          print("Update Success"+result);
-                          await Env.responseDialog(Env.successTitle,'موفقانه آپدیت شد!',DialogType.SUCCES, context, () { });
-                          Navigator.pop(context);
-                        }else if (result == "Failed"){
-                          await Env.errorDialog(
-                              Env.successTitle,'خطا در آپدیت',DialogType.ERROR, context, () { });
-                        }
-                      },
-                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Button(text: 'Save',textColor: PurpleColor,paint: WhiteColor,
+                        press: () async {
+                          switch(fieldNo){
+                            case 1:
+                              myData = {
+                                "email": widget.post.email,
+                                "firstName": newValue.text,
+                                "lastName": widget.post.lastName,
+                                "phone": widget.post.phone,
+                                "customerID": widget.post.customerID
+                              };
+                              break;
+                            case 2:
+                              myData = {
+                                "email": widget.post.email,
+                                "firstName": widget.post.firstName,
+                                "lastName": newValue.text,
+                                "phone": widget.post.phone,
+                                "customerID": widget.post.customerID
+                              };
+                              break;
+                            case 3:
+                              myData = {
+                                "email": widget.post.email,
+                                "firstName": widget.post.firstName,
+                                "lastName": widget.post.lastName,
+                                "phone": newValue.text,
+                                "customerID": widget.post.customerID
+                              };
+                              break;
+                            case 4:
+                              myData = {
+                                "email": newValue.text,
+                                "firstName": widget.post.firstName,
+                                "lastName": widget.post.lastName,
+                                "phone": widget.post.phone,
+                                "customerID": widget.post.customerID
+                              };
+                              break;
+                            default:
+                              myData = {
+                                "email": widget.post.email,
+                                "firstName": widget.post.firstName,
+                                "lastName": widget.post.lastName,
+                                "phone": widget.post.phone,
+                                "customerID": widget.post.customerID
+                              };
+                          }
+                          http.Response res = await http.post(Uri.parse(Env.url+"customerUpdate.php"),body: jsonEncode(myData));
+                          String result = res.body.toString();
+                          if (result == "Success"){
+                            print("Update Success"+result);
+                            await Env.responseDialog(Env.successTitle,'موفقانه آپدیت شد!',DialogType.SUCCES, context, () { });
+                            Navigator.pop(context);
+                          }else if (result == "Failed"){
+                            await Env.errorDialog(
+                            Env.successTitle,'خطا در آپدیت',DialogType.ERROR, context, () { });
+                          }
+                        },
+                      ),
+                      Button(text: 'Cancel',textColor: PurpleColor,paint: WhiteColor,press: (){
+                        Navigator.pop(context);
+                      },),
+                    ]),
                   ],
-                )
+                ),
               ),
               SizedBox(height: 10),
             ],

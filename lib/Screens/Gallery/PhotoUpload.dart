@@ -18,6 +18,10 @@ class MyGallery extends StatefulWidget {
 
 class _MyGalleryState extends State<MyGallery> {
   File imageFile;
+  //static final String uploadEndPoint = 'https://tailorstudio.000webhostapp.com/serverUpload.php';
+  String status = '';
+  String base64Image;
+  String errMessage = 'Error Uploading Image';
 
   void uploadGallery() async {
     http.Response res = await http.post(Uri.parse(Env.url+"GalleryUpload.php"),body: jsonEncode({
@@ -36,6 +40,21 @@ class _MyGalleryState extends State<MyGallery> {
     }
   }
 
+  // upload(String fileName) {
+  //   http.post(uploadEndPoint, body: {
+  //     "image": base64Image,
+  //     "name": imageFile.path,
+  //   }).then((result) {
+  //     setStatus(result.statusCode == 200 ? result.body:errMessage);
+  //   }).catchError((error) {
+  //     setStatus(error);
+  //   });
+  // }
+  // setStatus(String message) {
+  //   setState(() {
+  //     status = message;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

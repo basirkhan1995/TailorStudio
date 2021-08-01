@@ -9,23 +9,25 @@ List<Customer> customerFromJson(String str) => List<Customer>.from(json.decode(s
 String customerToJson(List<Customer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Customer {
-  final String customerID;
-  final String firstName;
-  final String lastName;
-  final String phone;
-  final String email ;
-  final String tailor;
-  final String height;
-  final String shoulder;
-  final String sleeve;
-  final String collar;
-  final String waist;
-  final String skirt;
-  final String pantHeight;
-  final String legWidth;
-  final String fileName;
+   String customerID;
+   String firstName;
+   String lastName;
+   String phone;
+   String email ;
+   String tailor;
+   String height;
+   String shoulder;
+   String sleeve;
+   String collar;
+   String waist;
+   String skirt;
+   String pantHeight;
+   String legWidth;
+   String fileName;
+   String measureID;
 
   Customer({
+    this.measureID,
      this.customerID,
      this.firstName,
      this.lastName,
@@ -61,6 +63,7 @@ class Customer {
    pantHeight: json["pantHeight"]as String,
    legWidth: json["legWidth"]as String,
    fileName: json["fileName"] as String,
+   measureID: json["measureID"] as String,
  );
 
   }
@@ -81,5 +84,6 @@ class Customer {
     "pantHeight": pantHeight,
     "legWidth": legWidth,
     "photo": fileName,
+    "measureID": measureID,
   };
 }

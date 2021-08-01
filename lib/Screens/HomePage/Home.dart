@@ -5,6 +5,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
+import 'package:tailor/HttpServices/RegisterModel.dart';
 import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,9 @@ import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
 
 class Dashboard extends StatefulWidget {
+  final Register post;
   final Future<List<Customer>> customer;
-  Dashboard({this.customer});
+  Dashboard({this.customer,this.post});
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -34,9 +36,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String userID      = "userID";
   bool checkLogin;
   int currentIndex = 0;
-
-  // StreamSubscription _connectionChangeStream;
-  // bool isOffline = false;
 
   AnimationController _controller;
   AnimationController _controller2;
@@ -158,7 +157,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Settings();
+                    return Settings(widget.post);
                   },
                 ),
               );
@@ -189,7 +188,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   Orders(), 0xFF6F35A5, context, _animation,_animation2),
               Env.card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
                   Album(), 0xFFac3973, context, _animation,_animation2),
-              Env.card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
+              Env.card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(widget.post),
                   0xFF3385ff, context, _animation,_animation2),
             ],
           ),
@@ -216,14 +215,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                  //    )
                 ),
                 accountName: InkWell(
-                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));},
+                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(widget.post)));},
                 child: Text("$tailorName", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color:BlackColor.withOpacity(.7)),)),
                 accountEmail: Text("$tailorEmail",style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500)),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.grey[300],
-                  child: Icon(Icons.person_rounded, color: Colors.black.withOpacity(.5), size: 50),
-                 //backgroundImage: NetworkImage(Env.urlPhoto),
-                )),
+                currentAccountPicture: CircleAvatar(radius: 77,
+                  backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                  foregroundImage: NetworkImage(Env.urlPhoto + "mypic.jpg"),
+                ),),
 
               // Drawer List of Objects
               SizedBox(height: 10),
@@ -231,7 +229,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(),context),
               Env.myTile('مشتریان', Icons.people_alt_rounded, Individual(),context),
               Env.myTile('نمایشگاه', Icons.photo, Album(),context),
-              Env.myTile('تنظیمات', Icons.settings, Settings(),context),
+              Env.myTile('تنظیمات', Icons.settings, Settings(widget.post),context),
               Divider(height: 10,indent: 20,endIndent: 20),
               Env. myTile('امتیاز دادن', Icons.star,AboutTailor(),context),
               Env.myTile('درباره ما', Icons.info, AboutTailor(),context),
