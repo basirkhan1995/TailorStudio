@@ -75,17 +75,6 @@ class _CustomerFameState extends State<CustomerFame> {
                           backgroundImage: AssetImage('photos/background/no_user.jpg'),
                           foregroundImage: NetworkImage(Env.urlPhoto + '${widget.post.fileName}'),
                         ),
-                        //     :Container(
-                        //   width: 155,
-                        //   height: 155,
-                        //   decoration: BoxDecoration(
-                        //       image: DecorationImage(
-                        //           image: NetworkImage(Env.urlPhoto +'${widget.post.fileName}'),
-                        //           fit: BoxFit.cover
-                        //       ),
-                        //       color: Colors.grey[200], borderRadius: BorderRadius.circular(80)),
-                        //   //child: Icon(Icons.person,size: 100,color: BlackColor.withOpacity(.5)):Text('')
-                        // )
                       ),
                     ),
                   ),

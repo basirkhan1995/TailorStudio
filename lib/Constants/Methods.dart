@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
+import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 
@@ -233,7 +234,7 @@ class Env {
   }
 
   //Measurement Method
-  static Widget myOrder(title,controller,hint,prefix){
+  static Widget myOrder(title,subtitle,controller,hint){
     return Padding(
       padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
       child: Container(
@@ -244,6 +245,7 @@ class Env {
         ),
         child: ListTile(
           title: Text(title,style:Env.style(17, PurpleColor)),
+          subtitle: Text(subtitle),
           trailing: ConstrainedBox(
             constraints: BoxConstraints(
                 minWidth: 48),
@@ -251,7 +253,6 @@ class Env {
               child: MeasureField(
                 controller: controller,
                 hintText: hint,
-                prefix: prefix,
               ),
             ),
           ),
@@ -259,6 +260,36 @@ class Env {
       ),
     );
   }
+
+  //Measurement Method
+  static Widget myTXTOrder(title,subtitle,controller,hint){
+    return Padding(
+      padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
+      child: Container(
+        padding: EdgeInsets.only(top: 3, bottom: 6,left: 10,right: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: PurpleColor)
+        ),
+        child: ListTile(
+          title: Text(title,style:Env.style(17, PurpleColor)),
+          subtitle: Text(subtitle),
+          trailing: ConstrainedBox(
+            constraints: BoxConstraints(
+                minWidth: 48),
+            child: IntrinsicWidth(
+              child: OrderField(
+                controller: controller,
+                hintText: hint,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
 
 
   static dateTimePicker(String label){
@@ -464,26 +495,49 @@ class Env {
   // Custom Full ListTile
   static Widget tile(title,subtitle, IconData icon, voidCallback,context){
     return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       onTap: () {
         HapticFeedback.lightImpact();
         voidCallback();
       },
       leading: Icon(icon,size: 30,color:PurpleColor),
       title: Text(title, style:Env.style(17,PurpleColor)),
-      subtitle: Text(subtitle,style: style(18, BlackColor.withOpacity(.5)),),
+      subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5)),),
     );
 
   }
 
   static Widget customTile(title, subtitle, voidCallback,context){
+    return Card(
+      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0)),
+      elevation: 15,
+      child: ListTile(
+        horizontalTitleGap: 20,
+          minVerticalPadding: 5,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          voidCallback();
+        },
+        leading: Icon(Icons.article,size: 50,color: PurpleColor,),
+        title: Text(title , style:Env.style(18,PurpleColor)),
+        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
+        trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
+      ),
+    );
+  }
+
+  static Widget setting(IconData icon,title, subtitle, Widget route ,context){
     return ListTile(
       horizontalTitleGap: 5,
-        minVerticalPadding: 0,
+      minVerticalPadding: 0,
       onTap: () {
         HapticFeedback.lightImpact();
-        voidCallback();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
+        ///route
       },
-      leading: Icon(Icons.bar_chart_sharp,size: 50,color: PurpleColor,),
+      leading: Icon(icon,size: 50,color: PurpleColor),
       title: Text(title , style:Env.style(18,PurpleColor)),
       subtitle: Text(subtitle,style: TextStyle(fontSize: 23),),
       trailing: Icon(Icons.edit,color: PurpleColor,size: 28),

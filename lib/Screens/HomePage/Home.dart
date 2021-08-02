@@ -157,7 +157,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Settings(widget.post);
+                    return Settings();
                   },
                 ),
               );
@@ -188,7 +188,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   Orders(), 0xFF6F35A5, context, _animation,_animation2),
               Env.card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
                   Album(), 0xFFac3973, context, _animation,_animation2),
-              Env.card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(widget.post),
+              Env.card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
                   0xFF3385ff, context, _animation,_animation2),
             ],
           ),
@@ -229,7 +229,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(),context),
               Env.myTile('مشتریان', Icons.people_alt_rounded, Individual(),context),
               Env.myTile('نمایشگاه', Icons.photo, Album(),context),
-              Env.myTile('تنظیمات', Icons.settings, Settings(widget.post),context),
+              Env.myTile('تنظیمات', Icons.settings, Settings(),context),
               Divider(height: 10,indent: 20,endIndent: 20),
               Env. myTile('امتیاز دادن', Icons.star,AboutTailor(),context),
               Env.myTile('درباره ما', Icons.info, AboutTailor(),context),

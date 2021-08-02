@@ -52,6 +52,8 @@ dependencies:
   custom_refresh_indicator: ^1.0.0
   flutter_dropdown: ^0.0.8
   cached_network_image: ^2.5.1
+  flutter_icons: ^1.1.0
+
 
 
 

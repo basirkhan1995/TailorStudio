@@ -8,14 +8,14 @@ import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
+import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
 import 'dart:ui';
-import 'package:tailor/Screens/Orders/OrderDetails.dart';
 import '../../wait.dart';
 
 
 class CustomerOrder extends StatefulWidget {
-  final Customer post;
-  CustomerOrder(this.post);
+  final Customer retrieve;
+  CustomerOrder(this.retrieve);
 
   @override
   _CustomerOrderState createState() => _CustomerOrderState();
@@ -62,7 +62,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   }
 
   Future<List<Orders>> fetchCustomerOrders() async {
-    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerID}"))
+    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.retrieve.customerID}"))
         .timeout(Duration(seconds: 5));
     if (response.statusCode == 200) {
       //print(res);
@@ -84,14 +84,14 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   }
   //Home Page Cards
   Widget dashboard(){
-    double _w = MediaQuery.of(context).size.width;
+    //double _w = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         // background color
        BackgroundColor(),
         /// ListView
         Directionality(
-          textDirection: TextDirection.ltr,
+          textDirection: TextDirection.rtl,
           child: FutureBuilder(
             future: fetchCustomerOrders(),
             builder: (BuildContext context,
@@ -102,13 +102,16 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                   padding: const EdgeInsets.only(top: 60),
                   child: ListView(
                     children: posts.map((Orders post) =>
-                        card('#C'+ post.customerId +'ORD'+ post.orderId,post.firstName +' '+ post.lastName, Icons.home, OrderDetails(), post.orderState))
+                        card('C'+ post.customerId +'ORD'+ post.orderId,post.firstName +' '+ post.lastName, Icons.home, CustomerOrderDetails(post), post.orderState))
                         .toList(),
                   ),
                 );
-              } else {
+              } else if(snapshot.data == null) {
                 return LoadingCircle();
-                //return LoadingCircle();
+              }else if (snapshot.hasError){
+                return Text('Error');
+              } else{
+                  return LoadingCircle();
               }
             },
           ),

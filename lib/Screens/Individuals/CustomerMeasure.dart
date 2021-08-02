@@ -31,7 +31,7 @@ class CustomerMeasure extends StatelessWidget {
               Env.customTile('دامن', post.skirt??'',()=>_updateData(context, post.skirt, 6), context),
               Env.customTile('قد تنبان', post.pantHeight??'',()=>_updateData(context, post.pantHeight, 7), context),
               Env.customTile('پاچه', post.legWidth??'',()=>_updateData(context, post.legWidth, 8), context),
-
+              SizedBox(height: 10),
               // Env.tile('شانه', post.shoulder??'', Icons.arrow_back_ios, ()=>_updateData(context, post.shoulder, 1), context),
               // Env.tile('یخن', post.collar??'', Icons.arrow_back_ios, ()=>_updateData(context, post.collar, 2), context),
               // Env.tile('آستین', post.sleeve??'', Icons.arrow_back_ios, ()=>_updateData(context, post.sleeve, 3), context),

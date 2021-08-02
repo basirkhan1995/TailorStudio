@@ -14,8 +14,6 @@ import '../../wait.dart';
 import 'package:http/http.dart' as http;
 
 class Individual extends StatefulWidget {
-  // final Future<List<Customer>> customer;
-  // Individual({this.customer});
 
   @override
   _IndividualState createState() => _IndividualState();
@@ -143,7 +141,7 @@ class _IndividualState extends State<Individual> {
                                     children: [
                                       InkWell(child: Text('Create order'),
                                       onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder(post)));
                                       },
                                       ),
                                       Spacer(),
@@ -158,7 +156,7 @@ class _IndividualState extends State<Individual> {
                                       InkWell(child: Text('Edit'),
                                       onTap: (){
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDetails(post)));
-                                      },
+                                        },
                                       ),
                                       Icon(Icons.edit,color: PurpleColor)
                                     ],

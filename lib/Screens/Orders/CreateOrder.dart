@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tailor/Components/DescriptionField.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/IndividualsModel.dart';
 
 class NewOrder extends StatefulWidget {
-
+  final Customer post;
+  NewOrder(this.post);
   @override
   _NewOrderState createState() => _NewOrderState();
 }
@@ -11,19 +13,14 @@ class NewOrder extends StatefulWidget {
 class _NewOrderState extends State<NewOrder> {
   final _formKey = GlobalKey <FormState>();
 
-  final TextEditingController orderID = new TextEditingController();
-
   final TextEditingController qty = new TextEditingController();
-
   final TextEditingController amount = new TextEditingController();
-
   final TextEditingController orderType = new TextEditingController();
-
+  final TextEditingController designType = new TextEditingController();
   final TextEditingController advanceAmount = new TextEditingController();
-
   final TextEditingController orderDate = new TextEditingController();
-
   final TextEditingController deliveryDate = new TextEditingController();
+  final TextEditingController remarks = new TextEditingController();
 
   String dropdownvalue = 'Pending';
   var items =  ['Complete','Pending','Delivered'];
@@ -31,7 +28,7 @@ class _NewOrderState extends State<NewOrder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context,'فرمایش جدید'),
+      appBar: Env.appBar(context,widget.post.firstName+' '+widget.post.lastName),
       body:Directionality(
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
@@ -43,21 +40,15 @@ class _NewOrderState extends State<NewOrder> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
-                  Env.myOrder('Order ID', orderID,'#', '#:'),
-                  Env.myOrder('QTY', qty,'0', 'جوره '),
-                  Env.myOrder('Order Type', qty,'0', 'جوره '),
-                  Env.myOrder('Amount', amount,'0 ','Afs'),
-                  Env.myOrder('Amount Received', advanceAmount,'  0 ', 'Afs'),
-                  Env.myOrder('Balance', orderID,'0', 'Afs'),
-                  Row(crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:[dropMenu(),Text('Order Status')]),
-                  Env.myOrder('Design', orderID,'0', 'Afs'),
+                  Env.myOrder('نوعیت فرمایش:','پیراهن تنبان، واسکت، کرتی پطلون', designType,'نوع'),
+                  Env.myOrder('نوعیت دوخت:', 'هندی، پاکستانی، ترکی', orderType, 'دوخت'),
+                  Env.myOrder('تعداد فرمایش:', 'تعداد جوره لباس', qty, '0'),
+                  Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', amount, '0'),
+                  Env.myOrder('رسید:', 'پول پیش پرداخت', advanceAmount, '0'),
                   Env.dateTimePicker('Date of Issue'),
                   Env.dateTimePicker('Delivery Date'),
-                  DescriptionField(hintText: 'Remarks',icon: Icons.info,inputType: TextInputType.text),
-
+                  DescriptionField(hintText: 'ملاحظات',icon: Icons.info,inputType: TextInputType.text),
+                  dropMenu(),
                 ],
               ),
             ),
