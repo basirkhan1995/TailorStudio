@@ -3,6 +3,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
@@ -89,6 +90,7 @@ class _NewClientState extends State<NewClient> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: WhiteColor,
       appBar: Env.appBar(context,'ثبت مشتری جدید'),
       body: SingleChildScrollView(
         child: Directionality(
@@ -161,14 +163,28 @@ class _NewClientState extends State<NewClient> {
 
                   SizedBox(height: 10),
 
+                 Row(
+                   children: [
+                     Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
+
+                         Navigator.pop(context);
+                     }),
+                     Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: (){
+                         if(_formKey.currentState.validate()){
+                           /// Function Send Data
+                           sendData();
+                         }}),
+                   ],
+                 ),
+
                   /// Submit Button
-                  RoundedButton(
-                      textColor: WhiteColor, color: PurpleColor, text: "ثبت کــــــــــردن",
-                    press: (){
-                      if(_formKey.currentState.validate()){
-                  /// Function Send Data
-                     sendData();
-                      }}),
+                  // RoundedButton(
+                  //     textColor: WhiteColor, color: PurpleColor, text: "ثبت کــــــــــردن",
+                  //   press: (){
+                  //     if(_formKey.currentState.validate()){
+                  // /// Function Send Data
+                  //    sendData();
+                  //     }}),
 
                   SizedBox(height: 20)
                 ],
@@ -180,27 +196,5 @@ class _NewClientState extends State<NewClient> {
     );
   }
 
-
-  /// Function, Upload Customer Picture from Gallery
-  gallery(){
-    return FloatingActionButton(
-      onPressed: ()async{
-        PickedFile pickedFile = await ImagePicker().getImage(
-          source: ImageSource.gallery,
-          maxWidth: 1800,
-          maxHeight: 1800,
-        );
-        if (pickedFile != null) {
-          setState(() {
-            imageFile = File(pickedFile.path);
-          });
-        }
-      },
-      backgroundColor: PurpleColor,
-      heroTag: 'gallery',
-      tooltip: 'Gallery',
-      child: Icon(Icons.photo_library),
-    );
-  }
 
 }

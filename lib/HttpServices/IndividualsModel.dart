@@ -27,7 +27,6 @@ class Customer {
    String measureID;
 
   Customer({
-    this.measureID,
      this.customerID,
      this.firstName,
      this.lastName,
@@ -43,6 +42,7 @@ class Customer {
      this.pantHeight,
      this.legWidth,
      this.fileName,
+    this.measureID,
   });
 
 

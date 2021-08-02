@@ -477,14 +477,16 @@ class Env {
 
   static Widget customTile(title, subtitle, voidCallback,context){
     return ListTile(
+      horizontalTitleGap: 5,
+        minVerticalPadding: 0,
       onTap: () {
         HapticFeedback.lightImpact();
         voidCallback();
       },
       leading: Icon(Icons.bar_chart_sharp,size: 50,color: PurpleColor,),
-      title: Text(title , style:Env.style(17,PurpleColor)),
-      subtitle: Text(subtitle,style: TextStyle(fontSize: 18),),
-      trailing: Icon(Icons.edit,color: Colors.red.shade900,size: 30),
+      title: Text(title , style:Env.style(18,PurpleColor)),
+      subtitle: Text(subtitle,style: TextStyle(fontSize: 23),),
+      trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
     );
   }
 

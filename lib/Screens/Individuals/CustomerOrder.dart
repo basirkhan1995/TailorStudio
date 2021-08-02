@@ -1,11 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'dart:ui';
 import 'package:tailor/Screens/Orders/OrderDetails.dart';
+import '../../wait.dart';
+
 
 class CustomerOrder extends StatefulWidget {
   final Customer post;
@@ -55,6 +61,20 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
     super.dispose();
   }
 
+  Future<List<Orders>> fetchCustomerOrders() async {
+    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerID}"))
+        .timeout(Duration(seconds: 5));
+    if (response.statusCode == 200) {
+      //print(res);
+      List<dynamic> body = jsonDecode(response.body);
+      List<Orders> posts =
+      body.map((dynamic item) => Orders.fromJson(item)).toList();
+      //print(posts);
+      return posts;
+    } else {
+      throw "Error";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +91,26 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
        BackgroundColor(),
         /// ListView
         Directionality(
-          textDirection: TextDirection.rtl,
-          child: ListView(
-            physics:
-            BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              SizedBox(height: _w / 5.5),
-              card('#50002', 'پیراهن تنبان کرزیی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50005', 'واسکت پاکستانی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50005', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Completed'),
-            ],
+          textDirection: TextDirection.ltr,
+          child: FutureBuilder(
+            future: fetchCustomerOrders(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<Orders>> snapshot) {
+              if (snapshot.hasData) {
+                List<Orders> posts = snapshot.data;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: ListView(
+                    children: posts.map((Orders post) =>
+                        card('#C'+ post.customerId +'ORD'+ post.orderId,post.firstName +' '+ post.lastName, Icons.home, OrderDetails(), post.orderState))
+                        .toList(),
+                  ),
+                );
+              } else {
+                return LoadingCircle();
+                //return LoadingCircle();
+              }
+            },
           ),
         ),
       ],
@@ -131,7 +159,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                           color: WhiteColor.withOpacity(.2),
                           borderRadius: BorderRadius.circular(30)),
                       child: Icon(
-                        icon,
+                          Icons.insert_chart_rounded,
                         color: WhiteColor,
                         size: _w / 4,
                       ),
@@ -163,7 +191,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /30,
+                              fontSize: _w /22,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
@@ -177,7 +205,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: _w / 30,
+                                fontSize: _w / 22,
                                 fontWeight: FontWeight.w500
                             ),
                           ),

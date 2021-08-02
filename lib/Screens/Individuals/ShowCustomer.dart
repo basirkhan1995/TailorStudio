@@ -80,8 +80,7 @@ class _IndividualState extends State<Individual> {
         backgroundColor: PurpleColor,
         child: Icon(Icons.person_add),
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => NewClient()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NewClient()));
         },
       ),
       body: Column(
@@ -129,7 +128,7 @@ class _IndividualState extends State<Individual> {
                               post.firstName + " " + post.lastName, style: TextStyle(fontWeight: FontWeight.bold,
                               color: GreyColor)),
                           subtitle: Text(
-                              "ID Number#: "+ post.customerID, style: TextStyle(fontSize: 12)),
+                              "CUSTOMER ID#: "+ post.customerID, style: TextStyle(fontSize: 12)),
                           trailing: PopupMenuButton(
                             icon: Icon(Icons.more_vert,
                                 color: PurpleColor),
@@ -156,7 +155,11 @@ class _IndividualState extends State<Individual> {
                                   child: Row(
                                     mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                     children: [
-                                      InkWell(child: Text('Edit')),
+                                      InkWell(child: Text('Edit'),
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerDetails(post)));
+                                      },
+                                      ),
                                       Icon(Icons.edit,color: PurpleColor)
                                     ],
                                   )),

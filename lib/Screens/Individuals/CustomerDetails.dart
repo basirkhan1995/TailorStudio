@@ -11,7 +11,7 @@ class CustomerDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context, 'معلومات مشتری'),
+      appBar: Env.appBar(context, post.firstName + " " + post.lastName),
         body: BaseDetails(post)
     );
   }
