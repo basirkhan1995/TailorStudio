@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'Screens/Login/login.dart';
 import 'SplashScreen.dart';
-import 'package:tailor/GetStarted.dart';
 
 void main() {
 
@@ -17,7 +16,7 @@ void main() {
         systemNavigationBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.dark,
       ));
-  runApp(GetMaterialApp(
+  runApp(MaterialApp(
     title: 'TailorStudio',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
@@ -31,8 +30,7 @@ void main() {
     routes: {
 
       '/': (context) => MyCustomSplashScreen(),
-      '/sec': (context) => GetStarted(),
-      '/third': (context) => LoginScreen(),
+      '/sec': (context) => LoginScreen(),
     },
 
   ));

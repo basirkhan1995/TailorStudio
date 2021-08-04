@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -55,19 +57,23 @@ class _IndividualState extends State<Individual> {
     });
   }
 
-  Future<List<Customer>> fetchCustomer() async {
-    Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=$user"))
-        .timeout(Duration(seconds: 5));
-    if (res.statusCode == 200) {
-      //print(res);
-      List<dynamic> body = jsonDecode(res.body);
-      List<Customer> posts =
-      body.map((dynamic item) => Customer.fromJson(item)).toList();
-      //print(posts);
-      return posts;
-    } else {
-      throw "Error";
-    }
+
+  Future<List<Customer>> fetchCustomer(context) async {
+    try{
+      Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=$user")).timeout(Duration(seconds: 10));
+      if (res.statusCode == 200) {
+        List<dynamic> body = jsonDecode(res.body);
+        List<Customer> posts =
+        body.map((dynamic item) => Customer.fromJson(item)).toList();
+        return posts;
+      }
+    } on SocketException catch(_){
+    return Env.errorDialog('No Internet', Env.noInternetMessage, DialogType.ERROR, context, () { });
+    }on TimeoutException catch(_){
+      return Env.errorDialog('خطا در شبکه', Env.timeOut, DialogType.ERROR, context, () {
+      });
+  }
+  return null;
   }
 
   @override
@@ -95,17 +101,16 @@ class _IndividualState extends State<Individual> {
                 return Future.delayed(
                   Duration(microseconds: 1),() {
                   setState(() {
-                    fetchCustomer();
+                    fetchCustomer(context);
                   });
                 },
                 );
               },
               child: FutureBuilder(
-                future: fetchCustomer(),
+                future: fetchCustomer(context),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Customer>> snapshot) {
-                  if (snapshot.hasData) {
-                    List<Customer> posts = snapshot.data;
+                  if (snapshot.hasData) {List<Customer> posts = snapshot.data;
                     return ListView(
                       children: posts.map((Customer post) => Padding(
                         padding: const EdgeInsets.only(top: 1),

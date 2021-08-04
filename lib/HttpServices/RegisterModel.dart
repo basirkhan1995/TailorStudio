@@ -47,6 +47,6 @@ class Register{
     "userAddress":userAddress,
     "userName": userName,
     "password": password,
-    "userImage":fileName,
+    "fileName":fileName,
   };
 }

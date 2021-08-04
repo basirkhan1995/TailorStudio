@@ -29,6 +29,8 @@ class Env {
   static String noInternetMessage = 'شما به انترنت وصل نیستید، لطفا انترنت خود را چک کنید و دوباره امتحان کنید';
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
+  static String noInternetMsg = 'لطفا ارتباط انترنت خود را بررسی کنید و دوباره امتحان کنید';
+  static String timeOut = 'لطفا انترنت خود را بررسی کرده دوباره کوشش نمایید';
   static SharedPreferences loginData;
   static bool isLogin;
   static bool checkYesNoLogin;
@@ -93,6 +95,7 @@ class Env {
     }
   }
 
+
   //Static TextStyle
   static style(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
@@ -150,6 +153,7 @@ class Env {
       btnOkOnPress: onOkPress,
     ).show();
   }
+
   //Confirm Dialog
   static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
     return AwesomeDialog(
@@ -487,15 +491,17 @@ class Env {
         HapticFeedback.lightImpact();
         Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
-      title: Text(title, style:Env.style(16,BlackColor.withOpacity(.7))),
-      leading: Icon(icon,size: 30,color:PurpleColor),
+      title: Text(title, style:Env.style(17,BlackColor.withOpacity(.7))),
+      leading: Icon(icon,size: 34,color:BlackColor.withOpacity(.7)),
     );
   }
 
   // Custom Full ListTile
   static Widget tile(title,subtitle, IconData icon, voidCallback,context){
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      horizontalTitleGap: 10,
+      minVerticalPadding: 0,
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       onTap: () {
         HapticFeedback.lightImpact();
         voidCallback();
@@ -503,6 +509,28 @@ class Env {
       leading: Icon(icon,size: 30,color:PurpleColor),
       title: Text(title, style:Env.style(17,PurpleColor)),
       subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5)),),
+    );
+
+  }
+
+  //My Setting
+  static Widget settingTile(title,subtitle, IconData icon, Widget route ,context){
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+      ),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        onTap: () {
+          HapticFeedback.lightImpact();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
+        },
+        leading: Icon(icon,size: 30,color:BlackColor.withOpacity(.7)),
+        title: Text(title, style:Env.style(16,BlackColor.withOpacity(.9))),
+        subtitle: Text(subtitle,style: style(13, BlackColor.withOpacity(.7)),),
+      ),
     );
 
   }
@@ -521,26 +549,10 @@ class Env {
           voidCallback();
         },
         leading: Icon(Icons.article,size: 50,color: PurpleColor,),
-        title: Text(title , style:Env.style(18,PurpleColor)),
-        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
+        title: Text(title , style:Env.style(16,PurpleColor)),
+        subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
         trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
       ),
-    );
-  }
-
-  static Widget setting(IconData icon,title, subtitle, Widget route ,context){
-    return ListTile(
-      horizontalTitleGap: 5,
-      minVerticalPadding: 0,
-      onTap: () {
-        HapticFeedback.lightImpact();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
-        ///route
-      },
-      leading: Icon(icon,size: 50,color: PurpleColor),
-      title: Text(title , style:Env.style(18,PurpleColor)),
-      subtitle: Text(subtitle,style: TextStyle(fontSize: 23),),
-      trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
     );
   }
 

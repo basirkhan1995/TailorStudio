@@ -34,6 +34,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String tailorEmail = "Tailor Email";
   String username    = "username";
   String userID      = "userID";
+  String fileName = "mypic.jpg";
   bool checkLogin;
   int currentIndex = 0;
 
@@ -77,6 +78,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       tailorName = loginData.getString('tailorName');
       studioName = loginData.getString('studioName');
       tailorEmail = loginData.getString('userEmail');
+      fileName = loginData.getString('fileName');
       checkLogin = loginData.getBool('login');
     });
   }
@@ -208,19 +210,20 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       children: <Widget>[
               //Profile Header
                 UserAccountsDrawerHeader(
+
                 decoration: BoxDecoration(
-                  color: Colors.white38
+                  color: BlackColor.withOpacity(.0)
                  // image: DecorationImage(fit: BoxFit.cover,
                  // image: AssetImage('photos/background/drawer1.jpg')
                  //    )
                 ),
                 accountName: InkWell(
-                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(widget.post)));},
+                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));},
                 child: Text("$tailorName", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color:BlackColor.withOpacity(.7)),)),
                 accountEmail: Text("$tailorEmail",style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500)),
                 currentAccountPicture: CircleAvatar(radius: 77,
                   backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                  foregroundImage: NetworkImage(Env.urlPhoto + "mypic.jpg"),
+                  foregroundImage: NetworkImage(Env.urlPhoto + fileName ),
                 ),),
 
               // Drawer List of Objects

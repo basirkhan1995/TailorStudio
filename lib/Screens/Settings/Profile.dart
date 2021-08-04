@@ -9,11 +9,10 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:tailor/HttpServices/RegisterModel.dart';
 
 class Profile extends StatefulWidget {
-  final Register post;
-  Profile(this.post);
+  // final Register post;
+  // Profile(this.post);
   @override
   ProfileState createState() => ProfileState();
 }
@@ -68,11 +67,12 @@ class ProfileState extends State<Profile> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: Env.myBar('تنظیمات پروفایل', Icons.check, ()=>uploadProfile(), context),
+      appBar: Env.myBar('Profile Settings', Icons.check, ()=>uploadProfile(), context),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: ListView(
@@ -98,7 +98,7 @@ class ProfileState extends State<Profile> {
                       ),
                     ) : CircleAvatar(radius: 77,
                       backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                      foregroundImage: NetworkImage(Env.urlPhoto + "mypic.jpg"),
+                      foregroundImage: NetworkImage(Env.urlPhoto + fileName),
                     ),
                   ),
                 ),
@@ -257,7 +257,7 @@ class ProfileState extends State<Profile> {
                                     "tailorName": tailorName,
                                     "studioName": studioName,
                                     "userPhone": newValue.text,
-                                    "userEmail": widget.post.userEmail,
+                                    "userEmail": email,
                                     "userAddress": address,
                                     "userID": userID
                                   };
@@ -266,7 +266,7 @@ class ProfileState extends State<Profile> {
                                   myData = {
                                     "tailorName": tailorName,
                                     "studioName": studioName,
-                                    "userPhone": widget.post.userPhone,
+                                    "userPhone": phone,
                                     "userEmail": newValue.text,
                                     "userAddress": address,
                                     "userID": userID
@@ -295,8 +295,8 @@ class ProfileState extends State<Profile> {
                               http.Response res = await http.post(Uri.parse(Env.url+"userUpdate.php"),body: jsonEncode(myData));
                               String result = res.body.toString();
                               if (result == "Success"){
-                                print("Update Success"+result);
-                                await Env.responseDialog(Env.successTitle,'موفقانه آپدیت شد!',DialogType.SUCCES, context, () { });
+                                print("Update " + result);
+                                await Env.responseDialog(Env.successTitle,'موفقانه آپدیت شد',DialogType.SUCCES, context, () { });
                                 Navigator.pop(context);
                               }else if (result == "Failed"){
                                 await Env.errorDialog(
