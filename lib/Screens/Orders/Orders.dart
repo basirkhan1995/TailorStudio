@@ -112,7 +112,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
                   List<MyOrders> posts = snapshot.data;
                   return ListView(
                     children: posts.map((MyOrders post) =>
-                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, UserOrderDetails(post,null), (0xFF6F35A5), context, _animation, _animation2))
+                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, UserOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
                         .toList(),
                   );
                 } else if(snapshot.data == null) {

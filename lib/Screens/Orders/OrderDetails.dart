@@ -6,13 +6,11 @@ import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:http/http.dart' as http;
-import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/HttpServices/OrderList.dart';
 
 class UserOrderDetails extends StatefulWidget {
   final MyOrders data;
-  final Customer post;
-  UserOrderDetails(this.data,this.post);
+  UserOrderDetails(this.data);
 
   @override
   _UserOrderDetailsState createState() => _UserOrderDetailsState();

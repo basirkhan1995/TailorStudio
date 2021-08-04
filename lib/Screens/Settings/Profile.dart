@@ -104,18 +104,21 @@ class ProfileState extends State<Profile> {
                 ),
               ),
             ),
-            Column(
-              children: [
-                Env.tile('اسم', tailorName??'', Icons.person_rounded, ()=>_updateData(context,tailorName??"", 1), context),
-                Divider(endIndent: 20,indent: 20),
-                Env.tile('خیاطی', studioName??'', Icons.home, ()=>_updateData(context,studioName??"", 2), context),
-                Divider(endIndent: 20,indent: 20),
-                Env.tile('شماره تماس', phone??'', Icons.call, ()=>_updateData(context,phone??"", 3), context),
-                Divider(endIndent: 20,indent: 20),
-                Env.tile('ایمل آدرس', email??'', Icons.email_rounded, ()=>_updateData(context,email??"", 4), context),
-                Divider(endIndent: 20,indent: 20),
-                Env.tile('آدرس', address??'', Icons.location_on, ()=>_updateData(context,address??"", 5), context),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Column(
+                children: [
+                  Env.tile('اسم', tailorName??'', Icons.person_rounded, ()=>_updateData(context,tailorName??"", 1), context),
+                  Divider(height: 0,indent: 20,endIndent: 20),
+                  Env.tile('خیاطی', studioName??'', Icons.home, ()=>_updateData(context,studioName??"", 2), context),
+                  Divider(height: 0,indent: 20,endIndent: 20),
+                  Env.tile('شماره تماس', phone??'', Icons.call, ()=>_updateData(context,phone??"", 3), context),
+                  Divider(height: 0,indent: 20,endIndent: 20),
+                  Env.tile('ایمل آدرس', email??'', Icons.email_rounded, ()=>_updateData(context,email??"", 4), context),
+                  Divider(height: 0,indent: 20,endIndent: 20),
+                  Env.tile('آدرس', address??'', Icons.location_on, ()=>_updateData(context,address??"", 5), context),
+                ],
+              ),
             )
           ],
         ),

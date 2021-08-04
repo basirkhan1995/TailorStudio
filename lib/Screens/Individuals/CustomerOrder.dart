@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
 import 'dart:ui';
 import '../../wait.dart';
 
-
 class CustomerOrder extends StatefulWidget {
-  final Customer my;
-  CustomerOrder(this.my);
+  final Customer post;
+  CustomerOrder(this.post);
 
   @override
   _CustomerOrderState createState() => _CustomerOrderState();
@@ -57,14 +57,14 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
     super.dispose();
   }
 
-  Future<List<Customer>> fetchCustomerOrders() async {
-    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.my.customerId}"))
+  Future<List<Orders>> fetchCustomerOrders() async {
+    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerId}"))
         .timeout(Duration(seconds: 5));
     if (response.statusCode == 200) {
       //print(response.body);
       List<dynamic> body = jsonDecode(response.body);
-      List<Customer> posts =
-      body.map((dynamic item) => Customer.fromJson(item)).toList();
+      List<Orders> posts =
+      body.map((dynamic item) => Orders.fromJson(item)).toList();
       //print(posts);
       return posts;
     } else {
@@ -87,18 +87,19 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
        BackgroundColor(),
         /// ListView
         Directionality(
-          textDirection: TextDirection.rtl,
+          textDirection: TextDirection.ltr,
           child: FutureBuilder(
             future: fetchCustomerOrders(),
             builder: (BuildContext context,
-                AsyncSnapshot<List<Customer>> snapshot) {
+                AsyncSnapshot<List<Orders>> snapshot) {
               if (snapshot.hasData) {
-                List<Customer> posts = snapshot.data;
+                List<Orders> posts = snapshot.data;
                 return Padding(
                   padding: const EdgeInsets.only(top: 60),
                   child: ListView(
-                    children: posts.map((Customer post) =>
-                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, CustomerOrderDetails(null,widget.my), (0xFF6F35A5), context, _animation, _animation2))
+                    children: posts.map((Orders post) =>
+                        Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
+                            Icons.shopping_cart_rounded, CustomerOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
                         .toList(),
                   ),
                 );

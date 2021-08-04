@@ -43,41 +43,43 @@ class _NewOrderState extends State<NewOrder> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Env.myOrder('نوعیت فرمایش:','پیراهن تنبان، واسکت، کرتی پطلون', designType,'نوع'),
-                  Env.myOrder('نوعیت دوخت:', 'هندی، پاکستانی، ترکی', orderType, 'دوخت'),
-                  Env.myOrder('تعداد فرمایش:', 'تعداد جوره لباس', qty, '0'),
-                  Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', amount, '0'),
-                  Env.myOrder('رسید:', 'پول پیش پرداخت', advanceAmount, '0'),
-                  Text('دیزاین آستین'),
+                  Env.myOrder('نوعیت فرمایش:','پیراهن تنبان، واسکت، کرتی پطلون', designType,''),
+                  Env.myOrder('نوعیت دوخت:', 'هندی، پاکستانی، ترکی', orderType, ''),
+                  Env.myOrder('نوعیت دوخت یخن:', 'قاسمی، هندی، چپه یخن', orderType, ''),
+                  Env.myOrder('دوخت دهن آستین:', 'کف دار، محرابی، دکمه دار', orderType, ' '),
+                  Env.myOrder('متراژ رخت:', 'تعداد متراژ رخت', orderType, ''),
+                  Env.myOrder('تعداد فرمایش:', 'تعداد جوره لباس', qty, ''),
+                  Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', amount, ''),
+                  Env.myOrder('رسید:', 'پول پیش پرداخت', advanceAmount, ''),
                   Env.dateTimePicker('Date of Issue'),
                   Env.dateTimePicker('Delivery Date'),
                   DescriptionField(hintText: 'ملاحظات',icon: Icons.info,inputType: TextInputType.text),
                   dropMenu(),
 
-                  DropdownButtonHideUnderline(
-                    child: ButtonTheme(
-                      minWidth: 80,
-                      padding: EdgeInsets.symmetric(vertical: 5,horizontal: 80),
-                      child: DropdownButton(
-                        elevation: 20,
-                        hint: Text('Select value'),
-                        value: dropdownvalue,
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        items:items.map((String items) {
-                          return DropdownMenuItem(
-                              value: items,
-                              child: Text(items)
-                          );
-                        }
-                        ).toList(),
-                        onChanged: (String newValue){
-                          setState(() {
-                            dropdownvalue = newValue;
-                          });
-                        },
-                      )
-                    ),
-                  )
+                  // DropdownButtonHideUnderline(
+                  //   child: ButtonTheme(
+                  //     minWidth: 80,
+                  //     padding: EdgeInsets.symmetric(vertical: 5,horizontal: 80),
+                  //     child: DropdownButton(
+                  //       elevation: 20,
+                  //       hint: Text('Select value'),
+                  //       value: dropdownvalue,
+                  //       icon: Icon(Icons.keyboard_arrow_down),
+                  //       items:items.map((String items) {
+                  //         return DropdownMenuItem(
+                  //             value: items,
+                  //             child: Text(items)
+                  //         );
+                  //       }
+                  //       ).toList(),
+                  //       onChanged: (String newValue){
+                  //         setState(() {
+                  //           dropdownvalue = newValue;
+                  //         });
+                  //       },
+                  //     )
+                  //   ),
+                  // )
                 ],
               ),
             ),

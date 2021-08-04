@@ -26,7 +26,7 @@ class RoundedBorderedField extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
         child: TextFormField(
           textInputAction: TextInputAction.next,
           cursorColor: PurpleColor,

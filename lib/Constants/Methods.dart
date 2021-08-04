@@ -10,6 +10,7 @@ import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
+import 'package:tailor/Screens/Settings/Settings.dart';
 
 
 class Env {
@@ -454,7 +455,7 @@ class Env {
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 30,
+                              fontSize: _w / 25,
                               letterSpacing: 1,
                               wordSpacing: 1,
                               color: WhiteColor,
@@ -468,7 +469,7 @@ class Env {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: _w / 30,
+                              fontSize: _w / 26,
                             ),
                           ),
                         ],
@@ -478,6 +479,48 @@ class Env {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  //My Appbar
+  static Widget appBarr(title, context) {
+    double _w = MediaQuery.of(context).size.width;
+    return PreferredSize(
+      preferredSize: Size(double.infinity, kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        child: AppBar(
+          centerTitle: true,
+          brightness: Brightness.light,
+          backgroundColor: LightColor,
+          elevation: 5,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: _w / 18,
+              color: Colors.black.withOpacity(.7),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          leading: IconButton(
+            tooltip: 'Settings',
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return Settings();
+                  },
+                ),
+              );
+            },
           ),
         ),
       ),

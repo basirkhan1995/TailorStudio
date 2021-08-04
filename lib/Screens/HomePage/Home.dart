@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -118,53 +117,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       child: Scaffold(
         endDrawer: drawer(),
         extendBodyBehindAppBar: true,
-        appBar: apBar(),
+        appBar: Env.appBarr("$studioName",context),
         body: dashboard(),
       ),
     );
   }
 
-  //My Appbar
-  Widget apBar() {
-    double _w = MediaQuery.of(context).size.width;
-    return PreferredSize(
-      preferredSize: Size(double.infinity, kToolbarHeight),
-      child: ClipRRect(
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-        child: AppBar(
-          centerTitle: true,
-          brightness: Brightness.light,
-          backgroundColor: LightColor,
-          elevation: 0,
-          title: Text(
-            "$studioName",
-            style: TextStyle(
-              fontSize: _w / 17,
-              color: Colors.black.withOpacity(.7),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          leading: IconButton(
-            tooltip: 'Settings',
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Settings();
-                  },
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
+
 
   //Home Page Cards
   Widget dashboard() {
