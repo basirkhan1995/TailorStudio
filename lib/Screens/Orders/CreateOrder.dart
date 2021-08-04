@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tailor/Components/DescriptionField.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
-import 'package:group_radio_button/group_radio_button.dart';
+
 
 class NewOrder extends StatefulWidget {
   final Customer post;

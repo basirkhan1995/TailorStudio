@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
+
 import 'package:tailor/Screens/Individuals/Base_Details.dart';
 
 

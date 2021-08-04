@@ -33,7 +33,7 @@ class _CustomerFameState extends State<CustomerFame> {
   void uploadProfile() async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
       "fileName": imageFile.path,
-      "customerID": widget.post.customerID
+      "customerID": widget.post.customerId
     }));
     String result = res.body.toString();
     // print(widget.post.customerID);
@@ -206,7 +206,7 @@ class _CustomerFameState extends State<CustomerFame> {
                                 "firstName": newValue.text,
                                 "lastName": widget.post.lastName,
                                 "phone": widget.post.phone,
-                                "customerID": widget.post.customerID
+                                "customerID": widget.post.customerId
                               };
                               break;
                             case 2:
@@ -215,7 +215,7 @@ class _CustomerFameState extends State<CustomerFame> {
                                 "firstName": widget.post.firstName,
                                 "lastName": newValue.text,
                                 "phone": widget.post.phone,
-                                "customerID": widget.post.customerID
+                                "customerID": widget.post.customerId
                               };
                               break;
                             case 3:
@@ -224,7 +224,7 @@ class _CustomerFameState extends State<CustomerFame> {
                                 "firstName": widget.post.firstName,
                                 "lastName": widget.post.lastName,
                                 "phone": newValue.text,
-                                "customerID": widget.post.customerID
+                                "customerID": widget.post.customerId
                               };
                               break;
                             case 4:
@@ -233,7 +233,7 @@ class _CustomerFameState extends State<CustomerFame> {
                                 "firstName": widget.post.firstName,
                                 "lastName": widget.post.lastName,
                                 "phone": widget.post.phone,
-                                "customerID": widget.post.customerID
+                                "customerID": widget.post.customerId
                               };
                               break;
                             default:
@@ -242,7 +242,7 @@ class _CustomerFameState extends State<CustomerFame> {
                                 "firstName": widget.post.firstName,
                                 "lastName": widget.post.lastName,
                                 "phone": widget.post.phone,
-                                "customerID": widget.post.customerID
+                                "customerID": widget.post.customerId
                               };
                           }
                           http.Response res = await http.post(Uri.parse(Env.url+"customerUpdate.php"),body: jsonEncode(myData));

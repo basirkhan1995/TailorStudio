@@ -97,7 +97,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 2:
@@ -110,7 +110,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 3:
@@ -123,7 +123,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 4:
@@ -136,7 +136,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 5:
@@ -149,7 +149,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 6:
@@ -162,7 +162,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": newValue.text,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 7:
@@ -175,7 +175,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": newValue.text,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 case 8:
@@ -188,7 +188,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": newValue.text,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                                   break;
                                 default:
@@ -201,7 +201,7 @@ class CustomerMeasure extends StatelessWidget {
                                     "skirt": post.skirt,
                                     "pantHeight": post.pantHeight,
                                     "legWidth": post.legWidth,
-                                    "measureID":post.measureID
+                                    "measureID":post.measureId
                                   };
                               }
                               http.Response res = await http.post(Uri.parse(Env.url+"measureUpdate.php"),body: jsonEncode(myData));

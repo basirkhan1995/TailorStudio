@@ -131,7 +131,7 @@ class _IndividualState extends State<Individual> {
                               post.firstName + " " + post.lastName, style: TextStyle(fontWeight: FontWeight.bold,
                               color: GreyColor)),
                           subtitle: Text(
-                              "CUSTOMER ID#: "+ post.customerID, style: TextStyle(fontSize: 12)),
+                              "CUSTOMER ID#: "+ post.customerId, style: TextStyle(fontSize: 12)),
                           trailing: PopupMenuButton(
                             icon: Icon(Icons.more_vert,
                                 color: PurpleColor),
@@ -176,7 +176,7 @@ class _IndividualState extends State<Individual> {
                                           await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
                                           if(Env.checkYesNoLogin == true){
                                             print("result = " + Env.checkYesNoLogin.toString());
-                                            deleteCustomer(post.customerID);
+                                            deleteCustomer(post.customerId);
                                             Navigator.pop(context);
                                           }else{
                                             print("result = "+ Env.checkYesNoLogin.toString());

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
@@ -11,9 +10,8 @@ import '../../wait.dart';
 
 
 class CustomerOrder extends StatefulWidget {
-  final Customer post;
-  CustomerOrder(this.post);
-
+  final Customer my;
+  CustomerOrder(this.my);
 
   @override
   _CustomerOrderState createState() => _CustomerOrderState();
@@ -59,14 +57,14 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
     super.dispose();
   }
 
-  Future<List<Orders>> fetchCustomerOrders() async {
-    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerID}"))
+  Future<List<Customer>> fetchCustomerOrders() async {
+    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.my.customerId}"))
         .timeout(Duration(seconds: 5));
     if (response.statusCode == 200) {
       //print(response.body);
       List<dynamic> body = jsonDecode(response.body);
-      List<Orders> posts =
-      body.map((dynamic item) => Orders.fromJson(item)).toList();
+      List<Customer> posts =
+      body.map((dynamic item) => Customer.fromJson(item)).toList();
       //print(posts);
       return posts;
     } else {
@@ -93,14 +91,14 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
           child: FutureBuilder(
             future: fetchCustomerOrders(),
             builder: (BuildContext context,
-                AsyncSnapshot<List<Orders>> snapshot) {
+                AsyncSnapshot<List<Customer>> snapshot) {
               if (snapshot.hasData) {
-                List<Orders> posts = snapshot.data;
+                List<Customer> posts = snapshot.data;
                 return Padding(
                   padding: const EdgeInsets.only(top: 60),
                   child: ListView(
-                    children: posts.map((Orders post) =>
-                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, CustomerOrderDetails(null), (0xFF6F35A5), context, _animation, _animation2))
+                    children: posts.map((Customer post) =>
+                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, CustomerOrderDetails(null,widget.my), (0xFF6F35A5), context, _animation, _animation2))
                         .toList(),
                   ),
                 );

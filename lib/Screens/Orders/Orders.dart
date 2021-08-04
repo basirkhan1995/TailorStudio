@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/OrderList.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
-import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
 import 'dart:ui';
 import '../../wait.dart';
+import 'OrderDetails.dart';
 
 
 class Orders extends StatefulWidget {
@@ -19,7 +19,6 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> with TickerProviderStateMixin{
-
   AnimationController _controller;
   AnimationController _controller2;
   Animation<double> _animation;
@@ -100,44 +99,34 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: Env.appBar(context, 'Orders'),
-      body: dashboard(),
-    );
-  }
-  //Home Page Cards
-  Widget dashboard(){
-    //double _w = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        // background color
-        BackgroundColor(),
-        /// ListView
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: FutureBuilder(
-            future: fetchUserOrders(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<MyOrders>> snapshot) {
-              if (snapshot.hasData) {
-                List<MyOrders> posts = snapshot.data;
-                return Padding(
-                  padding: const EdgeInsets.only(top: 37),
-                  child: ListView(
+      body: Stack(
+        children: [
+          BackgroundColor(),
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: FutureBuilder(
+              future: fetchUserOrders(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<MyOrders>> snapshot) {
+                if (snapshot.hasData) {
+                  List<MyOrders> posts = snapshot.data;
+                  return ListView(
                     children: posts.map((MyOrders post) =>
-                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, CustomerOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
+                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, UserOrderDetails(post,null), (0xFF6F35A5), context, _animation, _animation2))
                         .toList(),
-                  ),
-                );
-              } else if(snapshot.data == null) {
-                return LoadingCircle();
-              }else if (snapshot.hasError){
-                return Text('Error');
-              } else{
-                return LoadingCircle();
-              }
-            },
+                  );
+                } else if(snapshot.data == null) {
+                  return LoadingCircle();
+                }else if (snapshot.hasError){
+                  return Text('Error');
+                } else{
+                  return LoadingCircle();
+                }
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -6,11 +6,13 @@ import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:http/http.dart' as http;
+import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/HttpServices/OrderList.dart';
 
 class CustomerOrderDetails extends StatefulWidget {
   final MyOrders data;
-  CustomerOrderDetails(this.data);
+  final Customer post;
+  CustomerOrderDetails(this.data,this.post);
 
   @override
   _CustomerOrderDetailsState createState() => _CustomerOrderDetailsState();
@@ -34,17 +36,17 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
             child: ListView(
               children: [
                 SizedBox(height: 10),
-                Env.customTile('شماره مسلسل:','C'+widget.data.customerId+'ORD'+widget.data.orderId??'',VoidCallback, context),
-                Env.customTile('نوعیت فرمایش:',widget.data.orderType??'',()=>_updateData(context, widget.data.orderType, 1), context),
-                Env.customTile('دیزاین:',widget.data.designType??'',()=>_updateData(context, widget.data.designType, 2), context),
-                Env.customTile('تعداد فرمایش:',widget.data.quantity+' جوره '??'',()=>_updateData(context, widget.data.quantity, 3), context),
-                Env.customTile('قیمت:',widget.data.amount??'',()=>_updateData(context, widget.data.amount, 4), context),
-                Env.customTile('رسید پول:',widget.data.receivedAmount??'',()=>_updateData(context, widget.data.receivedAmount, 5), context),
-                Env.customTile('مجموعه بیلانس:',widget.data.total??'',VoidCallback, context),
-                Env.customTile('وضعیت:',widget.data.orderState??'',()=>_updateData(context, widget.data.orderState, 6), context),
-                Env.customTile('تاریخ:',widget.data.orderType??'',()=>_updateData(context, widget.data.orderType, 7), context),
-                Env.customTile('تاریخ تسلیمی:',widget.data.orderType??'',()=>_updateData(context, widget.data.orderType, 8), context),
-                Env.customTile('ملاحظات:',widget.data.remarks??'',()=>_updateData(context, widget.data.remarks, 9), context),
+                Env.customTile('شماره مسلسل:','C'+widget.post.customerId+'ORD'+widget.post.orderId??'',VoidCallback, context),
+                Env.customTile('نوعیت فرمایش:',widget.post.orderType??'',()=>_updateData(context, widget.post.orderType, 1), context),
+                Env.customTile('دیزاین:',widget.post.designType??'',()=>_updateData(context, widget.post.designType, 2), context),
+                Env.customTile('تعداد فرمایش:',widget.post.quantity+' جوره '??'',()=>_updateData(context, widget.post.quantity, 3), context),
+                Env.customTile('قیمت:',widget.post.amount??'',()=>_updateData(context, widget.post.amount, 4), context),
+                Env.customTile('رسید پول:',widget.post.receivedAmount??'',()=>_updateData(context, widget.post.receivedAmount, 5), context),
+                Env.customTile('مجموعه بیلانس:',widget.post.total??'',VoidCallback, context),
+                Env.customTile('وضعیت:',widget.post.orderState??'',()=>_updateData(context, widget.post.orderState, 6), context),
+                Env.customTile('تاریخ:',widget.post.orderType??'',()=>_updateData(context, widget.post.orderType, 7), context),
+                Env.customTile('تاریخ تسلیمی:',widget.post.orderType??'',()=>_updateData(context, widget.post.orderType, 8), context),
+                Env.customTile('ملاحظات:',widget.post.remarks??'',()=>_updateData(context, widget.post.remarks, 9), context),
                 SizedBox(height: 10),
               ],
             )
@@ -97,14 +99,12 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                                switch(fieldNo){
                                  case 1:
                                    myData = {
-                                     "shoulder": newValue.text,
 
                                    };
                                    break;
                                  default:
                                    myData = {
-                                     "orderID": widget.data.orderId,
-                                     "orderID": widget.data.orderId,
+
 
 
                                    };
