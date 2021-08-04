@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:persian_fonts/persian_fonts.dart';
-import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
@@ -14,8 +11,9 @@ import '../../wait.dart';
 
 
 class CustomerOrder extends StatefulWidget {
-  final Customer retrieve;
-  CustomerOrder(this.retrieve);
+  final Customer post;
+  CustomerOrder(this.post);
+
 
   @override
   _CustomerOrderState createState() => _CustomerOrderState();
@@ -62,10 +60,10 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   }
 
   Future<List<Orders>> fetchCustomerOrders() async {
-    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.retrieve.customerID}"))
+    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerID}"))
         .timeout(Duration(seconds: 5));
     if (response.statusCode == 200) {
-      //print(res);
+      //print(response.body);
       List<dynamic> body = jsonDecode(response.body);
       List<Orders> posts =
       body.map((dynamic item) => Orders.fromJson(item)).toList();
@@ -102,7 +100,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                   padding: const EdgeInsets.only(top: 60),
                   child: ListView(
                     children: posts.map((Orders post) =>
-                        card('C'+ post.customerId +'ORD'+ post.orderId,post.firstName +' '+ post.lastName, Icons.home, CustomerOrderDetails(post), post.orderState))
+                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, CustomerOrderDetails(null), (0xFF6F35A5), context, _animation, _animation2))
                         .toList(),
                   ),
                 );
@@ -117,111 +115,6 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
           ),
         ),
       ],
-    );
-  }
-
-  Widget card(String title, String subtitle, IconData icon, Widget route,orderState) {
-    double _w = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: _animation.value,
-      child: Transform.translate(
-        offset: Offset(0, _animation2.value),
-        child: Container(
-          height: _w / 2.3,
-          width: _w,
-          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => route));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: WhiteColor.withOpacity(.5),
-                      offset: Offset(2.0, 2.0), //(x,y)
-                      blurRadius: 40.0,
-                    ),
-                  ],
-                  color: PurpleColor,
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
-              child: Padding(
-                padding: EdgeInsets.all(_w / 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: _w / 3,
-                      width: _w / 3,
-                      decoration: BoxDecoration(
-                          color: WhiteColor.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Icon(
-                          Icons.insert_chart_rounded,
-                        color: WhiteColor,
-                        size: _w / 4,
-                      ),
-                    ),
-                    SizedBox(width: _w / 40),
-                    SizedBox(
-                      width: _w / 2.05,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /18,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /22,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            orderState,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: _w / 22,
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

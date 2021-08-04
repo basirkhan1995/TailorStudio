@@ -379,7 +379,7 @@ class Env {
   }
 
   //Dashboard Widgets
- static Widget card(String title, String subtitle, IconData icon, Widget route, paint,context,animation1, animation2) {
+ static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2) {
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: animation1.value,
@@ -462,7 +462,7 @@ class Env {
                             ),
                           ),
                           Text(
-                            'Tap to know more',
+                            trailing,
                             maxLines: 1,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,

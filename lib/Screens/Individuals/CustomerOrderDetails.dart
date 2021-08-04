@@ -5,11 +5,11 @@ import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:tailor/HttpServices/OrderList.dart';
 
 class CustomerOrderDetails extends StatefulWidget {
-  final Orders data;
+  final MyOrders data;
   CustomerOrderDetails(this.data);
 
   @override

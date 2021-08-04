@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:tailor/HttpServices/IndividualsModel.dart';
-import 'package:tailor/HttpServices/RegisterModel.dart';
 import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,9 +17,7 @@ import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
 
 class Dashboard extends StatefulWidget {
-  final Register post;
-  final Future<List<Customer>> customer;
-  Dashboard({this.customer,this.post});
+
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -182,15 +178,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             children: [
               SizedBox(height: _w / 5.5),
-              Env.card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری',
+              Env.card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری','Tap to see more',
                   Icons.person_add_alt_1, NewClient(), 0xff6666ff, context, _animation,_animation2),
-              Env.card('لیست مشتریان', 'اندازه و فرمایش مشتری',
+              Env.card('لیست مشتریان', 'اندازه و فرمایش مشتری','Tap to see more',
                   Icons.people_alt_rounded, Individual(), 0xff3366cc, context, _animation,_animation2),
-              Env.card('لیست فرمایشات', 'فرمایش مشتریان', Icons.shopping_cart,
-                  Orders(), 0xFF6F35A5, context, _animation,_animation2),
-              Env.card('طرح دوخت هــا', 'نمایشگاه', Icons.photo_size_select_actual,
+              Env.card('لیست فرمایشات', 'فرمایش مشتریان','Tap to see more', Icons.shopping_cart,
+                  Orders(null), 0xFF6F35A5, context, _animation,_animation2),
+              Env.card('طرح دوخت هــا', 'نمایشگاه','Tap to see more', Icons.photo_size_select_actual,
                   Album(), 0xFFac3973, context, _animation,_animation2),
-              Env.card('تنظیمات', 'تنظیم حساب', Icons.settings, Settings(),
+              Env.card('تنظیمات', 'تنظیم حساب','Tap to see more', Icons.settings, Settings(),
                   0xFF3385ff, context, _animation,_animation2),
             ],
           ),
@@ -229,7 +225,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               // Drawer List of Objects
               SizedBox(height: 10),
               Env.myTile('ثبت مشتری جدید', Icons.person_add_alt_1_rounded, NewClient(),context),
-              Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(),context),
+              Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(null),context),
               Env.myTile('مشتریان', Icons.people_alt_rounded, Individual(),context),
               Env.myTile('نمایشگاه', Icons.photo, Album(),context),
               Env.myTile('تنظیمات', Icons.settings, Settings(),context),

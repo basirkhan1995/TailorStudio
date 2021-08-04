@@ -1,19 +1,25 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:persian_fonts/persian_fonts.dart';
-import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/OrderList.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
+import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
 import 'dart:ui';
-import 'package:tailor/Screens/Orders/OrderDetails.dart';
+import '../../wait.dart';
+
 
 class Orders extends StatefulWidget {
+  final MyOrders orderPost;
+  Orders (this.orderPost);
 
   @override
   _OrdersState createState() => _OrdersState();
 }
 
 class _OrdersState extends State<Orders> with TickerProviderStateMixin{
+
   AnimationController _controller;
   AnimationController _controller2;
   Animation<double> _animation;
@@ -21,10 +27,12 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
 
   @override
   void initState() {
+    initial();
     super.initState();
     _controller2 = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
+
     );
 
     _controller = AnimationController(
@@ -45,6 +53,27 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
     _controller2.forward();
   }
 
+  SharedPreferences loginData;
+  String tailorName  = "Tailor Name";
+  String studioName  = "Tailor Studio";
+  String tailorEmail = "Tailor Email";
+  String username    = "username";
+  String userID      = "userID";
+
+
+
+
+  void initial() async {
+    loginData = await SharedPreferences.getInstance();
+    setState(() {
+      username = loginData.getString('username');
+      tailorName = loginData.getString('tailorName');
+      studioName = loginData.getString('studioName');
+      tailorEmail = loginData.getString('userEmail');
+      userID = loginData.getString('userID');
+    });
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -52,17 +81,31 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
     super.dispose();
   }
 
+  Future<List<MyOrders>> fetchUserOrders() async {
+    var response = await get(Uri.parse(Env.url + "userOrders.php?id=$userID"))
+        .timeout(Duration(seconds: 10));
+    if (response.statusCode == 200) {
+      //print(res);
+      List<dynamic> body = jsonDecode(response.body);
+      List<MyOrders> posts =
+      body.map((dynamic item) => MyOrders.fromJson(item)).toList();
+      //print(posts);
+      return posts;
+    } else {
+      throw "Error";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: Env.appBar(context,'فرمایشات مشتریان'),
+      appBar: Env.appBar(context, 'Orders'),
       body: dashboard(),
     );
   }
   //Home Page Cards
   Widget dashboard(){
-    double _w = MediaQuery.of(context).size.width;
+    //double _w = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         // background color
@@ -70,127 +113,32 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
         /// ListView
         Directionality(
           textDirection: TextDirection.rtl,
-          child: ListView(
-            physics:
-            BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-
-              SizedBox(height: _w / 5.5),
-
-              card('#50002', 'پیراهن تنبان کرزیی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50005', 'واسکت پاکستانی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, Orders(),'Pending'),
-              card('#50005', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Pending'),
-              card('#50009', 'پیراهن تنبان قاسمی', Icons.insert_chart_rounded, OrderDetails(),'Completed'),
-            ],
+          child: FutureBuilder(
+            future: fetchUserOrders(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<MyOrders>> snapshot) {
+              if (snapshot.hasData) {
+                List<MyOrders> posts = snapshot.data;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 37),
+                  child: ListView(
+                    children: posts.map((MyOrders post) =>
+                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, CustomerOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
+                        .toList(),
+                  ),
+                );
+              } else if(snapshot.data == null) {
+                return LoadingCircle();
+              }else if (snapshot.hasError){
+                return Text('Error');
+              } else{
+                return LoadingCircle();
+              }
+            },
           ),
         ),
       ],
     );
   }
 
-  Widget card(String title, String subtitle, IconData icon, Widget route,orderState) {
-    double _w = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: _animation.value,
-      child: Transform.translate(
-        offset: Offset(0, _animation2.value),
-        child: Container(
-          height: _w / 2.3,
-          width: _w,
-          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => route));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: GreyColor.withOpacity(.5),
-                      offset: Offset(2.0, 2.0), //(x,y)
-                      blurRadius: 40.0,
-                    ),
-                  ],
-                  color: PurpleColor,
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
-              child: Padding(
-                padding: EdgeInsets.all(_w / 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: _w / 3,
-                      width: _w / 3,
-                      decoration: BoxDecoration(
-                          color: WhiteColor.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Icon(
-                        icon,
-                        color: WhiteColor,
-                        size: _w / 4,
-                      ),
-                    ),
-                    SizedBox(width: _w / 40),
-                    SizedBox(
-                      width: _w / 2.05,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /18,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w /30,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            orderState,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: _w / 30,
-                              fontWeight: FontWeight.w500
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
