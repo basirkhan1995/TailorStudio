@@ -31,7 +31,7 @@ class DescriptionField extends StatelessWidget {
           maxLines: 5,
           maxLength: 200,
           textInputAction: TextInputAction.next,
-          cursorColor: PurpleColor,
+          cursorColor: GreyColor,
           cursorHeight: 25,
           cursorWidth: 1,
           validator: (value) {
@@ -46,20 +46,20 @@ class DescriptionField extends StatelessWidget {
           decoration: InputDecoration(
               errorBorder: OutlineInputBorder(
                 gapPadding: 5,
-                borderSide: BorderSide(width: 1, color: PurpleColor),
+                borderSide: BorderSide(width: 1, color: GreyColor),
                 borderRadius: BorderRadius.circular(10),
               ),
-              prefixIcon: Icon(icon,color: PurpleColor,size: 25),
-              suffixIcon: Icon(prefix,color: PurpleColor,size: 25),
+              prefixIcon: Icon(icon,color: GreyColor,size: 25),
+              suffixIcon: Icon(prefix,color: GreyColor,size: 25),
               labelText: hintText,
               enabledBorder: OutlineInputBorder(
                 gapPadding: 5,
-                borderSide: BorderSide(width: 1, color: PurpleColor),
+                borderSide: BorderSide(width: 1, color: GreyColor),
                 borderRadius: BorderRadius.circular(10),
               ),
               focusedBorder: OutlineInputBorder(
                 gapPadding: 5,
-                borderSide: BorderSide(width: 1.5, color: PurpleColor),
+                borderSide: BorderSide(width: 1.5, color: GreyColor),
                 borderRadius: BorderRadius.circular(10),
               )),
         ),

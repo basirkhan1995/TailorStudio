@@ -29,7 +29,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String tailorEmail = "Tailor Email";
   String username    = "username";
   String userID      = "userID";
-  String fileName = "mypic.jpg";
+  String fileName = "";
   bool checkLogin;
   int currentIndex = 0;
 
@@ -117,7 +117,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       child: Scaffold(
         endDrawer: drawer(),
         extendBodyBehindAppBar: true,
-        appBar: Env.appBarr("$studioName",context),
+        appBar: Env.appBarr("Hi, " + "$studioName",context),
         body: dashboard(),
       ),
     );

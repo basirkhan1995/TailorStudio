@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/Settings/Profile.dart';
+import 'package:tailor/Screens/Settings/language.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -65,7 +66,7 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           Env.settingTile('Account', 'Change name, phone, email', Icons.account_circle, Profile(), context),
-          Env.settingTile('Language', 'English, Persian', Icons.language, Profile(), context),
+          Env.settingTile('Language', 'English, Persian', Icons.language, Language(), context),
           Env.settingTile('Notifications', 'To send message for delivery', Icons.notifications_active, Profile(), context),
           Env.settingTile('Help', 'Contact us', Icons.help_rounded, Profile(), context),
         ],

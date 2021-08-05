@@ -239,25 +239,44 @@ class Env {
   }
 
   //Measurement Method
-  static Widget myOrder(title,subtitle,controller,hint){
+  static Widget myOrder(title,subtitle,controller,hintText,prefix,inputType){
     return Padding(
       padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
       child: Container(
         padding: EdgeInsets.only(top: 3, bottom: 6,left: 10,right: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: PurpleColor)
+            border: Border.all(color: GreyColor)
         ),
         child: ListTile(
-          title: Text(title,style:Env.style(17, PurpleColor)),
+          title: Text(title,style:Env.style(17, GreyColor)),
           subtitle: Text(subtitle),
           trailing: ConstrainedBox(
             constraints: BoxConstraints(
                 minWidth: 48),
             child: IntrinsicWidth(
-              child: MeasureField(
+              child:TextFormField(
+                maxLines: 1,
+                textInputAction: TextInputAction.next,
+                cursorColor: PurpleColor,
+                cursorHeight: 25,
+                cursorWidth: 1,
+                textAlign: TextAlign.right,
+                keyboardType: inputType,
                 controller: controller,
-                hintText: hint,
+                decoration: InputDecoration(
+                    hintText: hintText,
+                    prefixText: prefix,
+                    prefixStyle: TextStyle(
+                        fontSize: 17,
+                        color: GreyColor
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(width: 1.5, color: GreyColor),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(width: 2, color: GreyColor),
+                    )),
               ),
             ),
           ),
@@ -297,7 +316,7 @@ class Env {
 
 
 
-  static dateTimePicker(String label){
+  static dateTimePicker(String label,controller){
     return Padding(
       padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
       child: Container(
@@ -307,6 +326,7 @@ class Env {
             border: Border.all(color: PurpleColor)
         ),
         child: DateTimePicker(
+          controller: controller,
           timeFieldWidth: 50,
           style: style(18, PurpleColor),
           type: DateTimePickerType.dateTimeSeparate,
@@ -625,7 +645,7 @@ class Env {
           title: Text(
             title,
             style: TextStyle(
-              fontSize: _w / 17,
+              fontSize: _w / 20,
               color: Colors.black.withOpacity(.7),
               fontWeight: FontWeight.w500,
             ),
