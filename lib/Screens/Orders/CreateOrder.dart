@@ -38,7 +38,11 @@ class _NewOrderState extends State<NewOrder> {
   String valueChoose;
   String valueCollar;
   String valueSleeve;
+  String valueMonths;
+  String valueDays;
   String valueOrder;
+  var days = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'];
+  var months = ['حمل','ثور','جوزا','سرطان','اسد','سنبله','میزان','عقرب','قوس','جدی','دلو','حوت'];
   var items =  ['پیراهن تنبان','واسکت','یخن قاق','کرتی پطلون','پطلون'];
   var design =  ['هندی','پاکستانی','ترکی','افغانی','عربی','کرزیی'];
   var collar =  ['یخن هندی حلقوی','یخن قاسمی','چپه یخن','یخن چاک دار'];
@@ -55,11 +59,10 @@ class _NewOrderState extends State<NewOrder> {
       "sleeve_design": valueSleeve,
       "collar_design": valueCollar,
       "textTile_Meter":textTileMeter.text,
-      "orderDate":"2021-2-8",
-      "deliveryDate":"2021-6-6",
+      "orderDate":"$valueMonths "+" $valueDays",
+      "deliveryDate":"$valueMonths "+" $valueDays",
       "amount":amount.text,
       "receivedAmount":advanceAmount.text,
-
     }));
     String result = res.body.toString();
     print(result);
@@ -95,6 +98,8 @@ class _NewOrderState extends State<NewOrder> {
                   designDownMenu(),
                   collarDownMenu(),
                   sleeveDownMenu(),
+                  monthsDownMenu(),
+                  daysDownMenu(),
                   Env.myOrder('متراژ رخت:', 'تعداد متراژ رخت', textTileMeter, '','',TextInputType.number),
                   Env.myOrder('تعداد فرمایش لباس:', 'تعداد جوره لباس', qty, '','',TextInputType.number),
                   Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', amount, '','',TextInputType.number),
@@ -126,6 +131,8 @@ class _NewOrderState extends State<NewOrder> {
     );
   }
 
+
+  ///Drop Down Menu
   dropDownMenu(){
     return Padding(
       padding: const EdgeInsets.only(left: 8,right: 8,bottom:8.0, top: 8.0 ),
@@ -278,6 +285,85 @@ class _NewOrderState extends State<NewOrder> {
     );
   }
 
+  monthsDownMenu(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 8,right: 8,bottom:8.0, top: 8.0 ),
+      child: Container(
+        padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom: 8, top: 8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border:Border.all(color: GreyColor, width: 1)
+        ),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: DropdownButton(
+            underline: SizedBox(),
+            style: Env.style(17, BlackColor.withOpacity(.6)),
+            elevation: 20,
+            hint: Text('انتخاب تاریخ تسلیمی (ماه):'),
+            value: valueMonths,
+            onChanged: (String newValue){
+              setState(() {
+                valueMonths = newValue;
+              });
+            },
+            isExpanded: true,
+            icon: Icon(Icons.keyboard_arrow_down),
+            items:months.map((String items) {
+              return DropdownMenuItem(
+                  value: items,
+                  child: Text(items)
+              );
+            }
+            ).toList(),
 
+          ),
+        ),
+      ),
+    );
+  }
+
+  daysDownMenu(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 8,right: 8,bottom:8.0, top: 8.0 ),
+      child: Container(
+        padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom: 8, top: 8),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border:Border.all(color: GreyColor, width: 1)
+        ),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Center(
+            child: DropdownButton(
+              menuMaxHeight: 500,
+              dropdownColor: WhiteColor,
+              iconEnabledColor: Colors.red.shade900,
+              underline: SizedBox(),
+              style: Env.style(17, BlackColor.withOpacity(.6)),
+              elevation: 20,
+              hint: Text('انتخاب تسلیمی (روز):'),
+              value: valueDays,
+              onChanged: (String newValue){
+                setState(() {
+                  valueDays = newValue;
+                });
+              },
+              isExpanded: true,
+              icon: Icon(Icons.keyboard_arrow_down),
+              items:days.map((String items) {
+                return DropdownMenuItem(
+                    value: items,
+                    child: Text(items)
+                );
+              }
+              ).toList(),
+
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
 }

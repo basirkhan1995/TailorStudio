@@ -285,6 +285,7 @@ class Env {
     );
   }
 
+
   //Measurement Method
   static Widget myTXTOrder(title,subtitle,controller,hint){
     return Padding(
@@ -611,7 +612,7 @@ class Env {
           HapticFeedback.lightImpact();
           voidCallback();
         },
-        leading: Icon(Icons.article,size: 50,color: PurpleColor,),
+        leading: Icon(Icons.shopping_cart_rounded,size: 30,color: PurpleColor,),
         title: Text(title , style:Env.style(16,PurpleColor)),
         subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
         trailing: Icon(Icons.edit,color: PurpleColor,size: 28),

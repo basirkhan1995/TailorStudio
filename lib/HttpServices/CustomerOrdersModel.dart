@@ -13,6 +13,7 @@ class Orders {
     this.orderId,
     this.orderType,
     this.quantity,
+    this.customer,
     this.remarks,
     this.orderState,
     this.designType,
@@ -40,20 +41,20 @@ class Orders {
     this.waist,
     this.fileName,
     this.tailorName,
-    this.customer,
   });
 
   String orderId;
   String orderType;
   String quantity;
+  String customer;
   String remarks;
   String orderState;
   String designType;
   String sleeveDesign;
   String collarDesign;
   String textTileMeter;
-  DateTime orderDate;
-  DateTime deliveryDate;
+  String orderDate;
+  String deliveryDate;
   String amount;
   String receivedAmount;
   String total;
@@ -73,7 +74,6 @@ class Orders {
   String waist;
   String fileName;
   String tailorName;
-  String customer;
 
   factory Orders.fromJson(Map<String, dynamic> json) => Orders(
     orderId: json["orderID"],
@@ -86,8 +86,8 @@ class Orders {
     sleeveDesign: json["sleeve_design"],
     collarDesign: json["collar_design"],
     textTileMeter: json["textTile_Meter"],
-    orderDate: DateTime.parse(json["orderDate"]),
-    deliveryDate: DateTime.parse(json["deliveryDate"]),
+    orderDate: json["orderDate"],
+    deliveryDate: json["deliveryDate"],
     amount: json["amount"],
     receivedAmount: json["receivedAmount"],
     total: json["total"],
@@ -120,8 +120,8 @@ class Orders {
     "sleeve_design": sleeveDesign,
     "collar_design": collarDesign,
     "textTile_Meter": textTileMeter,
-    "orderDate": "${orderDate.year.toString().padLeft(4, '0')}-${orderDate.month.toString().padLeft(2, '0')}-${orderDate.day.toString().padLeft(2, '0')}",
-    "deliveryDate": "${deliveryDate.year.toString().padLeft(4, '0')}-${deliveryDate.month.toString().padLeft(2, '0')}-${deliveryDate.day.toString().padLeft(2, '0')}",
+    "orderDate": orderDate,
+    "deliveryDate": deliveryDate,
     "amount": amount,
     "receivedAmount": receivedAmount,
     "total": total,

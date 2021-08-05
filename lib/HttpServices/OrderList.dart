@@ -24,6 +24,7 @@ class MyOrders {
     this.sleeveDesign,
     this.collarDesign,
     this.remarks,
+    this.textTileMeter,
     this.orderDate,
     this.deliveryDate,
     this.amount,
@@ -45,8 +46,9 @@ class MyOrders {
   String sleeveDesign;
   String collarDesign;
   String remarks;
-  DateTime orderDate;
-  DateTime deliveryDate;
+  String textTileMeter;
+  String orderDate;
+  String deliveryDate;
   String amount;
   String receivedAmount;
   String total;
@@ -66,8 +68,9 @@ class MyOrders {
     sleeveDesign: json["sleeve_design"],
     collarDesign: json["collar_design"],
     remarks: json["remarks"],
-    orderDate: DateTime.parse(json["orderDate"]),
-    deliveryDate: DateTime.parse(json["deliveryDate"]),
+    textTileMeter: json["textTile_Meter"],
+    orderDate: json["orderDate"],
+    deliveryDate: json["deliveryDate"],
     amount: json["amount"],
     receivedAmount: json["receivedAmount"],
     total: json["total"],
@@ -88,8 +91,9 @@ class MyOrders {
     "sleeve_design": sleeveDesign,
     "collar_design": collarDesign,
     "remarks": remarks,
-    "orderDate": "${orderDate.year.toString().padLeft(4, '0')}-${orderDate.month.toString().padLeft(2, '0')}-${orderDate.day.toString().padLeft(2, '0')}",
-    "deliveryDate": "${deliveryDate.year.toString().padLeft(4, '0')}-${deliveryDate.month.toString().padLeft(2, '0')}-${deliveryDate.day.toString().padLeft(2, '0')}",
+    "textTile_Meter": textTileMeter,
+    "orderDate": orderDate,
+    "deliveryDate": deliveryDate,
     "amount": amount,
     "receivedAmount": receivedAmount,
     "total": total,
