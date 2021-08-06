@@ -94,14 +94,12 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                 AsyncSnapshot<List<Orders>> snapshot) {
               if (snapshot.hasData) {
                 List<Orders> posts = snapshot.data;
-                return Padding(
-                  padding: const EdgeInsets.only(top: 60),
-                  child: ListView(
-                    children: posts.map((Orders post) =>
-                        Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
-                            Icons.shopping_cart_rounded, CustomerOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
-                        .toList(),
-                  ),
+                return ListView(
+                  padding: EdgeInsets.only(top:60),
+                  children: posts.map((Orders post) =>
+                      Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
+                          Icons.shopping_cart_rounded, CustomerOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
+                      .toList(),
                 );
               } else if(snapshot.data == null) {
                 return LoadingCircle();

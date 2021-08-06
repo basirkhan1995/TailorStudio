@@ -138,15 +138,15 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             children: [
               SizedBox(height: _w / 5.5),
               Env.card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری','Tap to see more',
-                  Icons.person_add_alt_1, NewClient(), 0xff6666ff, context, _animation,_animation2),
+                  Icons.person_add_alt_1, NewClient(), 0xff40bf80, context, _animation,_animation2),
               Env.card('لیست مشتریان', 'اندازه و فرمایش مشتری','Tap to see more',
-                  Icons.people_alt_rounded, Individual(), 0xff3366cc, context, _animation,_animation2),
+                  Icons.people_alt_rounded, Individual(), 0xff0099cc, context, _animation,_animation2),
               Env.card('لیست فرمایشات', 'فرمایش مشتریان','Tap to see more', Icons.shopping_cart,
-                  Orders(null), 0xFF6F35A5, context, _animation,_animation2),
+                  Orders(null), 0xFF669900, context, _animation,_animation2),
               Env.card('طرح دوخت هــا', 'نمایشگاه','Tap to see more', Icons.photo_size_select_actual,
-                  Album(), 0xFFac3973, context, _animation,_animation2),
+                  Album(), 0xFF336699, context, _animation,_animation2),
               Env.card('تنظیمات', 'تنظیم حساب','Tap to see more', Icons.settings, Settings(),
-                  0xFF3385ff, context, _animation,_animation2),
+                  0xFF339966, context, _animation,_animation2),
             ],
           ),
         ),
@@ -198,27 +198,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   Icons.transit_enterexit_rounded, size: 35, color: Colors.red.shade900),
                 title: Text('خـــروج',style: Env.style(17,Colors.red.shade900)),
                 onTap: () async {
-                  ///TODO Confirm Dialog is not working
-                  await Env.confirmDialog('WARNING', Env.confirmMessage, DialogType.WARNING, context, setState);
+                  await Env.confirmDialog('Sign out', Env.confirmMessage, DialogType.QUESTION, context, setState);
                   if(Env.checkYesNoLogin == true){
-                    print("It returns in if "+ Env.checkYesNoLogin.toString());
+                    print("returns "+ Env.checkYesNoLogin.toString());
                     _logout();
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => LoginScreen()));
                   }else{
-                    print("It returns in Else "+Env.checkYesNoLogin.toString());
+                    print("returns "+Env.checkYesNoLogin.toString());
                     Navigator.pop(context);
                   }
-
-                    //HapticFeedback.lightImpact();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return LoginScreen();
-                    //     },
-                    //   ),
-                    // );
 
                 },
               ),

@@ -423,15 +423,14 @@ class Env {
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: LightColor,
+                      color: GreyColor,
                       offset: Offset(0,3), //(x,y)
-                      blurRadius: 80.0,
+                      blurRadius: 10.0,
                     ),
                   ],
                   color: Color(paint),
                   borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(
-                      color: Colors.white.withOpacity(.1), width: 1)),
+                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
               child: Padding(
                 padding: EdgeInsets.all(_w / 50),
                 child: Row(
@@ -446,7 +445,7 @@ class Env {
                       child: Icon(
                         icon,
                         color: WhiteColor,
-                        size: _w / 7,
+                        size: _w / 8,
                       ),
                     ),
                     SizedBox(width: _w / 40),
@@ -502,6 +501,18 @@ class Env {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  static tab(title){
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: PurpleColor, width: 1.5)),
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(title,style: Env.txtStyle(15)),
       ),
     );
   }

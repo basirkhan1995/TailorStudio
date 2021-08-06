@@ -104,7 +104,7 @@ class _UserOrderDetailsState extends State<UserOrderDetails> {
                                 default:
                                   myData = {
                                     "orderID": widget.data.orderId,
-                                    "orderID": widget.data.orderId,
+
 
 
                                   };

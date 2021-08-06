@@ -338,7 +338,7 @@ class _NewOrderState extends State<NewOrder> {
             child: DropdownButton(
               menuMaxHeight: 500,
               dropdownColor: WhiteColor,
-              iconEnabledColor: Colors.red.shade900,
+              iconEnabledColor: GreyColor,
               underline: SizedBox(),
               style: Env.style(17, BlackColor.withOpacity(.6)),
               elevation: 20,

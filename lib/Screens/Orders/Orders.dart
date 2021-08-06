@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,7 +102,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
       appBar: Env.appBar(context, 'فرمایش مشتریان'),
       body: Stack(
         children: [
-          BackgroundColor(),
+          //BackgroundColor(),
           Directionality(
             textDirection: TextDirection.rtl,
             child: FutureBuilder(
@@ -110,13 +111,11 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
                   AsyncSnapshot<List<MyOrders>> snapshot) {
                 if (snapshot.hasData) {
                   List<MyOrders> posts = snapshot.data;
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 60),
-                    child: ListView(
-                      children: posts.map((MyOrders post) =>
-                          Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, UserOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
-                          .toList(),
-                    ),
+                  return ListView(
+                    padding: EdgeInsets.only(top:60),
+                    children: posts.map((MyOrders post) =>
+                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, UserOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
+                        .toList(),
                   );
                 } else if(snapshot.data == null) {
                   return LoadingCircle();
