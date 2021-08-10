@@ -14,7 +14,6 @@ import 'package:tailor/Screens/Settings/Profile.dart';
 import 'package:tailor/Screens/Settings/Settings.dart';
 import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
-
 import 'Dashboard.dart';
 
 class Dashboard extends StatefulWidget {
@@ -109,7 +108,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        endDrawer: drawer(),
+        endDrawer: Env.myDrawer(tailorName,tailorEmail,'pro.jpg',context),
         extendBodyBehindAppBar: true,
         appBar: Env.appBarr(fileName??"", studioName??"",context),
         body: SizedBox.expand(

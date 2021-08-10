@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/Screens/About.dart';
+import 'package:tailor/Screens/Gallery/Gallery.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 
 
@@ -683,6 +685,61 @@ class Env {
     );
   }
 
+
+  static myDrawer(username,email,image,context){
+    Size size = MediaQuery.of(context).size;
+    return Drawer(
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+            Container(
+              child:  Container(
+                height: 120,
+                width: 120,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 65),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                        foregroundImage: NetworkImage(Env.urlPhoto + image ??'no_user.jpg'),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Text(username,style:style(21,WhiteColor)),
+                    Text(email,style:style(12,WhiteColor.withOpacity(.8))),
+                    SizedBox(height: 70),
+                    Image.asset('photos/app_icons/sewing.png',width: 60,color: WhiteColor,)
+                  ],
+                )
+              ),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: GreyColor.withOpacity(.6),
+                      offset: Offset(1,1), //(x,y)
+                      blurRadius: 2.0,
+                    ),
+                  ],
+                  color: Light,
+                borderRadius: BorderRadius.only(bottomRight: Radius.circular(0),bottomLeft: Radius.circular(160))
+              ),
+              width: size.width,
+              height: 390,
+            ),
+              SizedBox(height: 15),
+              Env.myTile('نمایشگاه', Icons.photo, Album(),context),
+              Env.myTile('درباره ما', Icons.info, AboutTailor(),context),
+            ],
+          )
+        ),
+      ),
+    );
+  }
+
   //My Appbar
   static Widget appBarr(url,title, context) {
     double _w = MediaQuery.of(context).size.width;
@@ -704,7 +761,7 @@ class Env {
             ),
           ),
           leading: Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.all(10.0),
             child: CircleAvatar(radius: 10,
               backgroundImage: AssetImage('photos/background/no_user.jpg'),
               foregroundImage: NetworkImage(Env.urlPhoto + url),
