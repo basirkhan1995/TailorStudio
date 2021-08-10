@@ -100,8 +100,7 @@ class _BodyState extends State<Body> {
                     setState(() {
                       loading = true;
                     });
-                    http.Response res = await http.post(Uri.parse(Env.url + "login.php"),
-                            body: jsonEncode({
+                    http.Response res = await http.post(Uri.parse(Env.url + "login.php"), body: jsonEncode({
                               "userName": username.text,
                               "password": password.text,
                             }));
@@ -119,20 +118,15 @@ class _BodyState extends State<Body> {
                       Env.loginData.setString('userPhone', jsonData['userPhone']);
                       Env.loginData.setString('userAddress', jsonData['userAddress']);
                       Env.loginData.setString('fileName', jsonData['fileName']);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Dashboard()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
                     } else {
                       setState(() => loading = false);
                       Env.errorDialog(
-                          Env.errorTitle,
-                          Env.wrongInput,
-                          DialogType.ERROR,
-                          context,
-                              () => {});
-                      //Env.aDialog(context, Env.errorTitle, Env.wrongInput);
-                    }
+                          Env.errorTitle,Env.wrongInput, DialogType.ERROR, context, () => {Navigator.pop(context)});}
                   } else {
-                    Env.errorDialog('تـــــوجه', "لطفا حساب کاربری و پســـورد خود را وارید نمایید", DialogType.WARNING, context, () { });
+                    Env.errorDialog('تـوجه', "لطفا حساب کاربری و پســـورد خود را وارید نمایید", DialogType.WARNING, context, () {
+                      //Navigator.pop(context);
+                    });
                   }
                 },
               ),

@@ -37,16 +37,16 @@ class _LoadingCircleState extends State<LoadingCircle>
         AnimationController(vsync: this, duration: Duration(seconds: 1));
     animation2 = Tween<double>(begin: -1, end: -4)
         .animate(CurvedAnimation(parent: controller2, curve: Curves.easeInOut))
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller2.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          controller2.forward();
-        }
-      });
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              controller2.reverse();
+            } else if (status == AnimationStatus.dismissed) {
+              controller2.forward();
+            }
+          });
 
     controller1.forward();
     controller2.forward();
@@ -64,12 +64,15 @@ class _LoadingCircleState extends State<LoadingCircle>
     return Scaffold(
       backgroundColor: Colors.transparent.withOpacity(0.0),
       body: Center(
-        child: Container(
-          height: 100,
-          width: 100,
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          child: CustomPaint(
-            painter: MyPainter(animation1.value, animation2.value),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 150),
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: CustomPaint(
+              painter: MyPainter(animation1.value, animation2.value),
+            ),
           ),
         ),
       ),
@@ -88,7 +91,7 @@ class MyPainter extends CustomPainter {
     Paint myCircle = Paint()
       ..color = Color(0xffCFCDF6)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 10;
+      ..strokeWidth = 5;
 
     canvas.drawCircle(
         Offset(size.width * .5, size.height * .5), size.width * .5, myCircle);
@@ -96,7 +99,7 @@ class MyPainter extends CustomPainter {
     Paint myArc = Paint()
       ..color = Color(0xff420097)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 6
+      ..strokeWidth = 5
       ..strokeCap = StrokeCap.round;
 
     canvas.drawArc(Rect.fromLTRB(0, 0, size.width, size.height), startAngle,

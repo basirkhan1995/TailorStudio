@@ -3,10 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/OrderList.dart';
-import 'package:tailor/Screens/HomePage/Home.dart';
-import 'dart:ui';
 import '../../wait.dart';
 import 'OrderDetails.dart';
 
@@ -99,33 +98,32 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context, 'فرمایش مشتریان'),
+      backgroundColor: WhiteColor,
+      //appBar: Env.appBar(context, 'فرمایش مشتریان'),
       body: Stack(
         children: [
           //BackgroundColor(),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: FutureBuilder(
-              future: fetchUserOrders(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<MyOrders>> snapshot) {
-                if (snapshot.hasData) {
-                  List<MyOrders> posts = snapshot.data;
-                  return ListView(
-                    padding: EdgeInsets.only(top:60),
-                    children: posts.map((MyOrders post) =>
-                        Env.card('C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState, Icons.shopping_cart_rounded, UserOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
-                        .toList(),
-                  );
-                } else if(snapshot.data == null) {
-                  return LoadingCircle();
-                }else if (snapshot.hasError){
-                  return Text('Error');
-                } else{
-                  return LoadingCircle();
-                }
-              },
-            ),
+          FutureBuilder(
+            future: fetchUserOrders(),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<MyOrders>> snapshot) {
+              if (!snapshot.hasData) {
+                return LoadingCircle();
+              } else if(snapshot.hasData && snapshot.data.isEmpty){
+                return Env.emptyBox();
+              }else if (snapshot.hasError){
+                return Text('Error');
+              } else{
+                List<MyOrders> posts = snapshot.data;
+                return ListView(
+                  padding: EdgeInsets.only(top:160),
+                  children: posts.map((MyOrders post) =>
+                      Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
+                          Icons.pending_actions_rounded, UserOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2))
+                      .toList(),
+                );
+              }
+            },
           ),
         ],
       ),

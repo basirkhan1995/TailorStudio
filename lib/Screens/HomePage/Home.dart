@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
-import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
@@ -15,32 +15,32 @@ import 'package:tailor/Screens/Settings/Settings.dart';
 import '../About.dart';
 import 'package:tailor/Screens/Gallery/Gallery.dart';
 
+import 'Dashboard.dart';
+
 class Dashboard extends StatefulWidget {
-
-
   @override
   _DashboardState createState() => _DashboardState();
 }
-
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   SharedPreferences loginData;
-  String tailorName  = "Tailor Name";
-  String studioName  = "Tailor Studio";
+  String tailorName = "Tailor Name";
+  String studioName = "Tailor Studio";
   String tailorEmail = "Tailor Email";
-  String username    = "username";
-  String userID      = "userID";
+  String username = "username";
+  String userID= "userID";
   String fileName = "";
   bool checkLogin;
   int currentIndex = 0;
-
+  int _currentIndex = 0;
+  PageController _pageController;
   AnimationController _controller;
   AnimationController _controller2;
   Animation<double> _animation;
-  Animation<double> _animation2;
-
   @override
   void initState() {
     super.initState();
+
+    _pageController = PageController();
     _controller2 = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -56,13 +56,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           ..addListener(() {
             setState(() {});
           });
-
-    _animation2 = Tween<double>(begin: 0, end: -50).animate(CurvedAnimation(
-        parent: _controller2, curve: Curves.fastLinearToSlowEaseIn));
-
     _controller.forward();
     _controller2.forward();
-
     initial();
   }
 
@@ -82,6 +77,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void dispose() {
     _controller.dispose();
     _controller2.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -105,9 +101,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       btnCancelOnPress: () {
         Navigator.pop(context);
       },
-      btnCancelColor: Colors.red.shade900,
-    ).show() ??
-        false;
+      btnCancelColor: Colors.red.shade900).show() ?? false;
   }
 
   @override
@@ -117,43 +111,60 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       child: Scaffold(
         endDrawer: drawer(),
         extendBodyBehindAppBar: true,
-        appBar: Env.appBarr("Hi, " + "$studioName",context),
-        body: dashboard(),
-      ),
-    );
-  }
-
-
-
-  //Home Page Cards
-  Widget dashboard() {
-    double _w = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        BackgroundColor(),
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: ListView(
-            physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            children: [
-              SizedBox(height: _w / 5.5),
-              Env.card('ثبت مشتری جدید ', 'شهرت و قد اندام مشتری','Tap to see more',
-                  Icons.person_add_alt_1, NewClient(), 0xff40bf80, context, _animation,_animation2),
-              Env.card('لیست مشتریان', 'اندازه و فرمایش مشتری','Tap to see more',
-                  Icons.people_alt_rounded, Individual(), 0xff0099cc, context, _animation,_animation2),
-              Env.card('لیست فرمایشات', 'فرمایش مشتریان','Tap to see more', Icons.shopping_cart,
-                  Orders(null), 0xFF669900, context, _animation,_animation2),
-              Env.card('طرح دوخت هــا', 'نمایشگاه','Tap to see more', Icons.photo_size_select_actual,
-                  Album(), 0xFF336699, context, _animation,_animation2),
-              Env.card('تنظیمات', 'تنظیم حساب','Tap to see more', Icons.settings, Settings(),
-                  0xFF339966, context, _animation,_animation2),
+        appBar: Env.appBarr(fileName??"", studioName??"",context),
+        body: SizedBox.expand(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() => _currentIndex = index);
+            },
+            children:[
+              HomeScreen(),
+              Individual(),
+              Orders(null),
+              Settings(),
             ],
           ),
         ),
-      ],
+        bottomNavigationBar: BottomNavyBar(
+          containerHeight: 60,
+          showElevation: true,
+          itemCornerRadius: 20,
+          selectedIndex: _currentIndex,
+          onItemSelected: (index) {
+            setState(() => _currentIndex = index);
+            _pageController.jumpToPage(index);
+          },
+          items: <BottomNavyBarItem>[
+            BottomNavyBarItem(
+                activeColor: PurpleColor,
+                inactiveColor: BlackColor.withOpacity(.6),
+                title: Text('Dashboard'),
+                icon: Icon(Icons.apps)
+            ),
+            BottomNavyBarItem(
+                activeColor: PurpleColor,
+                inactiveColor: BlackColor.withOpacity(.6),
+                title: Text('Customer'),
+                icon: Icon(Icons.person_rounded)
+            ),
+            BottomNavyBarItem(
+              activeColor: PurpleColor,
+                inactiveColor: BlackColor.withOpacity(.6),
+                title: Text('Orders'),
+                icon: Icon(Icons.pending_actions)
+            ),
+            BottomNavyBarItem(
+                activeColor: PurpleColor,
+                inactiveColor: BlackColor.withOpacity(.6),
+                title: Text('Settings'),
+                icon: Icon(Icons.settings)
+            ),
+          ],
+        ),
+      ),
     );
   }
-
 
   //My Drawer
   Widget drawer() {
@@ -165,37 +176,26 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       children: <Widget>[
               //Profile Header
                 UserAccountsDrawerHeader(
-
                 decoration: BoxDecoration(
-                  color: BlackColor.withOpacity(.0)
-                 // image: DecorationImage(fit: BoxFit.cover,
-                 // image: AssetImage('photos/background/drawer1.jpg')
-                 //    )
                 ),
                 accountName: InkWell(
                 onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));},
-                child: Text("$tailorName", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color:BlackColor.withOpacity(.7)),)),
-                accountEmail: Text("$tailorEmail",style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w500)),
+                child: Text(tailorName??'', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color:BlackColor.withOpacity(.7)),)),
+                accountEmail: Text(tailorEmail??'',style: TextStyle(color: BlackColor.withOpacity(.6),fontWeight: FontWeight.w400)),
                 currentAccountPicture: CircleAvatar(radius: 77,
                   backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                  foregroundImage: NetworkImage(Env.urlPhoto + fileName ),
-                ),),
-
+                  //foregroundImage: NetworkImage(Env.urlPhoto + fileName??''),
+                )),
               // Drawer List of Objects
               SizedBox(height: 10),
-              Env.myTile('ثبت مشتری جدید', Icons.person_add_alt_1_rounded, NewClient(),context),
-              Env.myTile('فرمایش ها', Icons.shopping_cart, Orders(null),context),
-              Env.myTile('مشتریان', Icons.people_alt_rounded, Individual(),context),
               Env.myTile('نمایشگاه', Icons.photo, Album(),context),
-              Env.myTile('تنظیمات', Icons.settings, Settings(),context),
-              Divider(height: 10,indent: 20,endIndent: 20),
-              Env. myTile('امتیاز دادن', Icons.star,AboutTailor(),context),
               Env.myTile('درباره ما', Icons.info, AboutTailor(),context),
+              Divider(height: 290,indent: 20,endIndent: 20),
               //myTile('تماس با ما', Icons.call, NewClient()),
               //Logout
               ListTile(
                 leading: Icon(
-                  Icons.transit_enterexit_rounded, size: 35, color: Colors.red.shade900),
+                  Icons.power_settings_new, size: 30, color: Colors.red.shade900),
                 title: Text('خـــروج',style: Env.style(17,Colors.red.shade900)),
                 onTap: () async {
                   await Env.confirmDialog('Sign out', Env.confirmMessage, DialogType.QUESTION, context, setState);
@@ -208,7 +208,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     print("returns "+Env.checkYesNoLogin.toString());
                     Navigator.pop(context);
                   }
-
                 },
               ),
             ],
@@ -241,3 +240,4 @@ class BackgroundColor extends StatelessWidget {
     );
   }
 }
+

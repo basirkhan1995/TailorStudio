@@ -11,7 +11,8 @@ class BaseClient extends BaseController {
   Future<dynamic> get(String baseUrl, String api) async {
     var uri = Uri.parse(baseUrl + api);
     try {
-      var response = await http.get(uri).timeout(Duration(seconds: TIME_OUT_DURATION));
+      var response =
+          await http.get(uri).timeout(Duration(seconds: TIME_OUT_DURATION));
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection', uri.toString());
@@ -42,9 +43,8 @@ class BaseClient extends BaseController {
   Future<dynamic> delete(String baseUrl, String api) async {
     var uri = Uri.parse(baseUrl + api);
     try {
-      var response = await http
-          .delete(uri)
-          .timeout(Duration(seconds: TIME_OUT_DURATION));
+      var response =
+          await http.delete(uri).timeout(Duration(seconds: TIME_OUT_DURATION));
       return _processResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection', uri.toString());
@@ -59,7 +59,8 @@ class BaseClient extends BaseController {
     var uri = Uri.parse(baseUrl + api);
     var payload = json.encode(payloadObj);
     try {
-      var response = await http.put(uri, body: payload)
+      var response = await http
+          .put(uri, body: payload)
           .timeout(Duration(seconds: TIME_OUT_DURATION));
       return _processResponse(response);
     } on SocketException {

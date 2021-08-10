@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
 import 'package:http/http.dart' as http;
 
+
 class MyGallery extends StatefulWidget {
   const MyGallery({Key key}) : super(key: key);
 
@@ -23,10 +24,29 @@ class _MyGalleryState extends State<MyGallery> {
   String base64Image;
   String errMessage = 'Error Uploading Image';
 
+
+  // //
+  // void uploadGallery() async {
+  //
+  //   try{
+  //     String filename = imageFile.path.split('/').last:
+  //    FormData formdata = new FormData.fromMap({
+  //     'fileName': await MultipartFile.fromFile(imageFile.path, filename: filename,)
+  //   });
+  // Response response = await dio.po
+  //
+  //   }catch(e){
+  //
+  //   }
+  //
+  // }
+
+
   void uploadGallery() async {
     http.Response res = await http.post(Uri.parse(Env.url+"GalleryUpload.php"),body: jsonEncode({
       "fileName": imageFile.path,
     }));
+    String filename = imageFile.path.split('/').last;
     String result = res.body.toString();
     if(imageFile.path == null){
       await Env.errorDialog(
@@ -97,7 +117,7 @@ class _MyGalleryState extends State<MyGallery> {
               child: RoundedButton(
                 color: PurpleColor,
                 text: 'ثبت کردن',
-                press: (){
+                press: ()async{
                   uploadGallery();
                 },
               ),

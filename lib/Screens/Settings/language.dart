@@ -8,6 +8,7 @@ class Language extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WhiteColor,
       appBar:Env.appBar(context, 'Select Language'),
       body: Center(
         child: Container(

@@ -72,6 +72,7 @@ class ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: WhiteColor,
       appBar: Env.myBar('Profile Settings', Icons.check, ()=>uploadProfile(), context),
       body: Directionality(
         textDirection: TextDirection.rtl,

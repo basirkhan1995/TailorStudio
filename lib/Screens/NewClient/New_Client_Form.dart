@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
-import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'dart:convert';
-
 import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 
 class NewClient extends StatefulWidget {
@@ -24,7 +21,6 @@ class _NewClientState extends State<NewClient> {
   String user ="";
   File imageFile;
 
- //TextField Controllers
   TextEditingController firstName = new TextEditingController();
   TextEditingController lastName = new TextEditingController();
   TextEditingController phone = new TextEditingController();
@@ -79,7 +75,7 @@ class _NewClientState extends State<NewClient> {
     if(result == "Success"){
       await Env.responseDialog(
       Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Individual()));
+      Navigator.pop(context);
     }else {
       print(result);
       await Env.errorDialog(
@@ -103,14 +99,6 @@ class _NewClientState extends State<NewClient> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                     SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children:[
-                      Text('شـهرت مشـــــتری',textAlign: TextAlign.right, textDirection: TextDirection.rtl,
-                          style: Env.style(20,PurpleColor)),
-                    ],
-                  ),
                   SizedBox(height: 10),
                    //Measurements
                   RoundedBorderedField(
@@ -166,7 +154,6 @@ class _NewClientState extends State<NewClient> {
                  Row(
                    children: [
                      Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
-
                          Navigator.pop(context);
                      }),
                      Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: (){
@@ -176,7 +163,6 @@ class _NewClientState extends State<NewClient> {
                          }}),
                    ],
                  ),
-
                   /// Submit Button
                   // RoundedButton(
                   //     textColor: WhiteColor, color: PurpleColor, text: "ثبت کــــــــــردن",
@@ -185,8 +171,7 @@ class _NewClientState extends State<NewClient> {
                   // /// Function Send Data
                   //    sendData();
                   //     }}),
-
-                  SizedBox(height: 20)
+                  SizedBox(height: 10)
                 ],
               ),
             ),

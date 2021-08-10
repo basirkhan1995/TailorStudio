@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +36,8 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context, 'Setting'),
+      backgroundColor: WhiteColor,
+     // appBar: Env.appBar(context, 'Setting'),
       body: ListView(
         children: [
           Card(

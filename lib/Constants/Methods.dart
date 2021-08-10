@@ -10,7 +10,7 @@ import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
-import 'package:tailor/Screens/Settings/Settings.dart';
+
 
 
 class Env {
@@ -51,7 +51,7 @@ class Env {
           ) ,
           centerTitle: true,
           brightness: Brightness.light,
-          backgroundColor: LightColor,
+          backgroundColor: WhiteColor,
           elevation: 0,
           title: Text(title,
               style: PersianFonts.Samim.copyWith(
@@ -96,7 +96,6 @@ class Env {
     }
   }
 
-
   //Static TextStyle
   static style(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
@@ -109,7 +108,6 @@ class Env {
   }
 
   //Custom style
-  //Static TextStyle
   static txtStyle(double size) {
     return PersianFonts.Samim.copyWith(
       fontSize: size,
@@ -119,15 +117,8 @@ class Env {
     );
   }
 
-
   //General Alert Dialog function
-  static responseDialog(
-    String title,
-    String msg,
-    DialogType dialogType,
-    BuildContext context,
-    VoidCallback onOkPress,
-  ) {
+  static responseDialog(String title, String msg, DialogType dialogType, BuildContext context, VoidCallback onOkPress) {
     return AwesomeDialog(
       context: context,
       animType: AnimType.TOPSLIDE,
@@ -141,9 +132,26 @@ class Env {
   }
 
   //Exist Account Error Message
+  static httpError(String title, String msg, DialogType dialogType,BuildContext context, Widget route) {
+    return AwesomeDialog(
+      context: context,
+      animType: AnimType.TOPSLIDE,
+      dialogType: dialogType,
+      title: title,
+      desc: msg,
+      btnOkColor: PurpleColor,
+      btnOkOnPress: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
+      },
+    ).show();
+  }
 
-  static errorDialog(String title, String msg, DialogType dialogType,
-      BuildContext context, VoidCallback onOkPress) {
+  static msg( context){
+    return  null;
+  }
+
+  //Exist Account Error Message
+  static errorDialog(String title, String msg, DialogType dialogType,BuildContext context, VoidCallback onOkPress) {
     return AwesomeDialog(
       context: context,
       animType: AnimType.TOPSLIDE,
@@ -154,6 +162,32 @@ class Env {
       btnOkOnPress: onOkPress,
     ).show();
   }
+
+  //Confirm Dialog
+  static confirmExit(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
+    return AwesomeDialog(
+      context: context,
+      animType: AnimType.TOPSLIDE,
+      dialogType: dialogType,
+      title: title,
+      desc: msg,
+      btnOkText: 'بلی',
+      btnCancelText: 'نخیر',
+      btnOkColor: PurpleColor,
+      btnOkOnPress: () {
+        voidCallBack(() {
+          checkYesNoLogin = true;
+        });
+      },
+      btnCancelOnPress: () {
+        voidCallBack(() {
+          checkYesNoLogin = false;
+        });
+      },
+      btnCancelColor: Colors.red.shade900,
+    ).show();
+  }
+
 
   //Confirm Dialog
   static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
@@ -182,7 +216,6 @@ class Env {
   }
 
   //Confirm Delete Dialog
-//Confirm Dialog
   static confirmDelete(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
     return AwesomeDialog(
       context: context,
@@ -285,7 +318,6 @@ class Env {
     );
   }
 
-
   //Measurement Method
   static Widget myTXTOrder(title,subtitle,controller,hint){
     return Padding(
@@ -313,9 +345,6 @@ class Env {
       ),
     );
   }
-
-
-
 
   static dateTimePicker(String label,controller){
     return Padding(
@@ -400,8 +429,294 @@ class Env {
     );
   }
 
+  //statistic Home Widget function
+  static Widget statistic(String title, String subtitle, IconData icon, Widget route, paint,context,animation1, animation2) {
+    double _w = MediaQuery.of(context).size.width;
+    return Opacity(
+      opacity: animation1.value,
+      child: Transform.translate(
+        offset: Offset(0, animation2.value),
+        child: Container(
+          height: _w / 2.3,
+          width: _w,
+          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onTap: () {
+              HapticFeedback.lightImpact();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => route));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: GreyColor,
+                      offset: Offset(0,3), //(x,y)
+                      blurRadius: 10.0,
+                    ),
+                  ],
+                  color: Color(paint),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
+              child: Padding(
+                padding: EdgeInsets.all(_w / 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: _w / 3,
+                      width: _w / 3,
+                      decoration: BoxDecoration(
+                          color: WhiteColor.withOpacity(.2),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(80),topRight:Radius.circular(10),bottomRight: Radius.circular(10) )),
+                      child: Icon(
+                        icon,
+                        color: WhiteColor,
+                        size: _w / 8,
+                      ),
+                    ),
+                    SizedBox(width: _w / 40),
+                    SizedBox(
+                      width: _w / 2.05,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 20,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: WhiteColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            subtitle,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 14,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: WhiteColor,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   //Dashboard Widgets
  static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2) {
+    double _w = MediaQuery.of(context).size.width;
+    return Opacity(
+      opacity: animation1.value,
+      child: Transform.translate(
+        offset: Offset(0, animation2.value),
+        child: Container(
+          height: _w / 3,
+          width: _w,
+          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 40),
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onTap: () {
+              HapticFeedback.lightImpact();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => route));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: GreyColor.withOpacity(.4),
+                      offset: Offset(1,1), //(x,y)
+                      blurRadius: 5.0,
+                    ),
+                  ],
+                  color: Color(paint),
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
+              child: Padding(
+                padding: EdgeInsets.all(_w / 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: _w / 4,
+                      width: _w / 3,
+                      decoration: BoxDecoration(
+                          color: BlackColor.withOpacity(.03),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Icon(
+                        icon,
+                        color: PurpleColor,
+                        size: _w / 8,
+                      ),
+                    ),
+                    SizedBox(width: _w / 40),
+                    SizedBox(
+                      width: _w / 2.05,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            maxLines: 2,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 20,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: BlackColor.withOpacity(.7),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            subtitle,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 25,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: BlackColor.withOpacity(.6),
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          Text(
+                            trailing,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: PersianFonts.Samim.copyWith(
+                              fontSize: _w / 25,
+                              letterSpacing: 1,
+                              wordSpacing: 1,
+                              color: BlackColor.withOpacity(.7),
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static dashboard(leading,title, subtitle,context){
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+      child: Container(
+        //padding: EdgeInsets.only(top: 5),
+        child: Column(
+          children: [
+            ListTile(
+              leading: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Container(
+                    width: 40,
+                    height: 40,
+                    child: Image.asset(leading,width: 40,color: PurpleColor)),
+              ),
+              subtitle: Text(title),
+              title: Text(subtitle,style: TextStyle(fontSize: 20,color: BlackColor.withOpacity(.8),fontWeight: FontWeight.w700),),
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
+          ],
+        ),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: GreyColor.withOpacity(.4),
+              offset: Offset(1,1), //(x,y)
+              blurRadius: 2.0,
+            ),
+          ],
+          color: WhiteColor,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        height: 75,
+        width: size.width * .98,
+      ),
+    );
+  }
+
+  static tab(title){
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: PurpleColor, width: 1.5)),
+      child: Align(
+        alignment: Alignment.center,
+        child: Text(title,style: Env.txtStyle(15)),
+      ),
+    );
+  }
+
+  //My Appbar
+  static Widget appBarr(url,title, context) {
+    double _w = MediaQuery.of(context).size.width;
+    return PreferredSize(
+      preferredSize: Size(double.infinity, kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        child: AppBar(
+          centerTitle: true,
+          brightness: Brightness.light,
+          backgroundColor: WhiteColor,
+          elevation: 0,
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: _w / 20,
+              color: Colors.black.withOpacity(.7),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: CircleAvatar(radius: 10,
+              backgroundImage: AssetImage('photos/background/no_user.jpg'),
+              foregroundImage: NetworkImage(Env.urlPhoto + url),
+            ),
+          )
+        ),
+      ),
+    );
+  }
+
+  //Dashboard Widgets
+  static Widget myCard(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2) {
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: animation1.value,
@@ -482,15 +797,20 @@ class Env {
                               fontWeight: FontWeight.w300,
                             ),
                           ),
-                          Text(
-                            trailing,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: _w / 26,
-                            ),
+                          Row(
+                            children: [
+
+                              Text(
+                                trailing,
+                                maxLines: 1,
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: _w / 26,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -505,59 +825,6 @@ class Env {
     );
   }
 
-  static tab(title){
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          border: Border.all(color: PurpleColor, width: 1.5)),
-      child: Align(
-        alignment: Alignment.center,
-        child: Text(title,style: Env.txtStyle(15)),
-      ),
-    );
-  }
-
-  //My Appbar
-  static Widget appBarr(title, context) {
-    double _w = MediaQuery.of(context).size.width;
-    return PreferredSize(
-      preferredSize: Size(double.infinity, kToolbarHeight),
-      child: ClipRRect(
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-        child: AppBar(
-          centerTitle: true,
-          brightness: Brightness.light,
-          backgroundColor: LightColor,
-          elevation: 5,
-          title: Text(
-            title,
-            style: TextStyle(
-              fontSize: _w / 18,
-              color: Colors.black.withOpacity(.7),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          leading: IconButton(
-            tooltip: 'Settings',
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            icon: Icon(Icons.settings, color: Colors.black.withOpacity(.7)),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Settings();
-                  },
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
 
   // Custom ListTile
  static Widget myTile(String title, IconData icon, Widget route,context){
@@ -566,8 +833,8 @@ class Env {
         HapticFeedback.lightImpact();
         Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
-      title: Text(title, style:Env.style(17,BlackColor.withOpacity(.7))),
-      leading: Icon(icon,size: 34,color:BlackColor.withOpacity(.7)),
+      title: Text(title, style:Env.style(15,BlackColor.withOpacity(.8))),
+      leading: Icon(icon,size: 30,color:BlackColor.withOpacity(.7)),
     );
   }
 
@@ -581,8 +848,8 @@ class Env {
         HapticFeedback.lightImpact();
         voidCallback();
       },
-      leading: Icon(icon,size: 30,color:PurpleColor),
-      title: Text(title, style:Env.style(17,PurpleColor)),
+      leading: Icon(icon,size: 30,color:BlackColor.withOpacity(.7)),
+      title: Text(title, style:Env.style(17,BlackColor.withOpacity(.9))),
       subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5)),),
     );
 
@@ -592,41 +859,102 @@ class Env {
   static Widget settingTile(title,subtitle, IconData icon, Widget route ,context){
     return Card(
       margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-      elevation: 3,
+      elevation: 2,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20),
         onTap: () {
           HapticFeedback.lightImpact();
           Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
         },
-        leading: Icon(icon,size: 30,color:BlackColor.withOpacity(.7)),
-        title: Text(title, style:Env.style(16,BlackColor.withOpacity(.9))),
+        leading: Icon(icon,size: 28,color:BlackColor.withOpacity(.7)),
+        title: Text(title, style:Env.style(14,BlackColor.withOpacity(.9))),
         subtitle: Text(subtitle,style: style(13, BlackColor.withOpacity(.7)),),
       ),
     );
 
   }
 
-  static Widget customTile(title, subtitle, voidCallback,context){
+  static Widget orderTile(title, subtitle, voidCallback,context){
     return Card(
       margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
-        shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)),
       elevation: 15,
       child: ListTile(
+        horizontalTitleGap: 20,
+        minVerticalPadding: 5,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          voidCallback();
+        },
+        leading: Icon(Icons.edit,size: 45,color: BlackColor.withOpacity(.7)),
+        title: Text(title , style:Env.style(16,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
+        trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
+      ),
+    );
+  }
+
+  static Widget customTile(title, subtitle, voidCallback,context){
+    final shape = RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0));
+    return Card(
+      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
+        shape: shape,
+      elevation: 2,
+      child: ListTile(
+        shape:shape,
         horizontalTitleGap: 20,
           minVerticalPadding: 5,
         onTap: () {
           HapticFeedback.lightImpact();
           voidCallback();
         },
-        leading: Icon(Icons.shopping_cart_rounded,size: 30,color: PurpleColor,),
-        title: Text(title , style:Env.style(16,PurpleColor)),
+        leading: Icon(Icons.accessibility_new_sharp,size: 45,color: BlackColor.withOpacity(.7),),
+        title: Text(title , style:Env.style(16,BlackColor.withOpacity(.8))),
         subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
         trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
+      ),
+    );
+  }
+
+  static Widget emptyBox(){
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset('photos/app_icons/empty.png',width: 80,color:PurpleColor),
+          Text('No Data!',style:Env.style(20, BlackColor.withOpacity(.8))),
+          Text('Please check again later.',style:Env.style(14, BlackColor.withOpacity(.4))),
+          Text('TRY AGAIN',style:Env.style(20, PurpleColor)),
+        ],
+      ),
+    );
+  }
+
+  static Widget orderDetails(title, subtitle, trailing, voidCallback,context){
+    final shape = RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0));
+    return Card(
+      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
+      shape: shape,
+      elevation: 1,
+      child: ListTile(
+        shape:shape,
+        horizontalTitleGap: 20,
+        minVerticalPadding: 5,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          voidCallback();
+        },
+        leading: Icon(Icons.pending_actions_rounded,size: 45,color: BlackColor.withOpacity(.7),),
+        title: Text(title , style:Env.style(16,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
+        trailing: Icon(trailing,color: PurpleColor,size: 28),
       ),
     );
   }
@@ -652,7 +980,7 @@ class Env {
           ],
           centerTitle: true,
           brightness: Brightness.light,
-          backgroundColor: LightColor,
+          backgroundColor: WhiteColor,
           elevation: 0,
           title: Text(
             title,
@@ -677,6 +1005,51 @@ class Env {
     );
   }
 
+  static Widget horizontalList(IconData title, subtitle){
+    return Container(
+      width: 100,
+      margin: EdgeInsets.only(right: 5),
+      height: 100,
+      decoration: BoxDecoration(color: WhiteColor, borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 35,vertical: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Icon(title,size: 35,),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6,vertical: 0),
+              child: Text(
+                subtitle,
+                style: TextStyle(fontSize: 16, color: BlackColor.withOpacity(.5)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget rowBar(IconData title, subtitle, trailing){
+    return  Container(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(title,color: BlackColor.withOpacity(.6),size: 24),
+          Text(subtitle,style: style(22, BlackColor.withOpacity(.7))),
+          Text(trailing,style: style(12, BlackColor.withOpacity(.7))),
+        ],
+      ),
+      width: 80.0,
+      height: 50,
+    );
+  }
+
   static Widget bar(title, IconData icon, voidCallback, context,bottom) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
@@ -698,7 +1071,7 @@ class Env {
           ],
           centerTitle: true,
           brightness: Brightness.light,
-          backgroundColor: LightColor,
+          backgroundColor: WhiteColor,
           elevation: 0,
           title: Text(
             title,

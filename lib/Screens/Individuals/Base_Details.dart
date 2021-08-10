@@ -38,7 +38,7 @@ class _BaseDetailsState extends State<BaseDetails> {
                           borderRadius: BorderRadius.circular(50),
                           color: PurpleColor),
                           tabs: [
-                            Tab(child: Env.tab('فرمایش')),
+                            Tab(child: Env.tab('شهرت')),
                             Tab(child: Env.tab('اندازه')),
                             Tab(child: Env.tab('فرمایش')),
                           ]),

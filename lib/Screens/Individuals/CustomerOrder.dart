@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
+import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import 'dart:ui';
 import '../../wait.dart';
 
@@ -75,6 +77,13 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.push(context,MaterialPageRoute(builder: (context)=>NewOrder(widget.post)));
+        },
+        backgroundColor: PurpleColor,
+        child: Icon(Icons.pending_actions_rounded,color: WhiteColor),
+      ),
       body: dashboard(),
     );
   }
@@ -92,21 +101,21 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
             future: fetchCustomerOrders(),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Orders>> snapshot) {
-              if (snapshot.hasData) {
-                List<Orders> posts = snapshot.data;
-                return ListView(
-                  padding: EdgeInsets.only(top:60),
-                  children: posts.map((Orders post) =>
-                      Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
-                          Icons.shopping_cart_rounded, CustomerOrderDetails(post), (0xFF6F35A5), context, _animation, _animation2))
-                      .toList(),
-                );
-              } else if(snapshot.data == null) {
+              if (!snapshot.hasData) {
                 return LoadingCircle();
+              } else if(snapshot.hasData && snapshot.data.isEmpty) {
+                return Env.emptyBox();
               }else if (snapshot.hasError){
                 return Text('Error');
               } else{
-                  return LoadingCircle();
+                List<Orders> posts = snapshot.data;
+                  return ListView(
+                    padding: EdgeInsets.only(top:60),
+                    children: posts.map((Orders post) =>
+                        Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
+                            Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2))
+                        .toList(),
+                  );
               }
             },
           ),

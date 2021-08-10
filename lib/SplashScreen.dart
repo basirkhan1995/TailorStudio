@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tailor/Screens/Login/login.dart';
 import 'dart:async';
 import 'Constants/ConstantColors.dart';
-import 'package:tailor/GetStarted.dart';
-
 
 class MyCustomSplashScreen extends StatefulWidget {
   @override
@@ -25,7 +23,7 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
     super.initState();
 
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+        AnimationController(vsync: this, duration: Duration(seconds: 8));
 
     animation1 = Tween<double>(begin: 40, end: 20).animate(CurvedAnimation(
         parent: _controller, curve: Curves.fastLinearToSlowEaseIn))
@@ -50,7 +48,7 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
       });
     });
 
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 2), () {
       setState(() {
         Navigator.pushReplacement(context, PageTransition(LoginScreen()));
       });
@@ -108,7 +106,6 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(40),
                 ),
-                // child: Image.asset('assets/images/file_name.png')
                 child: Image.asset('photos/background/tailor_logo2.png'),
               ),
             ),

@@ -8,7 +8,6 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:http/http.dart' as http;
-import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
 
 class NewOrder extends StatefulWidget {
   final Customer post;
@@ -69,7 +68,7 @@ class _NewOrderState extends State<NewOrder> {
     if(result == "Success"){
       await Env.responseDialog(
           Env.successTitle,'فرمایش شما موفقانه ثبت گردید',DialogType.SUCCES, context, () { });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Individual()));
+          Navigator.pop(context);
     }else {
       print(result);
       await Env.errorDialog(

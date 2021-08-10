@@ -26,7 +26,7 @@ class RoundedInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: Padding(
-        padding: const EdgeInsets.only(right: 10,),
+        padding: const EdgeInsets.only(right: 5,),
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: TextFormField(
