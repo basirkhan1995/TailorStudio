@@ -118,9 +118,8 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
                 return ListView(
                   padding: EdgeInsets.only(top:160),
                   children: posts.map((MyOrders post) =>
-                      Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
-                          Icons.pending_actions_rounded, UserOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2))
-                      .toList(),
+                      Env.card('#C' + post.customerId + 'ORD' + post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
+                          Icons.pending_actions_rounded, UserOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2)).toList(),
                 );
               }
             },

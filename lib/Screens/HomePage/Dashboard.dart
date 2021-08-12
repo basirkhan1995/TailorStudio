@@ -19,12 +19,12 @@ class HomeScreen extends StatelessWidget {
                 child: Text('STATISTICS',style: Env.style(28, BlackColor.withOpacity(.5)),),
               ),
               Divider(endIndent: 30,indent: 30,height: 0,),
-              Env.dashboard('photos/app_icons/user.png', 'Customers', '62', context),
-              Env.dashboard('photos/app_icons/clipboard.png', 'Orders', '54', context),
-              Env.dashboard('photos/app_icons/accept.png', 'Pending', '4', context),
-              Env.dashboard('photos/app_icons/compliant.png', 'Complete', '12', context),
-              Env.dashboard('photos/app_icons/bill2.png', 'Paid', '4200', context),
-              Env.dashboard('photos/app_icons/invoice2.png', 'UnPaid', '3200', context),
+              Env.dashboard('user.png', 'Customers', '62', context),
+              Env.dashboard('clipboard.png', 'Orders', '54', context),
+              Env.dashboard('accept.png', 'Pending', '4', context),
+              Env.dashboard('compliant.png', 'Complete', '12', context),
+              Env.dashboard('bill2.png', 'Paid', '4200', context),
+              Env.dashboard('invoice2.png', 'UnPaid', '3200', context),
               SizedBox(height: 10,)
 
             ],

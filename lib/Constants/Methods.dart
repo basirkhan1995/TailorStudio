@@ -537,7 +537,7 @@ class Env {
   }
 
   //Dashboard Widgets
- static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2) {
+ static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2){
     double _w = MediaQuery.of(context).size.width;
     return Opacity(
       opacity: animation1.value,
@@ -658,11 +658,11 @@ class Env {
                 child: Container(
                     width: 40,
                     height: 40,
-                    child: Image.asset(leading,width: 40,color: PurpleColor)),
+                    child: Image.asset('photos/app_icons/'+leading,width: 40,color: PurpleColor)),
               ),
               subtitle: Text(title),
               title: Text(subtitle,style: TextStyle(fontSize: 20,color: BlackColor.withOpacity(.8),fontWeight: FontWeight.w700),),
-              trailing: Icon(Icons.arrow_forward_ios),
+              trailing: Icon(Icons.info_outline),
             ),
           ],
         ),
@@ -934,7 +934,7 @@ class Env {
           HapticFeedback.lightImpact();
           voidCallback();
         },
-        leading: Image.asset(image,width: 40,color: PurpleColor),
+        leading: Image.asset('photos/app_icons/'+image,width: 40,color: PurpleColor),
         title: Text(title , style:Env.boldStyle(16,BlackColor.withOpacity(.8))),
         subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
         trailing: Icon(Icons.info_outline,color: PurpleColor,size: 28),
