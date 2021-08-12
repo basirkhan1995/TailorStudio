@@ -18,7 +18,6 @@ class NewOrder extends StatefulWidget {
 
 class _NewOrderState extends State<NewOrder> {
   final _formKey = GlobalKey <FormState>();
-  final DateTime now = DateTime.now();
   String user = "";
 
   final TextEditingController qty = new TextEditingController();

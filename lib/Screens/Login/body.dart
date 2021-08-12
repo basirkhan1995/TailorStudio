@@ -97,9 +97,7 @@ class _BodyState extends State<Body> {
                     if (networkResult == ConnectivityResult.none) {
                     return Env.errorDialog(Env.internetTitle, Env.noInternetMessage, DialogType.ERROR, context, () { });
                     }
-                    setState(() {
-                      loading = true;
-                    });
+
                     http.Response res = await http.post(Uri.parse(Env.url + "login.php"), body: jsonEncode({
                               "userName": username.text,
                               "password": password.text,
@@ -120,7 +118,6 @@ class _BodyState extends State<Body> {
                       Env.loginData.setString('fileName', jsonData['fileName']);
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
                     } else {
-                      setState(() => loading = false);
                       Env.errorDialog(
                           Env.errorTitle,Env.wrongInput, DialogType.ERROR, context, () => {Navigator.pop(context)});}
                   } else {

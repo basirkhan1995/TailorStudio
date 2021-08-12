@@ -8,13 +8,15 @@ class AboutTailor extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('درباره',style: TextStyle(fontWeight: FontWeight.bold),),
+          title: Text(
+            'درباره',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Dashboard()));
+              Navigator.pop(context);
             },
           ),
           elevation: 0,
@@ -45,15 +47,17 @@ class AboutTailor extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 9.0),
                         child: Text('Tailor Studio',
-                            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold)),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 5.0, left: 10, right: 10),
+                          padding: const EdgeInsets.only(
+                              top: 5.0, left: 10, right: 10),
                           child: Text(
                               'Tailor Studio is an application to manage orders, Measurements, Customers, Gallery Design and Payment System for Customers '
-                                  'is an ease for tailors to avoid writing in a physical notebook that may loss one day or ruin.',
+                              'is an ease for tailors to avoid writing in a physical notebook that may loss one day or ruin.',
                               style: TextStyle(
                                   color: GreyColor,
                                   fontSize: 15,
@@ -65,11 +69,12 @@ class AboutTailor extends StatelessWidget {
                         child: Column(
                           children: [
                             Text('Developed by:',
-                                style:
-                                TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
-                              child: Text('Mohammad Basir', style: TextStyle(fontSize: 13)),
+                              child: Text('Mohammad Basir',
+                                  style: TextStyle(fontSize: 13)),
                             ),
                             Text('© 2021', style: TextStyle(fontSize: 13)),
                           ],
@@ -80,8 +85,8 @@ class AboutTailor extends StatelessWidget {
                         child: Column(
                           children: [
                             Text('Contact',
-                                style:
-                                TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
                             Text('Email: basirkhan.hashemi@gmail.com',
                                 style: TextStyle(fontSize: 13)),
                             Text('WhatsApp: 0787130301 - 0790128308',
@@ -95,7 +100,6 @@ class AboutTailor extends StatelessWidget {
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 }

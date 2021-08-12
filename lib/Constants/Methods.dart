@@ -9,9 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
-import 'package:tailor/Screens/About.dart';
-import 'package:tailor/Screens/Gallery/Gallery.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
+
 
 
 
@@ -106,6 +105,17 @@ class Env {
       wordSpacing: 1,
       color: paint,
       fontWeight: FontWeight.w500,
+    );
+  }
+
+  //Static TextStyle
+  static boldStyle(double size, Color paint) {
+    return PersianFonts.Samim.copyWith(
+      fontSize: size,
+      letterSpacing: 1,
+      wordSpacing: 1,
+      color: paint,
+      fontWeight: FontWeight.w600,
     );
   }
 
@@ -686,59 +696,6 @@ class Env {
   }
 
 
-  static myDrawer(username,email,image,context){
-    Size size = MediaQuery.of(context).size;
-    return Drawer(
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-            Container(
-              child:  Container(
-                height: 120,
-                width: 120,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 65),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                        foregroundImage: NetworkImage(Env.urlPhoto + image ??'no_user.jpg'),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Text(username,style:style(21,WhiteColor)),
-                    Text(email,style:style(12,WhiteColor.withOpacity(.8))),
-                    SizedBox(height: 70),
-                    Image.asset('photos/app_icons/sewing.png',width: 60,color: WhiteColor,)
-                  ],
-                )
-              ),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: GreyColor.withOpacity(.6),
-                      offset: Offset(1,1), //(x,y)
-                      blurRadius: 2.0,
-                    ),
-                  ],
-                  color: Light,
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(0),bottomLeft: Radius.circular(160))
-              ),
-              width: size.width,
-              height: 390,
-            ),
-              SizedBox(height: 15),
-              Env.myTile('نمایشگاه', Icons.photo, Album(),context),
-              Env.myTile('درباره ما', Icons.info, AboutTailor(),context),
-            ],
-          )
-        ),
-      ),
-    );
-  }
 
   //My Appbar
   static Widget appBarr(url,title, context) {
@@ -751,7 +708,7 @@ class Env {
           centerTitle: true,
           brightness: Brightness.light,
           backgroundColor: WhiteColor,
-          elevation: 0,
+          elevation: 10,
           title: Text(
             title,
             style: TextStyle(
@@ -890,8 +847,16 @@ class Env {
         HapticFeedback.lightImpact();
         Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
+      trailing: Icon(Icons.arrow_forward_ios,color: PurpleColor),
       title: Text(title, style:Env.style(15,BlackColor.withOpacity(.8))),
-      leading: Icon(icon,size: 30,color:BlackColor.withOpacity(.7)),
+      leading: Container(
+        width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: BlackColor.withOpacity(.06),
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: Icon(icon,size: 30,color:PurpleColor)),
     );
   }
 
@@ -909,7 +874,6 @@ class Env {
       title: Text(title, style:Env.style(17,BlackColor.withOpacity(.9))),
       subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5)),),
     );
-
   }
 
   //My Setting
@@ -955,7 +919,7 @@ class Env {
     );
   }
 
-  static Widget customTile(title, subtitle, voidCallback,context){
+  static Widget customTile(title, subtitle, image, voidCallback,context){
     final shape = RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0));
     return Card(
@@ -970,10 +934,10 @@ class Env {
           HapticFeedback.lightImpact();
           voidCallback();
         },
-        leading: Icon(Icons.accessibility_new_sharp,size: 45,color: BlackColor.withOpacity(.7),),
-        title: Text(title , style:Env.style(16,BlackColor.withOpacity(.8))),
+        leading: Image.asset(image,width: 40,color: PurpleColor),
+        title: Text(title , style:Env.boldStyle(16,BlackColor.withOpacity(.8))),
         subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
-        trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
+        trailing: Icon(Icons.info_outline,color: PurpleColor,size: 28),
       ),
     );
   }
@@ -993,7 +957,7 @@ class Env {
     );
   }
 
-  static Widget orderDetails(title, subtitle, trailing, voidCallback,context){
+  static Widget orderDetails(title, subtitle, trailing,image,voidCallback,context){
     final shape = RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0));
     return Card(
@@ -1008,8 +972,8 @@ class Env {
           HapticFeedback.lightImpact();
           voidCallback();
         },
-        leading: Icon(Icons.pending_actions_rounded,size: 45,color: BlackColor.withOpacity(.7),),
-        title: Text(title , style:Env.style(16,BlackColor.withOpacity(.8))),
+        leading: Image.asset('photos/app_icons/'+image,width:40,color: PurpleColor,),
+        title: Text(title , style:Env.boldStyle(16,BlackColor.withOpacity(.8))),
         subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
         trailing: Icon(trailing,color: PurpleColor,size: 28),
       ),

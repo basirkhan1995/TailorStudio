@@ -11,8 +11,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
-  // final Register post;
-  // Profile(this.post);
   @override
   ProfileState createState() => ProfileState();
 }
@@ -20,11 +18,11 @@ class Profile extends StatefulWidget {
 class ProfileState extends State<Profile> {
   TextEditingController newValue = new TextEditingController();
   SharedPreferences loginData;
-  String tailorName = "ندارد";
-  String studioName = "ندارد";
-  String email ="ندارد";
-  String phone = "ندارد";
-  String address = "ندارد";
+  String tailorName = "";
+  String studioName = "";
+  String email ="";
+  String phone = "";
+  String address = "";
   String userID ="";
   String fileName ="";
   File imageFile;
@@ -73,7 +71,7 @@ class ProfileState extends State<Profile> {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: WhiteColor,
-      appBar: Env.myBar('Profile Settings', Icons.check, ()=>uploadProfile(), context),
+      appBar: Env.myBar('Profile', Icons.check, ()=>uploadProfile(), context),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: ListView(
@@ -99,7 +97,7 @@ class ProfileState extends State<Profile> {
                       ),
                     ) : CircleAvatar(radius: 77,
                       backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                      foregroundImage: NetworkImage(Env.urlPhoto + fileName),
+                      foregroundImage: NetworkImage(Env.urlPhoto + 'no_user.jpg'),
                     ),
                   ),
                 ),
