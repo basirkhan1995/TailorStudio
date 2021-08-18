@@ -82,7 +82,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
           Navigator.push(context,MaterialPageRoute(builder: (context)=>NewOrder(widget.post)));
         },
         backgroundColor: PurpleColor,
-        child: Icon(Icons.pending_actions_rounded,color: WhiteColor),
+        child: Icon(Icons.add,color: WhiteColor),
       ),
       body: dashboard(),
     );

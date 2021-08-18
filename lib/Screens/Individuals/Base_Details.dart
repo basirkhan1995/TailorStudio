@@ -33,7 +33,7 @@ class _BaseDetailsState extends State<BaseDetails> {
                       child: TabBar(
                           unselectedLabelColor: PurpleColor,
                           indicatorSize: TabBarIndicatorSize.label,
-                          labelPadding: EdgeInsets.symmetric(horizontal: 5.0),
+                          labelPadding: EdgeInsets.only(top: 1, left: 4, right: 4),
                           indicator: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
                           color: PurpleColor),

@@ -97,7 +97,7 @@ class ProfileState extends State<Profile> {
                       ),
                     ) : CircleAvatar(radius: 77,
                       backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                      foregroundImage: NetworkImage(Env.urlPhoto + 'no_user.jpg'),
+                      //foregroundImage: NetworkImage(Env.urlPhoto + 'no_user.jpg'),
                     ),
                   ),
                 ),

@@ -8,7 +8,7 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
+
 
 class NewClient extends StatefulWidget {
   @override

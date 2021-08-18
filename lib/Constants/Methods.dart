@@ -11,9 +11,6 @@ import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 
-
-
-
 class Env {
 
   ///Server prefix Link Details
@@ -23,12 +20,12 @@ class Env {
   /// Dialog Messages
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
-  static String internetTitle = 'No Internet!';
+  static String internetTitle = 'No Internet Connection!';
   static String userExistsMessage = "این حساب کاربری تکراری میباشد، لطفا اسم دیگری را امتحان کنید";
   static String wrongInput = "حساب و رمز عبور شما اشتباه میباشد لطفا دوباره کوشش نمایید";
   static String successMessage = "حساب کاربری شما موفقانه ایجاد گردید";
   static String confirmMessage = 'آیا میخواهید از حساب خود خارج شوید؟';
-  static String noInternetMessage = 'شما به انترنت وصل نیستید، لطفا انترنت خود را چک کنید و دوباره امتحان کنید';
+  static String noInternetMessage = 'لطفا انترنت خود را بررسی کنید و دوباره امتحان کنید';
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
   static String noInternetMsg = 'لطفا ارتباط انترنت خود را بررسی کنید و دوباره امتحان کنید';
@@ -159,7 +156,18 @@ class Env {
   }
 
   static msg( context){
-    return  null;
+    return  Dialog(
+      child: Container(
+        height: 80,
+        width: 100,
+        child: TextButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
+          },
+          child: Text('Ok'),
+        ),
+      ),
+    );
   }
 
   //Exist Account Error Message
@@ -576,11 +584,11 @@ class Env {
                       height: _w / 4,
                       width: _w / 3,
                       decoration: BoxDecoration(
-                          color: BlackColor.withOpacity(.03),
+                          color: LightColor,
                           borderRadius: BorderRadius.circular(15)),
                       child: Icon(
                         icon,
-                        color: PurpleColor,
+                        color: GreyColor,
                         size: _w / 8,
                       ),
                     ),
@@ -690,7 +698,7 @@ class Env {
           border: Border.all(color: PurpleColor, width: 1.5)),
       child: Align(
         alignment: Alignment.center,
-        child: Text(title,style: Env.txtStyle(15)),
+        child: Text(title,style: Env.txtStyle(14)),
       ),
     );
   }
@@ -935,8 +943,8 @@ class Env {
           voidCallback();
         },
         leading: Image.asset('photos/app_icons/'+image,width: 40,color: PurpleColor),
-        title: Text(title , style:Env.boldStyle(16,BlackColor.withOpacity(.8))),
-        subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
+        title: Text(title , style:Env.boldStyle(15,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
         trailing: Icon(Icons.info_outline,color: PurpleColor,size: 28),
       ),
     );
@@ -973,8 +981,8 @@ class Env {
           voidCallback();
         },
         leading: Image.asset('photos/app_icons/'+image,width:40,color: PurpleColor,),
-        title: Text(title , style:Env.boldStyle(16,BlackColor.withOpacity(.8))),
-        subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
+        title: Text(title , style:Env.boldStyle(14,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
         trailing: Icon(trailing,color: PurpleColor,size: 28),
       ),
     );

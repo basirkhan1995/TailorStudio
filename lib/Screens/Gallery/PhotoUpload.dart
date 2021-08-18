@@ -25,7 +25,7 @@ class _MyGalleryState extends State<MyGallery> {
   String errMessage = 'Error Uploading Image';
 
 
-  // //
+
   // void uploadGallery() async {
   //
   //   try{
@@ -42,11 +42,11 @@ class _MyGalleryState extends State<MyGallery> {
   // }
 
 
-  void uploadGallery() async {
+    void uploadGallery() async {
     http.Response res = await http.post(Uri.parse(Env.url+"GalleryUpload.php"),body: jsonEncode({
       "fileName": imageFile.path,
     }));
-    String filename = imageFile.path.split('/').last;
+    //String filename = imageFile.path.split('/').last;
     String result = res.body.toString();
     if(imageFile.path == null){
       await Env.errorDialog(
