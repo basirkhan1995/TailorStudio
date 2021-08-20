@@ -24,7 +24,7 @@ class ProfileState extends State<Profile> {
   String phone = "";
   String address = "";
   String userID ="";
-  String fileName ="";
+  String fileName = "no_user.jpg";
   File imageFile;
 
   @override
@@ -95,10 +95,7 @@ class ProfileState extends State<Profile> {
                         height: 155,
                         fit: BoxFit.cover,
                       ),
-                    ) : CircleAvatar(radius: 77,
-                      backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                      //foregroundImage: NetworkImage(Env.urlPhoto + 'no_user.jpg'),
-                    ),
+                    ) : Env.image(fileName??"no_user.jpg")
                   ),
                 ),
               ),

@@ -295,7 +295,7 @@ packages:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.3.6"
+    version: "4.3.8"
   group_radio_button:
     dependency: "direct main"
     description:
@@ -442,7 +442,7 @@ packages:
       name: platform
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.2"
   plugin_platform_interface:
     dependency: transitive
     description:

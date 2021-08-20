@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Screens/Individuals/ShowCustomer.dart';
@@ -33,32 +34,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   int currentIndex = 0;
   int _currentIndex = 0;
   PageController _pageController;
-  AnimationController _controller;
-  AnimationController _controller2;
-  Animation<double> _animation;
+
 
   @override
   void initState() {
     super.initState();
-
     _pageController = PageController();
-    _controller2 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 1),
-    );
-
-    _animation = Tween<double>(begin: 0, end: 1)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-    _controller.forward();
-    _controller2.forward();
     initial();
   }
 
@@ -76,8 +57,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
-    _controller2.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -112,7 +91,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       child: Scaffold(
         endDrawer: myDrawer(tailorName??'No Data', tailorEmail??'No email', fileName??'no_user.jpg', context),
         extendBodyBehindAppBar: true,
-        appBar: Env.appBarr(fileName??"", studioName??"", context),
+        appBar: Env.appBarr(fileName??"no_user.jpg", studioName??"", context),
         body: SizedBox.expand(
           child: PageView(
             controller: _pageController,
@@ -186,11 +165,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(top: 65),
-                            child: CircleAvatar(
-                              radius: 50,
-                              backgroundImage: AssetImage(
-                                  'photos/background/no_user.jpg'),
-                              foregroundImage: NetworkImage(Env.urlPhoto + image),
+                            child: CachedNetworkImage(
+                              imageUrl: Env.urlPhoto + image,
+                              imageBuilder: (context, imageProvider) => CircleAvatar(
+                                radius: 50,
+                                foregroundImage: imageProvider,
+                              ),
+                              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1,),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
                           ),
                           SizedBox(height: 15),

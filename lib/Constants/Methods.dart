@@ -10,6 +10,7 @@ import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Env {
 
@@ -703,6 +704,29 @@ class Env {
     );
   }
 
+  static cachedImage(image){
+    return CachedNetworkImage(
+      imageUrl: Env.urlPhoto + image,
+      imageBuilder: (context, imageProvider) => CircleAvatar(
+        radius: 30,
+        foregroundImage: imageProvider,
+      ),
+      placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
+      errorWidget: (context, url, error) => Image.asset('photos/background/no_user.jpg'),
+    );
+  }
+
+  static image(image){
+    return CachedNetworkImage(
+      imageUrl: Env.urlPhoto + image,
+      imageBuilder: (context, imageProvider) => CircleAvatar(
+        radius: 78,
+        foregroundImage: imageProvider,
+      ),
+      placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
+      errorWidget: (context, url, error) => Image.asset('photos/background/no_user.jpg'),
+    );
+  }
 
 
   //My Appbar
@@ -727,9 +751,13 @@ class Env {
           ),
           leading: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: CircleAvatar(radius: 10,
-              backgroundImage: AssetImage('photos/background/no_user.jpg'),
-              foregroundImage: NetworkImage(Env.urlPhoto + url),
+            child: CachedNetworkImage(
+              imageUrl: Env.urlPhoto + url,
+              imageBuilder: (context, imageProvider) => CircleAvatar(
+                foregroundImage: imageProvider,
+              ),
+              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1,),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           )
         ),

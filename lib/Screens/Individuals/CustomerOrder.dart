@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
@@ -25,10 +26,13 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   AnimationController _controller2;
   Animation<double> _animation;
   Animation<double> _animation2;
+  ScrollController _scrollController;
+  bool showFab = true;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     _controller2 = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),
@@ -56,8 +60,10 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   void dispose() {
     _controller.dispose();
     _controller2.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
+
 
   Future<List<Orders>> fetchCustomerOrders() async {
     var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerId}"))
@@ -77,13 +83,14 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: showFab ? FloatingActionButton(
         onPressed: (){
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
           Navigator.push(context,MaterialPageRoute(builder: (context)=>NewOrder(widget.post)));
         },
         backgroundColor: PurpleColor,
         child: Icon(Icons.add,color: WhiteColor),
-      ),
+      ):null,
       body: dashboard(),
     );
   }
@@ -109,12 +116,25 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                 return Text('Error');
               } else{
                 List<Orders> posts = snapshot.data;
-                  return ListView(
-                    padding: EdgeInsets.only(top:60),
-                    children: posts.map((Orders post) =>
-                        Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
-                            Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2))
-                        .toList(),
+                  return NotificationListener<UserScrollNotification>(
+                    onNotification: (notification){
+                      setState(() {
+                        if(notification.direction == ScrollDirection.forward){
+                          showFab = true;
+                        }else if(notification.direction == ScrollDirection.reverse){
+                          showFab = false;
+                        }
+                      });
+                      return true;
+                    },
+                    child: ListView(
+                      controller: _scrollController,
+                      padding: EdgeInsets.only(top:60),
+                      children: posts.map((Orders post) =>
+                          Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
+                              Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2))
+                          .toList(),
+                    ),
                   );
               }
             },

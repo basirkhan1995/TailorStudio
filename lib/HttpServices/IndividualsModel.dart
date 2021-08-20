@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-List<Customer> customerFromJson(String str) => List<Customer>.from(json.decode(str).map((x) => Customer.fromJson(x)));
+List<Customer> customerFromJson(String str) =>
+    List<Customer>.from(json.decode(str).map((x) => Customer.fromJson(x)));
 
-String customerToJson(List<Customer> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String customerToJson(List<Customer> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Customer {
   Customer({
@@ -46,40 +48,40 @@ class Customer {
   String tailorName;
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-    customerId: json["customerID"],
-    firstName: json["firstName"],
-    lastName: json["lastName"],
-    phone: json["phone"],
-    email: json["email"],
-    measureId: json["measureID"],
-    height: json["height"],
-    collar: json["collar"],
-    sleeve: json["sleeve"],
-    skirt: json["skirt"],
-    legWidth: json["legWidth"],
-    pantHeight: json["pantHeight"],
-    shoulder: json["shoulder"],
-    waist: json["waist"],
-    fileName: json["fileName"],
-    tailorName: json["tailorName"],
-  );
+        customerId: json["customerID"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        phone: json["phone"],
+        email: json["email"],
+        measureId: json["measureID"],
+        height: json["height"],
+        collar: json["collar"],
+        sleeve: json["sleeve"],
+        skirt: json["skirt"],
+        legWidth: json["legWidth"],
+        pantHeight: json["pantHeight"],
+        shoulder: json["shoulder"],
+        waist: json["waist"],
+        fileName: json["fileName"],
+        tailorName: json["tailorName"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "customerID": customerId,
-    "firstName": firstName,
-    "lastName": lastName,
-    "phone": phone,
-    "email": email,
-    "measureID": measureId,
-    "height": height,
-    "collar": collar,
-    "sleeve": sleeve,
-    "skirt": skirt,
-    "legWidth": legWidth,
-    "pantHeight": pantHeight,
-    "shoulder": shoulder,
-    "waist": waist,
-    "fileName": fileName,
-    "tailorName": tailorName,
-  };
+        "customerID": customerId,
+        "firstName": firstName,
+        "lastName": lastName,
+        "phone": phone,
+        "email": email,
+        "measureID": measureId,
+        "height": height,
+        "collar": collar,
+        "sleeve": sleeve,
+        "skirt": skirt,
+        "legWidth": legWidth,
+        "pantHeight": pantHeight,
+        "shoulder": shoulder,
+        "waist": waist,
+        "fileName": fileName,
+        "tailorName": tailorName,
+      };
 }
