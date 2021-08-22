@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:http/http.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
+import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
-import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:tailor/Screens/Individuals/CustomerOrderDetails.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import 'dart:ui';
@@ -15,78 +13,35 @@ import '../../wait.dart';
 class CustomerOrder extends StatefulWidget {
   final Customer post;
   CustomerOrder(this.post);
-
   @override
   _CustomerOrderState createState() => _CustomerOrderState();
 }
-
 class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateMixin{
 
-  AnimationController _controller;
-  AnimationController _controller2;
-  Animation<double> _animation;
-  Animation<double> _animation2;
   ScrollController _scrollController;
   bool showFab = true;
-
+  final access = CharacterApi();
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _controller2 = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 1),
-    );
-
-    _animation = Tween<double>(begin: 0, end: 1)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut))
-      ..addListener(() {
-        setState(() {});
-      });
-
-    _animation2 = Tween<double>(begin: 0, end: -50).animate(CurvedAnimation(
-        parent: _controller2, curve: Curves.fastLinearToSlowEaseIn));
-
-    _controller.forward();
-    _controller2.forward();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _controller2.dispose();
     _scrollController.dispose();
     super.dispose();
   }
 
 
-  Future<List<Orders>> fetchCustomerOrders() async {
-    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=${widget.post.customerId}"))
-        .timeout(Duration(seconds: 5));
-    if (response.statusCode == 200) {
-      //print(response.body);
-      List<dynamic> body = jsonDecode(response.body);
-      List<Orders> posts =
-      body.map((dynamic item) => Orders.fromJson(item)).toList();
-      //print(posts);
-      return posts;
-    } else {
-      throw "Error";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WhiteColor,
       floatingActionButton: showFab ? FloatingActionButton(
         onPressed: (){
-          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
           Navigator.push(context,MaterialPageRoute(builder: (context)=>NewOrder(widget.post)));
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
         },
         backgroundColor: PurpleColor,
         child: Icon(Icons.add,color: WhiteColor),
@@ -100,12 +55,11 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
     return Stack(
       children: [
         // background color
-       BackgroundColor(),
         /// ListView
         Directionality(
           textDirection: TextDirection.ltr,
           child: FutureBuilder(
-            future: fetchCustomerOrders(),
+            future: access.fetchCustomerOrders(widget.post.customerId),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Orders>> snapshot) {
               if (!snapshot.hasData) {
@@ -129,10 +83,10 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                     },
                     child: ListView(
                       controller: _scrollController,
-                      padding: EdgeInsets.only(top:60),
+                      padding: EdgeInsets.only(top:20),
                       children: posts.map((Orders post) =>
                           Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
-                              Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF), context, _animation, _animation2))
+                              Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF), context))
                           .toList(),
                     ),
                   );

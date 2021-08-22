@@ -1,19 +1,17 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/CustomerDetails.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import '../../wait.dart';
-import 'package:http/http.dart' as http;
+
 
 class Individual extends StatefulWidget {
   @override
@@ -25,43 +23,14 @@ class _IndividualState extends State<Individual> {
   bool showFab = true;
   SharedPreferences loginData;
   String user = "";
-
-//Delete Customer
-  deleteCustomer(id) async {
-    final http.Response response = await http.get(
-        Env.url+'Individuals_Delete.php?id=$id',
-        headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'
-        });
-    if (response.statusCode == 200) {
-      //print('delete success\n' + response.body);
-      return Customer.fromJson(json.decode(response.body));
-    } else {
-      //print('delete not success \n' + response.body);
-      throw Exception('Failed to delete album.');
-    }
-  }
-  Future <List<Customer>> fetchCustomer(context) async {
-    try{
-      Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=$user")).timeout(Duration(seconds: 10));
-      if (res.statusCode == 200) {
-        List<dynamic> body = jsonDecode(res.body);
-        List<Customer> posts =
-        body.map((dynamic item) => Customer.fromJson(item)).toList();
-        return posts;
-      }
-    } on SocketException catch(_){
-    return Env.msg(context);
-    }on TimeoutException catch(_){
-      return Env.msg(context);
-  }
-  return null;
-  }
+  final access = CharacterApi();
 
   @override
   void initState() {
     super.initState();
     initial();
     _scrollController = ScrollController();
+    access.fetchCustomer(user, context);
   }
 
   @override
@@ -85,8 +54,8 @@ class _IndividualState extends State<Individual> {
         backgroundColor: PurpleColor,
         child: Icon(Icons.add),
         onPressed:(){
-          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
           Navigator.push(context, MaterialPageRoute(builder: (context) => NewClient()));
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
         },
       ):null,
       body: Column(
@@ -100,13 +69,13 @@ class _IndividualState extends State<Individual> {
                 return Future.delayed(
                   Duration(microseconds: 1),() {
                   setState(() {
-                    fetchCustomer(context);
+                    access.fetchCustomer(user,context);
                   });
                 },
                 );
               },
               child: FutureBuilder(
-                future: fetchCustomer(context),
+                future: access.fetchCustomer(user,context),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Customer>> snapshot) {
                   if (!snapshot.hasData) {
@@ -207,7 +176,7 @@ class _IndividualState extends State<Individual> {
                                           await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
                                           if(Env.checkYesNoLogin == true){
                                             print("result = " + Env.checkYesNoLogin.toString());
-                                            deleteCustomer(post.customerId);
+                                            access.deleteCustomer(post.customerId);
                                             Navigator.pop(context);
                                           }else{
                                             print("result = "+ Env.checkYesNoLogin.toString());

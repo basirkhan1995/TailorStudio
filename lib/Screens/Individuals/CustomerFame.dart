@@ -10,6 +10,7 @@ import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 
 class CustomerFame extends StatefulWidget {
@@ -24,30 +25,12 @@ class _CustomerFameState extends State<CustomerFame> {
   String image;
   File imageFile;
 
+
+  final access = CharacterApi();
   @override
   void initState() {
 
     super.initState();
-  }
-
-
-  void uploadProfile() async {
-    http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
-      "fileName": imageFile.path,
-      "customerID": widget.post.customerId
-    }));
-    String result = res.body.toString();
-    // print(widget.post.customerID);
-    if(imageFile.path == null){
-      await Env.errorDialog(
-          Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });
-    }else if (result == "Success"){
-      print(result);
-      await Env.responseDialog(Env.successTitle,'عکس شما موفقانه آپلود گردید',DialogType.SUCCES, context, () { });
-    }else if (result == "Failed"){
-      await Env.errorDialog(
-          Env.successTitle,'عکس شما آپلود نگردید لطفا دوباره کوشش کنید',DialogType.ERROR, context, () { });
-    }
   }
 
   @override
@@ -77,7 +60,7 @@ class _CustomerFameState extends State<CustomerFame> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  InkWell(onTap: ()=>uploadProfile(), child: Text('Submit',style: Env.style(20, PurpleColor),)),
+                  InkWell(onTap: ()=> access.uploadProfile(widget.post.customerId, context), child: Text('Submit',style: Env.style(20, PurpleColor),)),
                   SizedBox(height: 10),
                   Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
                   Divider(height: 2,indent: 10,endIndent: 10),
@@ -105,6 +88,7 @@ class _CustomerFameState extends State<CustomerFame> {
       });
     }
   }
+
   camera()async{
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
@@ -117,6 +101,7 @@ class _CustomerFameState extends State<CustomerFame> {
       });
     }
   }
+
   void _showPicker(context) {
     showModalBottomSheet(
         shape:RoundedRectangleBorder(

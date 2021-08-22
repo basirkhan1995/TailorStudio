@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
-import 'dart:convert';
+import 'package:tailor/HttpServices/HttpServices.dart';
 
 
 class NewClient extends StatefulWidget {
@@ -21,18 +19,7 @@ class _NewClientState extends State<NewClient> {
   String user ="";
   File imageFile;
 
-  TextEditingController firstName = new TextEditingController();
-  TextEditingController lastName = new TextEditingController();
-  TextEditingController phone = new TextEditingController();
-  TextEditingController email = new TextEditingController();
-  TextEditingController waist = new TextEditingController();
-  TextEditingController sleeve = new TextEditingController();
-  TextEditingController shoulder = new TextEditingController();
-  TextEditingController skirt = new TextEditingController();
-  TextEditingController height = new TextEditingController();
-  TextEditingController pantHeight = new TextEditingController();
-  TextEditingController legWidth = new TextEditingController();
-  TextEditingController collar = new TextEditingController();
+ final controller = CharacterApi();
 
 //  To Save userID in SharedPreferences
   void getInstance() async{
@@ -55,34 +42,6 @@ class _NewClientState extends State<NewClient> {
     });
   }
 
-  void sendData() async {
-     http.Response res = await http.post(Uri.parse(Env.url+"customerInsert.php"), body: jsonEncode({
-          "firstName": firstName.text,
-          "lastName": lastName.text,
-          "phone": phone.text,
-          "tailor": "$user",
-          "height": height.text,
-          "shoulder":shoulder.text,
-          "sleeve":sleeve.text,
-          "collar":collar.text,
-          "waist":waist.text,
-          "skirt":skirt.text,
-          "pantHeight":pantHeight.text,
-          "legWidth":legWidth.text,
-        }));
-    String result = res.body.toString();
-    print(result);
-    if(result == "Success"){
-      await Env.responseDialog(
-      Env.successTitle,Env.successCustomerAcc,DialogType.SUCCES, context, () { });
-      Navigator.pop(context);
-    }else {
-      print(result);
-      await Env.errorDialog(
-          Env.errorTitle,'مشتری شما ثبت نگردید لطفا دوباره کوشش نمایید!',DialogType.ERROR, context, () { });
-    }
-  }
-
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -103,7 +62,7 @@ class _NewClientState extends State<NewClient> {
                    //Measurements
                   RoundedBorderedField(
                     hintText: 'اسم مشتری',
-                    controller: firstName,
+                    controller: controller.firstName,
                     inputType: TextInputType.name,
                     icon: Icons.person,
                     onChanged: (value){
@@ -112,7 +71,7 @@ class _NewClientState extends State<NewClient> {
                   ),
                   RoundedBorderedField(
                     hintText: 'تخلص',
-                    controller: lastName,
+                    controller: controller.lastName,
                     inputType: TextInputType.name,
                     icon: Icons.people_alt_rounded,
                     onChanged: (value){
@@ -121,36 +80,30 @@ class _NewClientState extends State<NewClient> {
                   ),
                   RoundedBorderedField(
                     hintText: 'شماره تماس',
-                    controller: phone,
+                    controller: controller.phone,
                     inputType: TextInputType.number,
                     icon: Icons.call,
                     onChanged: (value){
                     },
                     message: 'لطفا شماره تماس مشتری را وارید نمایید!',
                   ),
-
                      SizedBox(height: 10),
+                  Text('اندازه مشـــــــتری',style: Env.style(20, PurpleColor)),
+                  SizedBox(height: 10),
 
-                     Row( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text('اندازه مشـــــــتری',style: Env.style(20, PurpleColor)),
-                    ],
-                  ),
+                  //Customer Measurements
+                  Env.myMeasure('شــــانه', 'photos/Measure/shana.jpg',controller.shoulder),
+                  Env.myMeasure('یخن', 'photos/Measure/gardan.jpg',controller.collar),
+                  Env.myMeasure('آستین', 'photos/Measure/astin.jpg',controller.sleeve),
+                  Env.myMeasure('بغل', 'photos/Measure/baghal.jpg',controller.waist),
+                  Env.myMeasure('قـــــــد', 'photos/Measure/qad_peran.jpg',controller.height),
+                  Env.myMeasure('دامـــــن', 'photos/Measure/bar_daman.jpg',controller.skirt),
+                  Env.myMeasure('قد تنبان', 'photos/Measure/qad_tonban.jpg',controller.pantHeight),
+                  Env.myMeasure('پــــاچه', 'photos/Measure/pacha.jpg',controller.legWidth),
 
                   SizedBox(height: 10),
 
-                   //Measurements
-                  Env.myMeasure('شــــانه', 'photos/Measure/shana.jpg',shoulder),
-                  Env.myMeasure('یخن', 'photos/Measure/gardan.jpg',collar),
-                  Env.myMeasure('آستین', 'photos/Measure/astin.jpg',sleeve),
-                  Env.myMeasure('بغل', 'photos/Measure/baghal.jpg',waist),
-                  Env.myMeasure('قـــــــد', 'photos/Measure/qad_peran.jpg',height),
-                  Env.myMeasure('دامـــــن', 'photos/Measure/bar_daman.jpg',skirt),
-                  Env.myMeasure('قد تنبان', 'photos/Measure/qad_tonban.jpg',pantHeight),
-                  Env.myMeasure('پــــاچه', 'photos/Measure/pacha.jpg',legWidth),
-
-                  SizedBox(height: 10),
-
+                 //Action Buttons for Post and Cancel
                  Row(
                    children: [
                      Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
@@ -159,18 +112,10 @@ class _NewClientState extends State<NewClient> {
                      Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: (){
                          if(_formKey.currentState.validate()){
                            /// Function Send Data
-                           sendData();
+                           controller.sendData(user,context);
                          }}),
                    ],
                  ),
-                  /// Submit Button
-                  // RoundedButton(
-                  //     textColor: WhiteColor, color: PurpleColor, text: "ثبت کــــــــــردن",
-                  //   press: (){
-                  //     if(_formKey.currentState.validate()){
-                  // /// Function Send Data
-                  //    sendData();
-                  //     }}),
                   SizedBox(height: 10)
                 ],
               ),

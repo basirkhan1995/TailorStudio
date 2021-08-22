@@ -146,10 +146,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 
+
+  /// My Drawer
   myDrawer(username, email, image, context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Drawer(
       elevation: 10,
       child: Directionality(
@@ -243,8 +243,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     }
                   },
                 ),
-
-
               ],
             )
         ),
@@ -253,25 +251,5 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   }
 }
 
-//Custom Scaffold Background Color
-class BackgroundColor extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xffffffff),
-            Color(0xffffffff),
-            Color(0xffffffff),
-            Color(0xffffffff),
-            Color(0xffffffff),
-          ],
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-        ),
-      ),
-    );
-  }
-}
+
 

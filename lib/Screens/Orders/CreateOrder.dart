@@ -1,13 +1,11 @@
-import 'dart:convert';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/DescriptionField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
-import 'package:http/http.dart' as http;
 
 class NewOrder extends StatefulWidget {
   final Customer post;
@@ -18,63 +16,8 @@ class NewOrder extends StatefulWidget {
 
 class _NewOrderState extends State<NewOrder> {
   final _formKey = GlobalKey <FormState>();
+  final controller = CharacterApi();
   String user = "";
-
-  final TextEditingController qty = new TextEditingController();
-  final TextEditingController amount = new TextEditingController();
-  final TextEditingController orderType = new TextEditingController();
-  final TextEditingController collarDesign = new TextEditingController();
-  final TextEditingController sleeveDesign = new TextEditingController();
-  final TextEditingController designType = new TextEditingController();
-  final TextEditingController textTileMeter = new TextEditingController();
-  final TextEditingController advanceAmount = new TextEditingController();
-  final TextEditingController orderState = new TextEditingController();
-  final TextEditingController orderDate = new TextEditingController();
-  final TextEditingController deliveryDate = new TextEditingController();
-  final TextEditingController remarks = new TextEditingController();
-
-  String valueChoose;
-  String valueCollar;
-  String valueSleeve;
-  String valueMonths;
-  String valueDays;
-  String valueOrder;
-  var days = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31'];
-  var months = ['حمل','ثور','جوزا','سرطان','اسد','سنبله','میزان','عقرب','قوس','جدی','دلو','حوت'];
-  var items =  ['پیراهن تنبان','واسکت','یخن قاق','کرتی پطلون','پطلون'];
-  var design =  ['هندی','پاکستانی','ترکی','افغانی','عربی','کرزیی'];
-  var collar =  ['یخن هندی حلقوی','یخن قاسمی','چپه یخن','یخن چاک دار'];
-  var sleeve =  ['کف دار','دکمه دار','محرابی'];
-  var status =  ['Complete','Pending','Delivered'];
-
-  void createOrder() async {
-    http.Response res = await http.post(Uri.parse(Env.url+"createOrder.php"), body: jsonEncode({
-      "orderType": valueChoose,
-      "quantity":qty.text,
-      "remarks":remarks.text,
-      "customer":widget.post.customerId,
-      "designType": valueOrder,
-      "sleeve_design": valueSleeve,
-      "collar_design": valueCollar,
-      "textTile_Meter":textTileMeter.text,
-      "orderDate":"$valueMonths "+" $valueDays",
-      "deliveryDate":"$valueMonths "+" $valueDays",
-      "amount":amount.text,
-      "receivedAmount":advanceAmount.text,
-    }));
-    String result = res.body.toString();
-    print(result);
-    if(result == "Success"){
-      await Env.responseDialog(
-          Env.successTitle,'فرمایش شما موفقانه ثبت گردید',DialogType.SUCCES, context, () { });
-          Navigator.pop(context);
-    }else {
-      print(result);
-      await Env.errorDialog(
-          Env.errorTitle,'فرمایش شما ثبت نگردید لطفا دوباره کوشش نمایید',DialogType.ERROR, context, () { });
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -98,13 +41,11 @@ class _NewOrderState extends State<NewOrder> {
                   sleeveDownMenu(),
                   monthsDownMenu(),
                   daysDownMenu(),
-                  Env.myOrder('متراژ رخت:', 'تعداد متراژ رخت', textTileMeter, '','',TextInputType.number),
-                  Env.myOrder('تعداد فرمایش لباس:', 'تعداد جوره لباس', qty, '','',TextInputType.number),
-                  Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', amount, '','',TextInputType.number),
-                  Env.myOrder('رسید:', 'پول پیش پرداخت', advanceAmount, '','',TextInputType.number),
-                  //Env.dateTimePicker('تاریخ فرمایش:',orderDate),
-                  //Env.dateTimePicker('تاریخ تسلیمی فرمایش:',deliveryDate),
-                  DescriptionField(hintText: 'ملاحظات',icon: Icons.info,inputType: TextInputType.text,controller: remarks),
+                  Env.myOrder('متراژ رخت:', 'تعداد متراژ رخت', controller.textTileMeter, '','',TextInputType.number),
+                  Env.myOrder('تعداد فرمایش لباس:', 'تعداد جوره لباس', controller.qty, '','',TextInputType.number),
+                  Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', controller.amount, '','',TextInputType.number),
+                  Env.myOrder('رسید:', 'پول پیش پرداخت', controller.advanceAmount, '','',TextInputType.number),
+                  DescriptionField(hintText: 'ملاحظات',icon: Icons.info,inputType: TextInputType.text,controller: controller.remarks),
                   //dropMenu(),
                   SizedBox(height: 10),
                   Row(
@@ -115,7 +56,7 @@ class _NewOrderState extends State<NewOrder> {
                       Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: (){
                         if(_formKey.currentState.validate()){
                           /// Function Send Data
-                          createOrder();
+                          controller.createOrder(widget.post.customerId,context);
                         }}),
                     ],
                   ),
@@ -147,15 +88,15 @@ class _NewOrderState extends State<NewOrder> {
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
             hint: Text('دیزاین لباس را انتخاب کنید'),
-            value: valueChoose,
+            value: controller.valueChoose,
             onChanged: (String newValue){
               setState(() {
-                valueChoose = newValue;
+                controller.valueChoose = newValue;
               });
             },
             isExpanded: true,
             icon: Icon(Icons.keyboard_arrow_down),
-            items:items.map((String items) {
+            items:controller.itemType.map((String items) {
               return DropdownMenuItem(
                   value: items,
                   child: Text(items)
@@ -185,15 +126,15 @@ class _NewOrderState extends State<NewOrder> {
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
             hint: Text('دیزاین لباس را انتخاب کنید'),
-            value: valueOrder,
+            value: controller.valueOrder,
             onChanged: (String newValue){
               setState(() {
-                valueOrder = newValue;
+                controller.valueOrder = newValue;
               });
             },
             isExpanded: true,
             icon: Icon(Icons.keyboard_arrow_down),
-            items:design.map((String items) {
+            items:controller.designTypeData.map((String items) {
               return DropdownMenuItem(
                   value: items,
                   child: Text(items)
@@ -223,15 +164,15 @@ class _NewOrderState extends State<NewOrder> {
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
             hint: Text('دوخت یخن لباس را انتخاب کنید'),
-            value: valueCollar,
+            value: controller.valueCollar,
             onChanged: (String newValue){
               setState(() {
-                valueCollar = newValue;
+                controller.valueCollar = newValue;
               });
             },
             isExpanded: true,
             icon: Icon(Icons.keyboard_arrow_down),
-            items:collar.map((String items) {
+            items:controller.collarListData.map((String items) {
               return DropdownMenuItem(
                   value: items,
                   child: Text(items)
@@ -261,15 +202,15 @@ class _NewOrderState extends State<NewOrder> {
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
             hint: Text('دوخت آستین را انتخاب کنید'),
-            value: valueSleeve,
+            value: controller.valueSleeve,
             onChanged: (String newValue){
               setState(() {
-                valueSleeve = newValue;
+                controller.valueSleeve = newValue;
               });
             },
             isExpanded: true,
             icon: Icon(Icons.keyboard_arrow_down),
-            items:sleeve.map((String items) {
+            items:controller.sleeveListData.map((String items) {
               return DropdownMenuItem(
                   value: items,
                   child: Text(items)
@@ -299,15 +240,15 @@ class _NewOrderState extends State<NewOrder> {
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
             hint: Text('انتخاب تاریخ تسلیمی (ماه):'),
-            value: valueMonths,
+            value: controller.valueMonths,
             onChanged: (String newValue){
               setState(() {
-                valueMonths = newValue;
+                controller.valueMonths = newValue;
               });
             },
             isExpanded: true,
             icon: Icon(Icons.keyboard_arrow_down),
-            items:months.map((String items) {
+            items:controller.months.map((String items) {
               return DropdownMenuItem(
                   value: items,
                   child: Text(items)
@@ -341,15 +282,15 @@ class _NewOrderState extends State<NewOrder> {
               style: Env.style(17, BlackColor.withOpacity(.6)),
               elevation: 20,
               hint: Text('انتخاب تسلیمی (روز):'),
-              value: valueDays,
+              value: controller.valueDays,
               onChanged: (String newValue){
                 setState(() {
-                  valueDays = newValue;
+                  controller.valueDays = newValue;
                 });
               },
               isExpanded: true,
               icon: Icon(Icons.keyboard_arrow_down),
-              items:days.map((String items) {
+              items:controller.days.map((String items) {
                 return DropdownMenuItem(
                     value: items,
                     child: Text(items)

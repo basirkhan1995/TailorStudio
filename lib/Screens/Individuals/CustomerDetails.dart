@@ -4,7 +4,6 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 
 import 'package:tailor/Screens/Individuals/Base_Details.dart';
 
-
 class CustomerDetails extends StatelessWidget {
   final Customer post;
   CustomerDetails(this.post);
@@ -12,10 +11,7 @@ class CustomerDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Env.appBar(context, post.firstName + " " + post.lastName),
-        body: BaseDetails(post)
-    );
+        appBar: Env.appBar(context, post.firstName + " " + post.lastName),
+        body: BaseDetails(post));
   }
 }
-
-

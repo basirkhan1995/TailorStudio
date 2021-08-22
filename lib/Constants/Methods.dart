@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -12,12 +13,21 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+
 class Env {
+
+
 
   ///Server prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
   static String urlPhoto = "https://tailorstudio.000webhostapp.com/Images/";
-
+  final VoidCallback press;
+  Env({
+    @required
+    this.press,
+  });
+  String myImage;
+  File imageFile;
   /// Dialog Messages
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
@@ -546,106 +556,100 @@ class Env {
   }
 
   //Dashboard Widgets
- static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2){
+ static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context){
     double _w = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: animation1.value,
-      child: Transform.translate(
-        offset: Offset(0, animation2.value),
+    return Container(
+      height: _w / 3,
+      width: _w,
+      padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 40),
+      child: InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => route));
+        },
         child: Container(
-          height: _w / 3,
-          width: _w,
-          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 40),
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => route));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: GreyColor.withOpacity(.4),
-                      offset: Offset(1,1), //(x,y)
-                      blurRadius: 5.0,
-                    ),
-                  ],
-                  color: Color(paint),
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
-              child: Padding(
-                padding: EdgeInsets.all(_w / 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: _w / 4,
-                      width: _w / 3,
-                      decoration: BoxDecoration(
-                          color: LightColor,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Icon(
-                        icon,
-                        color: GreyColor,
-                        size: _w / 8,
-                      ),
-                    ),
-                    SizedBox(width: _w / 40),
-                    SizedBox(
-                      width: _w / 2.05,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 20,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: BlackColor.withOpacity(.7),
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 25,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: BlackColor.withOpacity(.6),
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Text(
-                            trailing,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 25,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: BlackColor.withOpacity(.7),
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: GreyColor.withOpacity(.4),
+                  offset: Offset(1,1), //(x,y)
+                  blurRadius: 5.0,
                 ),
-              ),
+              ],
+              color: Color(paint),
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
+          child: Padding(
+            padding: EdgeInsets.all(_w / 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: _w / 4,
+                  width: _w / 3,
+                  decoration: BoxDecoration(
+                      color: LightColor,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Icon(
+                    icon,
+                    color: GreyColor,
+                    size: _w / 8,
+                  ),
+                ),
+                SizedBox(width: _w / 40),
+                SizedBox(
+                  width: _w / 2.05,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        style: PersianFonts.Samim.copyWith(
+                          fontSize: _w / 20,
+                          letterSpacing: 1,
+                          wordSpacing: 1,
+                          color: BlackColor.withOpacity(.7),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        subtitle,
+                        maxLines: 1,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: PersianFonts.Samim.copyWith(
+                          fontSize: _w / 25,
+                          letterSpacing: 1,
+                          wordSpacing: 1,
+                          color: BlackColor.withOpacity(.6),
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      Text(
+                        trailing,
+                        maxLines: 1,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: PersianFonts.Samim.copyWith(
+                          fontSize: _w / 25,
+                          letterSpacing: 1,
+                          wordSpacing: 1,
+                          color: BlackColor.withOpacity(.7),
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -985,9 +989,10 @@ class Env {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset('photos/app_icons/empty.png',width: 80,color:PurpleColor),
-          Text('No Data!',style:Env.style(20, BlackColor.withOpacity(.8))),
-          Text('Please check again later.',style:Env.style(14, BlackColor.withOpacity(.4))),
-          Text('TRY AGAIN',style:Env.style(20, PurpleColor)),
+          SizedBox(height: 10),
+          Text('NO DATA',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
+          SizedBox(height: 5),
+          Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
         ],
       ),
     );
@@ -1169,5 +1174,6 @@ class Env {
         }
     );
   }
+
 
 }//class Env
