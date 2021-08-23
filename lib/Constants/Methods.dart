@@ -16,16 +16,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class Env {
 
-
-
   ///Server prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
   static String urlPhoto = "https://tailorstudio.000webhostapp.com/Images/";
-  final VoidCallback press;
-  Env({
-    @required
-    this.press,
-  });
   String myImage;
   File imageFile;
   /// Dialog Messages
@@ -116,7 +109,7 @@ class Env {
     );
   }
 
-  //Static TextStyle
+  //Static Bold TextStyle
   static boldStyle(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
       fontSize: size,
@@ -127,15 +120,15 @@ class Env {
     );
   }
 
-  //Custom style
-  static txtStyle(double size) {
-    return PersianFonts.Samim.copyWith(
-      fontSize: size,
-      letterSpacing: 1,
-      wordSpacing: 1,
-      fontWeight: FontWeight.w600,
-    );
-  }
+  // //Custom style
+  // static txtStyle(double size) {
+  //   return PersianFonts.Samim.copyWith(
+  //     fontSize: size,
+  //     letterSpacing: 1,
+  //     wordSpacing: 1,
+  //     fontWeight: FontWeight.w600,
+  //   );
+  // }
 
   //General Alert Dialog function
   static responseDialog(String title, String msg, DialogType dialogType, BuildContext context, VoidCallback onOkPress) {
@@ -696,6 +689,8 @@ class Env {
     );
   }
 
+
+  //
   static tab(title){
     return Container(
       decoration: BoxDecoration(
@@ -703,7 +698,7 @@ class Env {
           border: Border.all(color: PurpleColor, width: 1.5)),
       child: Align(
         alignment: Alignment.center,
-        child: Text(title,style: Env.txtStyle(14)),
+        child: Text(title,style: Env.style(14,null)),
       ),
     );
   }
@@ -716,7 +711,9 @@ class Env {
         foregroundImage: imageProvider,
       ),
       placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
-      errorWidget: (context, url, error) => Image.asset('photos/background/no_user.jpg'),
+      errorWidget: (context, url, error) => CircleAvatar(
+          radius: 30,
+          child: Image.asset('photos/background/no_user.jpg')),
     );
   }
 
@@ -728,7 +725,7 @@ class Env {
         foregroundImage: imageProvider,
       ),
       placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
-      errorWidget: (context, url, error) => Image.asset('photos/background/no_user.jpg'),
+      errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }
 
@@ -760,7 +757,7 @@ class Env {
               imageBuilder: (context, imageProvider) => CircleAvatar(
                 foregroundImage: imageProvider,
               ),
-              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1,),
+              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           )

@@ -8,7 +8,8 @@ import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'package:animated_floatactionbuttons/animated_floatactionbuttons.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:path/path.dart';
+import 'package:dio/dio.dart';
 
 class MyGallery extends StatefulWidget {
   const MyGallery({Key key}) : super(key: key);
@@ -19,30 +20,27 @@ class MyGallery extends StatefulWidget {
 
 class _MyGalleryState extends State<MyGallery> {
   File imageFile;
-  //static final String uploadEndPoint = 'https://tailorstudio.000webhostapp.com/serverUpload.php';
-  String status = '';
-  String base64Image;
-  String errMessage = 'Error Uploading Image';
+
+  void _uploadFile(filePath) async {
+    String fileName = basename(filePath.path);
+    print("file base name:$fileName");
+
+    try {
+      FormData formData = new FormData.fromMap({
+        "name": "rajika",
+        "age": 22,
+        "file": await MultipartFile.fromFile(filePath.path, filename: fileName),
+      });
+
+      Response response = await Dio().post("https://tailorstudio.000webhostapp.com/uploadGalleryPhoto.php",data: formData);
+      print("File upload response: $response");
+    } catch (e) {
+      print("expectation Caugch: $e");
+    }
+  }
 
 
-
-  // void uploadGallery() async {
-  //
-  //   try{
-  //     String filename = imageFile.path.split('/').last:
-  //    FormData formdata = new FormData.fromMap({
-  //     'fileName': await MultipartFile.fromFile(imageFile.path, filename: filename,)
-  //   });
-  // Response response = await dio.po
-  //
-  //   }catch(e){
-  //
-  //   }
-  //
-  // }
-
-
-    void uploadGallery() async {
+    void uploadGallery(context) async {
     http.Response res = await http.post(Uri.parse(Env.url+"GalleryUpload.php"),body: jsonEncode({
       "fileName": imageFile.path,
     }));
@@ -118,7 +116,9 @@ class _MyGalleryState extends State<MyGallery> {
                 color: PurpleColor,
                 text: 'ثبت کردن',
                 press: ()async{
-                  uploadGallery();
+                  uploadGallery(context);
+                  _uploadFile(imageFile);
+                  //_uploadFile(imageFile.path);
                 },
               ),
             )

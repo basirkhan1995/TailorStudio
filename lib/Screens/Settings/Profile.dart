@@ -9,6 +9,8 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:dio/dio.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -46,13 +48,32 @@ class ProfileState extends State<Profile> {
     });
   }
 
-  void uploadProfile() async {
+  void _uploadFile(filePath) async {
+    //String fileName = basename(filePath.path);
+    //String fileName = filePath.path.split("image").last;
+    //print("Image: $fileName");
+
+    String fileName = filePath.path.split("image_picker").last;
+    fileName.replaceAll(fileName, 'image.jpg');
+    print("file name: $fileName");
+    try {
+      FormData formData = new FormData.fromMap({
+        "name": "profile.jpg",
+        "file": await MultipartFile.fromFile(filePath.path, filename: fileName),
+      });
+      Response response = await Dio().post("https://tailorstudio.000webhostapp.com/uploadGalleryPhoto.php",data: formData);
+      print("File upload response: $response");
+    } catch (e) {
+      print("expectation Caught: $e");
+    }
+  }
+
+  void uploadProfile(context) async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadUserProfile.php"),body: jsonEncode({
-      "fileName": imageFile.path,
+      "fileName": imageFile.path.split('pic/').last,
       "userID": userID,
     }));
     String result = res.body.toString();
-    print(result);
     if(imageFile.path == null){
       await Env.errorDialog(
           Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });
@@ -71,7 +92,10 @@ class ProfileState extends State<Profile> {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: WhiteColor,
-      appBar: Env.myBar('Profile', Icons.check, ()=>uploadProfile(), context),
+      appBar: Env.myBar('Profile', Icons.check, (){
+        _uploadFile(imageFile);
+        uploadProfile(context);
+      }, context),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: ListView(

@@ -5,7 +5,6 @@ import 'package:tailor/Screens/Gallery/PhotoUpload.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 
 class Album extends StatefulWidget {
-
   @override
   _AlbumState createState() => _AlbumState();
 }
@@ -32,28 +31,19 @@ class _AlbumState extends State<Album> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: PurpleColor,
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyGallery()));
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyGallery()));
         },
       ),
-      appBar: Env.appBar(context,'نمایشگاه لباس'),
-
+      appBar: Env.appBar(context, 'نمایشگاه لباس'),
       body: ListView.builder(
           itemCount: 6,
-          itemBuilder: (BuildContext context,int index){
+          itemBuilder: (BuildContext context, int index) {
             return Column(
-              children: [
-
-
-
-
-              ],
+              children: [],
             );
-          }
-      ),
-     
+          }),
     );
   }
 }
-
-

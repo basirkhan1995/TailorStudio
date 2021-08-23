@@ -171,7 +171,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                 radius: 50,
                                 foregroundImage: imageProvider,
                               ),
-                              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1,),
+                              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
                               errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
                           ),

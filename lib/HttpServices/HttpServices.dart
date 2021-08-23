@@ -105,7 +105,7 @@ class CharacterApi {
 
 //Delete Customer
   deleteCustomer(id) async {
-    final http.Response response = await http.get(Env.url+'Individuals_Delete.php?id=$id',
+    final http.Response response = await http.get(Uri.parse(Env.url+'Individuals_Delete.php?id=$id'),
         headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'
         });
     if (response.statusCode == 200) {
@@ -181,11 +181,10 @@ class CharacterApi {
   }
 
 
-
   //Upload
-  void uploadProfile(customerID,context) async {
+  void uploadProfile(customerID, context) async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
-      "fileName": imageFile.path,
+      "fileName": imageFile.path.split('/').last,
       "customerID": customerID,
     }));
     String result = res.body.toString();
@@ -202,6 +201,5 @@ class CharacterApi {
     }
   }
 
-  //Update Customer Profile
 
 }

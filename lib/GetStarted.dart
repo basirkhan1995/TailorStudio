@@ -30,16 +30,15 @@ class GetStarted extends StatelessWidget {
                 SizedBox(height: 50),
                 Text('خـــــــوش آمــــدید',
                     style: PersianFonts.Samim.copyWith(
-                      fontSize: _w /10,
+                      fontSize: _w / 10,
                       letterSpacing: 1,
                       wordSpacing: 1,
                       color: PurpleColor,
                       fontWeight: FontWeight.w500,
                     )),
                 Text('برنامه خیاطی مدیریت، ثبت فرمایشات و قد اندام مشتریان',
-                    style:
-                    PersianFonts.Samim.copyWith(
-                      fontSize: _w /30,
+                    style: PersianFonts.Samim.copyWith(
+                      fontSize: _w / 30,
                       letterSpacing: 1,
                       wordSpacing: 1,
                       color: Colors.black.withOpacity(.5),
@@ -51,7 +50,6 @@ class GetStarted extends StatelessWidget {
                   width: size.width * 0.9,
                   child: Image.asset('photos/background/tailor_logo.png'),
                 ),
-
                 SizedBox(height: 40),
                 RoundedButton(
                   color: PurpleColor,

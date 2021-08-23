@@ -12,6 +12,9 @@ import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import '../../wait.dart';
 
+import 'package:path/path.dart';
+
+
 
 class Individual extends StatefulWidget {
   @override
@@ -24,6 +27,8 @@ class _IndividualState extends State<Individual> {
   SharedPreferences loginData;
   String user = "";
   final access = CharacterApi();
+
+
 
   @override
   void initState() {
@@ -46,6 +51,8 @@ class _IndividualState extends State<Individual> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +62,12 @@ class _IndividualState extends State<Individual> {
         child: Icon(Icons.add),
         onPressed:(){
           Navigator.push(context, MaterialPageRoute(builder: (context) => NewClient()));
-          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+          if (_scrollController.hasClients) {
+            final maxScroll = _scrollController.position.maxScrollExtent;
+            final currentScroll = _scrollController.offset;
+            return currentScroll >= (maxScroll * 0.9);
+          }
+          //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
         },
       ):null,
       body: Column(

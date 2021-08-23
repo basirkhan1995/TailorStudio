@@ -12,6 +12,8 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
+import 'package:path/path.dart';
+import 'package:dio/dio.dart';
 
 class CustomerFame extends StatefulWidget {
   final Customer post;
@@ -24,6 +26,42 @@ class _CustomerFameState extends State<CustomerFame> {
   SharedPreferences loginData;
   String image;
   File imageFile;
+
+
+ //Upload Image to server
+  void _uploadFile(filePath) async {
+    String fileName = basename(filePath.path);
+    print("file name:$fileName");
+    try {
+      FormData formData = new FormData.fromMap({
+        "file": await MultipartFile.fromFile(filePath.path, filename: fileName),
+      });
+      Response response = await Dio().post(Env.url + "uploadGalleryPhoto.php",data: formData);
+      print("File upload response: $response");
+    } catch (e) {
+      print("expectation Caugch: $e");
+    }
+  }
+
+  //Upload
+  void uploadProfile(customerID, context) async {
+    http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
+      "fileName": imageFile.path.split('/').last,
+      "customerID": customerID,
+    }));
+    String result = res.body.toString();
+    // print(widget.post.customerID);
+    if(imageFile.path == null){
+      await Env.errorDialog(
+          Env.successTitle,'لطفا عکس خود را انتخاب کنید',DialogType.ERROR, context, () { });
+    }else if (result == "Success"){
+      print(result);
+      await Env.responseDialog(Env.successTitle,'عکس شما موفقانه آپلود گردید',DialogType.SUCCES, context, () { });
+    }else if (result == "Failed"){
+      await Env.errorDialog(
+          Env.successTitle,'عکس شما آپلود نگردید لطفا دوباره کوشش کنید',DialogType.ERROR, context, () { });
+    }
+  }
 
 
   final access = CharacterApi();
@@ -48,7 +86,8 @@ class _CustomerFameState extends State<CustomerFame> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
-                      child: CircleAvatar(radius: 80, backgroundColor: PurpleColor,
+                      child: CircleAvatar(
+                        radius: 80, backgroundColor: PurpleColor,
                         child: imageFile != null
                             ? ClipRRect(
                           borderRadius: BorderRadius.circular(75),
@@ -60,7 +99,10 @@ class _CustomerFameState extends State<CustomerFame> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  InkWell(onTap: ()=> access.uploadProfile(widget.post.customerId, context), child: Text('Submit',style: Env.style(20, PurpleColor),)),
+                  InkWell(onTap: (){
+                    _uploadFile(imageFile);
+                    uploadProfile(widget.post.customerId, context);
+                  }, child: Text('Submit',style: Env.style(20, PurpleColor),)),
                   SizedBox(height: 10),
                   Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
                   Divider(height: 2,indent: 10,endIndent: 10),

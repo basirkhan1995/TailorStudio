@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
@@ -41,7 +42,12 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
       floatingActionButton: showFab ? FloatingActionButton(
         onPressed: (){
           Navigator.push(context,MaterialPageRoute(builder: (context)=>NewOrder(widget.post)));
-          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+            if (_scrollController.hasClients) {
+              final maxScroll = _scrollController.position.maxScrollExtent;
+              final currentScroll = _scrollController.offset;
+              return currentScroll >= (maxScroll * 0.9);
+            }
+          //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
         },
         backgroundColor: PurpleColor,
         child: Icon(Icons.add,color: WhiteColor),

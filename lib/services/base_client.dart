@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'app_exceptions.dart';
 
 class BaseClient {
+
   static const int TIME_OUT_DURATION = 20;
   //GET
   Future<dynamic> get(String baseUrl, String api) async {
@@ -58,7 +59,7 @@ class BaseClient {
         throw BadRequestException(utf8.decode(response.bodyBytes), response.request.url.toString());
       case 500:
       default:
-        throw FetchDataException('Error occured with code : ${response.statusCode}', response.request.url.toString());
+        throw FetchDataException('Error occurred with code : ${response.statusCode}', response.request.url.toString());
     }
   }
 }
