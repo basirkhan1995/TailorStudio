@@ -20,7 +20,7 @@ class Env {
   static String url = "https://tailorstudio.000webhostapp.com/";
   static String urlPhoto = "https://tailorstudio.000webhostapp.com/Images/";
   String myImage;
-  File imageFile;
+  static File imageFile;
   /// Dialog Messages
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
@@ -91,10 +91,9 @@ class Env {
 //auto login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
-    isLogin = (loginData.getBool('login') ?? false);
-    if (isLogin == true) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Dashboard()));
+    isLogin = (loginData.getBool('login')??false);
+    if (isLogin == true){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
     }
   }
 
@@ -119,16 +118,6 @@ class Env {
       fontWeight: FontWeight.w600,
     );
   }
-
-  // //Custom style
-  // static txtStyle(double size) {
-  //   return PersianFonts.Samim.copyWith(
-  //     fontSize: size,
-  //     letterSpacing: 1,
-  //     wordSpacing: 1,
-  //     fontWeight: FontWeight.w600,
-  //   );
-  // }
 
   //General Alert Dialog function
   static responseDialog(String title, String msg, DialogType dialogType, BuildContext context, VoidCallback onOkPress) {
@@ -159,26 +148,15 @@ class Env {
     ).show();
   }
 
-  static msg( context){
-    return  Dialog(
-      child: Container(
-        height: 80,
-        width: 100,
-        child: TextButton(
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
-          },
-          child: Text('Ok'),
-        ),
-      ),
-    );
-  }
 
   //Exist Account Error Message
   static errorDialog(String title, String msg, DialogType dialogType,BuildContext context, VoidCallback onOkPress) {
     return AwesomeDialog(
+      autoHide: Duration(seconds: 5),
+      buttonsBorderRadius: BorderRadius.circular(5),
+      dialogBorderRadius: BorderRadius.circular(15),
       context: context,
-      animType: AnimType.TOPSLIDE,
+      animType: AnimType.BOTTOMSLIDE,
       dialogType: dialogType,
       title: title,
       desc: msg,
@@ -1019,7 +997,7 @@ class Env {
   }
 
   //My Appbar
-  static Widget myBar(title, IconData icon, voidCallback, context) {
+  static Widget myBar(title, IconData icon, image, voidCallback, context) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
@@ -1027,7 +1005,13 @@ class Env {
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         child: AppBar(
           actions: [
+            image == null ?
             IconButton(
+              icon: Icon(Icons.home,color: GreyColor),
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
+              },
+            ):IconButton(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               icon: Icon(icon, color: Colors.black.withOpacity(.7)),

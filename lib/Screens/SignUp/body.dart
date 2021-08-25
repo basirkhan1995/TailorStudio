@@ -13,11 +13,11 @@ import '../../wait.dart';
 import 'background.dart';
 import 'package:http/http.dart' as http;
 
-
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
 }
+
 class _BodyState extends State<Body> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   LoginScreen lgn = new LoginScreen();
@@ -27,124 +27,144 @@ class _BodyState extends State<Body> {
   TextEditingController password = new TextEditingController();
   bool loading = false;
 
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return loading ?  LoadingCircle() : Background(
-      child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(padding: EdgeInsets.symmetric(vertical: 25)),
-              Text(
-                "حســـاب جـــدید",
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30,color: PurpleColor),
-              ),
-              Image.asset(
-                "photos/background/tailor_logo.png",
-                height: size.height * 0.25,
-              ),
+    return loading
+        ? LoadingCircle()
+        : Background(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(padding: EdgeInsets.symmetric(vertical: 25)),
+                    Text(
+                      "حســـاب جـــدید",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: PurpleColor),
+                    ),
+                    Image.asset(
+                      "photos/background/tailor_logo.png",
+                      height: size.height * 0.25,
+                    ),
 
-              //Input TextFields
-              RoundedInputField(
-                controller: tailorName,
-                hintText: "اســـم خیـــاط",
-                message: "لطفا اسم خیاط را وارید نمایید",
-                icon: Icons.person_rounded,
-                onChanged: (value) {},
-              ),
-              RoundedInputField(
-                controller: studioName,
-                hintText: "اســـم خیـــاطی",
-                message: "لطفا اسم خیاطی خود را وارید نمایید",
-                icon: Icons.home_work,
-                onChanged: (value) {},
-              ),
-              RoundedInputField(
-                controller: username,
-                icon: Icons.account_circle,
-                hintText: "حســـاب کاربری",
-                message: "لطفا حساب کاربری خود را وارید نمایید",
-                onChanged: (value) {},
-              ),
-              PasswordInputField(
-                hintText: 'رمز عبور',
-                message: 'لطفا رمز عبور را وارید نمایید',
-                icon: Icons.lock_rounded,
-                controller: password,
-                onChanged: (value) {},
-              ),
-              SizedBox(height: 10),
-             //Sign up Button
-              RoundedButton(
-                text: "ایجــــاد حساب",
-                press: () async{
-                  if (_formKey.currentState.validate()) {
-                    var networkResult = await Connectivity().checkConnectivity();
-                    if (networkResult == ConnectivityResult.none) {
-                      return Env.errorDialog(Env.internetTitle, Env.noInternetMessage, DialogType.ERROR, context, () { });
-                    }
-                    setState(() {
-                      loading = true;
-                    });
-                    http.Response res =
-                        await http.post(Uri.parse(Env.url+"register.php"),
-                        body: jsonEncode({
-                          "tailorName": tailorName.text,
-                          "studioName": studioName.text,
-                          "userName": username.text,
-                          "password": password.text,
-                        }));
-                    String result = res.body.toString();
-                    print(res.body);
-                    if (result == "Exists") {
-                      setState(() {
-                        loading = false;
-                      });
-                      Env.errorDialog(
-                         Env.errorTitle,Env.userExistsMessage,
-                          DialogType.ERROR, context, () { });
-                    } else {
-                    await Env.responseDialog(
-                          Env.successTitle,Env.successMessage,
-                           DialogType.SUCCES, context, () { });
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    }
-                  }else{
-                    return Env.errorDialog('تــــــوجه', Env.inputError, DialogType.WARNING, context, () { });
-                  }
-                },
-              ),
-              SizedBox(height: size.height * 0.03),
-
-              AlreadyHaveAnAccountCheck(
-                login: false,
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return LoginScreen();
+                    //Input TextFields
+                    RoundedInputField(
+                      controller: tailorName,
+                      hintText: "اســـم خیـــاط",
+                      message: "لطفا اسم خیاط را وارید نمایید",
+                      icon: Icons.person_rounded,
+                      onChanged: (value) {},
+                    ),
+                    RoundedInputField(
+                      controller: studioName,
+                      hintText: "اســـم خیـــاطی",
+                      message: "لطفا اسم خیاطی خود را وارید نمایید",
+                      icon: Icons.home,
+                      onChanged: (value) {},
+                    ),
+                    RoundedInputField(
+                      controller: username,
+                      icon: Icons.account_circle,
+                      hintText: "حســـاب کاربری",
+                      message: "لطفا حساب کاربری خود را وارید نمایید",
+                      onChanged: (value) {},
+                    ),
+                    PasswordInputField(
+                      hintText: 'رمز عبور',
+                      message: 'لطفا رمز عبور را وارید نمایید',
+                      icon: Icons.lock_rounded,
+                      controller: password,
+                      onChanged: (value) {},
+                    ),
+                    SizedBox(height: 10),
+                    //Sign up Button
+                    RoundedButton(
+                      text: "ایجــــاد حساب",
+                      press: () async {
+                        if (_formKey.currentState.validate()) {
+                          var networkResult =
+                              await Connectivity().checkConnectivity();
+                          if (networkResult == ConnectivityResult.none) {
+                            return Env.errorDialog(
+                                Env.internetTitle,
+                                Env.noInternetMessage,
+                                DialogType.ERROR,
+                                context,
+                                () {});
+                          }
+                          setState(() {
+                            loading = true;
+                          });
+                          http.Response res = await http.post(
+                              Uri.parse(Env.url + "register.php"),
+                              body: jsonEncode({
+                                "tailorName": tailorName.text,
+                                "studioName": studioName.text,
+                                "userName": username.text,
+                                "password": password.text,
+                              }));
+                          String result = res.body.toString();
+                          print(res.body);
+                          if (result == "Exists") {
+                            setState(() {
+                              loading = false;
+                            });
+                            Env.errorDialog(
+                                Env.errorTitle,
+                                Env.userExistsMessage,
+                                DialogType.ERROR,
+                                context,
+                                () {});
+                          } else {
+                            setState(() {
+                              loading = false;
+                            });
+                            await Env.responseDialog(
+                                Env.successTitle,
+                                Env.successMessage,
+                                DialogType.SUCCES,
+                                context,
+                                () {});
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          }
+                        } else {
+                          setState(() {
+                            loading = false;
+                          });
+                          return Env.errorDialog('تــــــوجه', Env.inputError,
+                              DialogType.WARNING, context, () {});
+                        }
                       },
                     ),
-                  );
-                },
+                    SizedBox(height: size.height * 0.03),
+
+                    AlreadyHaveAnAccountCheck(
+                      login: false,
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return LoginScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-
+            ),
+          );
   }
-
 }

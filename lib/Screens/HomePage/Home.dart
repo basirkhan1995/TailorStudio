@@ -24,11 +24,11 @@ class Dashboard extends StatefulWidget {
 }
 class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   SharedPreferences loginData;
-  String tailorName = "Tailor Name";
-  String studioName = "Tailor Studio";
-  String tailorEmail = "Tailor Email";
-  String username = "username";
-  String userID = "userID";
+  String tailorName = "";
+  String studioName = "";
+  String tailorEmail = "";
+  String username = "";
+  String userID = "";
   String fileName = "";
   bool checkLogin;
   int currentIndex = 0;
@@ -46,12 +46,12 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void initial() async {
     loginData = await SharedPreferences.getInstance();
     setState(() {
-      username = loginData.getString('username');
-      tailorName = loginData.getString('tailorName');
-      studioName = loginData.getString('studioName');
-      tailorEmail = loginData.getString('userEmail');
-      fileName = loginData.getString('fileName');
-      checkLogin = loginData.getBool('login');
+      username = (loginData.getString('username')??"");
+      tailorName = (loginData.getString('tailorName')??"");
+      studioName = (loginData.getString('studioName')??"");
+      tailorEmail = (loginData.getString('userEmail')??"no email");
+      fileName = (loginData.getString('fileName')??"no_user.jpg");
+      checkLogin = (loginData.getBool('login')??false);
     });
   }
 
@@ -78,9 +78,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         btnOkText: 'بلی',
         btnOkColor: PurpleColor,
         btnOkOnPress: () => exit(0),
-        btnCancelOnPress: () {
-          Navigator.pop(context);
-        },
+        btnCancelOnPress: () {},
         btnCancelColor: Colors.red.shade900).show() ?? false;
   }
 
@@ -89,9 +87,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        endDrawer: myDrawer(tailorName??'No Data', tailorEmail??'No email', fileName??'no_user.jpg', context),
+        endDrawer: myDrawer(tailorName??"", tailorEmail??"",fileName??'no_user.jpg', context),
         extendBodyBehindAppBar: true,
-        appBar: Env.appBarr(fileName??"no_user.jpg", studioName??"", context),
+        appBar: Env.appBarr(fileName, studioName??"", context),
         body: SizedBox.expand(
           child: PageView(
             controller: _pageController,
@@ -177,18 +175,16 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           ),
                           SizedBox(height: 15),
                           Text(username, style: Env.style(21, WhiteColor)),
-                          Text(email,
-                              style: Env.style(12, WhiteColor.withOpacity(.8))),
-                          SizedBox(height: 15),
+                          Text(email, style: Env.style(12, WhiteColor.withOpacity(.8))),
+                          SizedBox(height: 85),
                           Container(
-                            width: 230,
+                            width: 290,
                             height: 45,
                             child: Button(text:'Edit Profile',textColor: PurpleColor,paint: WhiteColor ,press: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
                             },),
                           ),
                           SizedBox(height: 20),
-                          //Image.asset('photos/app_icons/sewing.png', width: 60, color: WhiteColor,)
                         ],
                       )
                   ),
@@ -201,7 +197,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         ),
                       ],
                       color: PurpleColor,
-                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(160))
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))
                   ),
                   width: size.width,
                   height: 390,

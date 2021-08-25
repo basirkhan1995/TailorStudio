@@ -85,6 +85,7 @@ class CharacterApi {
   TextEditingController pantHeight = new TextEditingController();
   TextEditingController legWidth = new TextEditingController();
   TextEditingController collar = new TextEditingController();
+  bool loading = false;
 
   //Fetch Customer's Orders
   Future<List<Orders>> fetchCustomerOrders(String userID) async {
@@ -122,15 +123,16 @@ class CharacterApi {
     try{
       Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id="+ userID)).timeout(Duration(seconds: 10));
       if (res.statusCode == 200) {
+
         List<dynamic> body = jsonDecode(res.body);
         List<Customer> posts =
         body.map((dynamic item) => Customer.fromJson(item)).toList();
         return posts;
       }
     } on SocketException catch(_){
-      return Env.msg(context);
+      return Env.errorDialog('No Internet Connection', 'Please check your internet and try again!', DialogType.WARNING, context, () { });
     }on TimeoutException catch(_){
-      return Env.msg(context);
+      return Env.errorDialog('Time Out', 'Please check your internet and try again!', DialogType.WARNING, context, () { });
     }
     return null;
   }

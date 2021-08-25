@@ -8,20 +8,20 @@ import 'CustomerMeasure.dart';
 import 'CustomerOrder.dart';
 
 class BaseDetails extends StatefulWidget {
-   final Customer post;
-   BaseDetails(this.post);
+  final Customer post;
+  BaseDetails(this.post);
 
   @override
   _BaseDetailsState createState() => _BaseDetailsState();
 }
 
 class _BaseDetailsState extends State<BaseDetails> {
-   File imageFile;
+  File imageFile;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: WhiteColor,
+        backgroundColor: WhiteColor,
         body: DefaultTabController(
             length: 3,
             child: Column(
@@ -33,10 +33,11 @@ class _BaseDetailsState extends State<BaseDetails> {
                       child: TabBar(
                           unselectedLabelColor: PurpleColor,
                           indicatorSize: TabBarIndicatorSize.label,
-                          labelPadding: EdgeInsets.only(top: 1, left: 4, right: 4),
+                          labelPadding:
+                              EdgeInsets.only(top: 1, left: 4, right: 4),
                           indicator: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: PurpleColor),
+                              borderRadius: BorderRadius.circular(50),
+                              color: PurpleColor),
                           tabs: [
                             Tab(child: Env.tab('شهرت')),
                             Tab(child: Env.tab('اندازه')),
@@ -54,15 +55,6 @@ class _BaseDetailsState extends State<BaseDetails> {
                   ),
                 )
               ],
-            ))
-    );
+            )));
   }
 }
-
-
-
-
-
-
-
-

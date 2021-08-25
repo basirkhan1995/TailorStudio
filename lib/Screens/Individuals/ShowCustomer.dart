@@ -127,10 +127,10 @@ class _IndividualState extends State<Individual> {
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
                               leading: post.fileName == null ?
-                                CircleAvatar(
-                                  radius: 25,
-                                  backgroundImage: AssetImage('photos/background/no_user.jpg'),
-                                ):
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                              ):
                               Env.cachedImage(post.fileName??"no_user.jpg"),
                               title: Text(
                                   post.firstName??"" + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,

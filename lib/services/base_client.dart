@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
 import 'app_exceptions.dart';
 
 class BaseClient {
 
   static const int TIME_OUT_DURATION = 20;
   //GET
-  Future<dynamic> get(String baseUrl, String api) async {
+  Future<List<Orders>> get(String baseUrl, String api) async {
     var uri = Uri.parse(baseUrl + api);
     try {
       var response = await http.get(uri).timeout(Duration(seconds: TIME_OUT_DURATION));

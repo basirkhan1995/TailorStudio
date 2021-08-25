@@ -32,120 +32,146 @@ class _BodyState extends State<Body> {
   bool loading = false;
   @override
   void initState() {
-   Env.checkIfUserIsLogin(context);
+    Env.checkIfUserIsLogin(context);
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double _w = MediaQuery.of(context).size.width;
-    return loading ?  LoadingCircle() : Background(
-      child: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Text(
-                  " ورود به سیستم",
-                  style: PersianFonts.Samim.copyWith(
-                    fontSize: _w /15,
-                    letterSpacing: 1,
-                    wordSpacing: 1,
-                    color: PurpleColor,
-                    fontWeight: FontWeight.w600,
-                  )
-                ),
-              ),
-              Image.asset(
-                "photos/background/tailor_logo2.png",
-                height: size.height * 0.35,
-              ),
-              RoundedInputField(
-                controller: username,
-                hintText: "نام کاربری",
-                icon: Icons.account_circle,
-                message: 'لطفا حساب کاربری خود را وارد نمایید',
-                onChanged: (value) {},
-              ),
-              PasswordInputField(
-                icon: Icons.lock_rounded,
-                message: 'لطفا رمز عبور خود را وارید نمایید',
-                controller: password,
-                prefix: Icons.lock_rounded,
-                onChanged: (value){
-                },
-                hintText: 'رمز عبور',
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 180),
-                child: Text('بازیابی رمز عبور؟',
-                    style: TextStyle(
-                        color: PurpleColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15)),
-              ),
-              RoundedButton(
-                text: "ورود",
-                press: () async {
-                  if (_formKey.currentState.validate()) {
-                     var networkResult = await Connectivity().checkConnectivity();
-                    if (networkResult == ConnectivityResult.none) {
-                    return Env.errorDialog(Env.internetTitle, Env.noInternetMessage, DialogType.ERROR, context, () { });
-                    }
-
-                    http.Response res = await http.post(Uri.parse(Env.url + "login.php"), body: jsonEncode({
-                              "userName": username.text,
-                              "password": password.text,
-                            }));
-                    var jsonData = jsonDecode(res.body);
-                    int result = int.parse(jsonData['userID']);
-                    print(jsonData);
-                    if (result > 0) {
-                      loading = false;
-                      Env.loginData.setBool('login', true);
-                      Env.loginData.setString('username', username.text);
-                      Env.loginData.setString('userID', jsonData['userID']);
-                      Env.loginData.setString('tailorName', jsonData['tailorName']);
-                      Env.loginData.setString('studioName', jsonData['studioName']);
-                      Env.loginData.setString('userEmail', jsonData['userEmail']);
-                      Env.loginData.setString('userPhone', jsonData['userPhone']);
-                      Env.loginData.setString('userAddress', jsonData['userAddress']);
-                      Env.loginData.setString('fileName', jsonData['fileName']);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
-                    } else {
-                      Env.errorDialog(
-                          Env.errorTitle,Env.wrongInput, DialogType.ERROR, context, () => {Navigator.pop(context)});}
-                  } else {
-                    Env.errorDialog('تـوجه', "لطفا حساب کاربری و پســـورد خود را وارید نمایید", DialogType.WARNING, context, () {
-                      //Navigator.pop(context);
-                    });
-                  }
-                },
-              ),
-              SizedBox(height: size.height * 0.03),
-              AlreadyHaveAnAccountCheck(
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return SignUpScreen();
+    return loading
+        ? LoadingCircle()
+        : Background(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 40.0),
+                      child: Text(" ورود به سیستم",
+                          style: PersianFonts.Samim.copyWith(
+                            fontSize: _w / 15,
+                            letterSpacing: 1,
+                            wordSpacing: 1,
+                            color: PurpleColor,
+                            fontWeight: FontWeight.w600,
+                          )),
+                    ),
+                    Image.asset(
+                      "photos/background/tailor_logo2.png",
+                      height: size.height * 0.35,
+                    ),
+                    RoundedInputField(
+                      controller: username,
+                      hintText: "نام کاربری",
+                      icon: Icons.account_circle,
+                      message: 'لطفا حساب کاربری خود را وارد نمایید',
+                      onChanged: (value) {},
+                    ),
+                    PasswordInputField(
+                      icon: Icons.lock_rounded,
+                      message: 'لطفا رمز عبور خود را وارید نمایید',
+                      controller: password,
+                      prefix: Icons.lock_rounded,
+                      onChanged: (value) {},
+                      hintText: 'رمز عبور',
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 180),
+                      child: Text('بازیابی رمز عبور؟',
+                          style: TextStyle(
+                              color: PurpleColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15)),
+                    ),
+                    RoundedButton(
+                      text: "ورود",
+                      press: () async {
+                        if (_formKey.currentState.validate()) {
+                          var networkResult =
+                              await Connectivity().checkConnectivity();
+                          if (networkResult == ConnectivityResult.none) {
+                            return Env.errorDialog(
+                                Env.internetTitle,
+                                Env.noInternetMessage,
+                                DialogType.ERROR,
+                                context,
+                                () {});
+                          }
+                          setState(() {
+                            loading = true;
+                          });
+                          http.Response res =
+                              await http.post(Uri.parse(Env.url + "login.php"),
+                                  body: jsonEncode({
+                                    "userName": username.text,
+                                    "password": password.text,
+                                  }));
+                          var jsonData = jsonDecode(res.body);
+                          int result = int.parse(jsonData['userID']);
+                          print(jsonData);
+                          if (result > 0) {
+                            setState(() {
+                              loading = false;
+                            });
+                            Env.loginData.setBool('login', true);
+                            Env.loginData.setString('username', username.text);
+                            Env.loginData.setString('userID', jsonData['userID']);
+                            Env.loginData.setString('tailorName', jsonData['tailorName']);
+                            Env.loginData.setString('studioName', jsonData['studioName']);
+                            Env.loginData.setString('userEmail', jsonData['userEmail']);
+                            Env.loginData.setString('userPhone', jsonData['userPhone']);
+                            Env.loginData.setString('userAddress', jsonData['userAddress']);
+                            Env.loginData.setString('fileName', jsonData['fileName']);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Dashboard()));
+                          } else {
+                            setState(() {
+                              loading = false;
+                            });
+                            await Env.errorDialog(
+                                Env.errorTitle,
+                                Env.wrongInput,
+                                DialogType.ERROR,
+                                context,
+                                () => {});
+                          }
+                        } else {
+                          setState(() {
+                            loading = false;
+                          });
+                          await Env.errorDialog(
+                              'تـوجه',
+                              "لطفا حساب کاربری و پســـورد خود را وارید نمایید",
+                              DialogType.WARNING,
+                              context, () {
+                            //Navigator.pop(context);
+                          });
+                        }
                       },
                     ),
-                  );
-                },
+                    SizedBox(height: size.height * 0.03),
+                    AlreadyHaveAnAccountCheck(
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return SignUpScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
-
-
 }

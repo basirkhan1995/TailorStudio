@@ -26,7 +26,7 @@ class ProfileState extends State<Profile> {
   String phone = "";
   String address = "";
   String userID ="";
-  String fileName = "no_user.jpg";
+  String fileName = "";
   File imageFile;
 
   @override
@@ -40,37 +40,33 @@ class ProfileState extends State<Profile> {
     setState(() {
       studioName = loginData.getString('studioName');
       tailorName = loginData.getString('tailorName');
-      email = loginData.getString('userEmail');
-      phone = loginData.getString('userPhone');
-      address = loginData.getString('userAddress');
+      email = loginData.getString('userEmail')??"no email";
+      phone = loginData.getString('userPhone')??"no phone";
+      address = loginData.getString('userAddress')??"no address";
       userID = loginData.getString('userID');
-      fileName = loginData.getString('fileName');
+      fileName = loginData.getString('fileName')??"no_user.jpg";
     });
   }
 
+  //Upload Image to Server
   void _uploadFile(filePath) async {
-    //String fileName = basename(filePath.path);
-    //String fileName = filePath.path.split("image").last;
-    //print("Image: $fileName");
-
-    String fileName = filePath.path.split("image_picker").last;
-    fileName.replaceAll(fileName, 'image.jpg');
-    print("file name: $fileName");
+    String fileName = basename(filePath.path);
+    print("file name:$fileName");
     try {
       FormData formData = new FormData.fromMap({
-        "name": "profile.jpg",
         "file": await MultipartFile.fromFile(filePath.path, filename: fileName),
       });
-      Response response = await Dio().post("https://tailorstudio.000webhostapp.com/uploadGalleryPhoto.php",data: formData);
+      Response response = await Dio().post(Env.url + "photoUploadServer.php",data: formData);
       print("File upload response: $response");
     } catch (e) {
       print("expectation Caught: $e");
     }
   }
 
+  //Upload Image to Database
   void uploadProfile(context) async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadUserProfile.php"),body: jsonEncode({
-      "fileName": imageFile.path.split('pic/').last,
+      "fileName": imageFile.path.split('/').last,
       "userID": userID,
     }));
     String result = res.body.toString();
@@ -86,15 +82,18 @@ class ProfileState extends State<Profile> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: WhiteColor,
-      appBar: Env.myBar('Profile', Icons.check, (){
-        _uploadFile(imageFile);
-        uploadProfile(context);
+      appBar: Env.myBar('Profile',Icons.check,imageFile,(){
+        if(imageFile==null){
+          return Env.errorDialog('Select Image', 'لطفا عکس خود را انتخاب نمایید', DialogType.WARNING, context, () { });
+        }else{
+          _uploadFile(imageFile);
+          uploadProfile(context);
+        }
       }, context),
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -105,38 +104,54 @@ class ProfileState extends State<Profile> {
                 onTap: () {
                   _showPicker(context);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: CircleAvatar(
-                    radius: 80,
-                    backgroundColor: PurpleColor,
-                    child: imageFile != null
-                        ? ClipRRect(
-                      borderRadius: BorderRadius.circular(75),
-                      child: Image.file(
-                        imageFile,
-                        width: 155,
-                        height: 155,
-                        fit: BoxFit.cover,
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: CircleAvatar(
+                          radius: 80,
+                          backgroundColor: GreyColor,
+                          child: imageFile != null
+                              ? ClipRRect(
+                            borderRadius: BorderRadius.circular(75),
+                            child:Image.file(
+                              imageFile,
+                              width: 155,
+                              height: 155,
+                              fit: BoxFit.cover,
+                            ),
+                          ) : Env.image(fileName)
                       ),
-                    ) : Env.image(fileName??"no_user.jpg")
-                  ),
-                ),
+                    ),
+                    Positioned(
+                      top: 140,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: Grey,
+                          borderRadius: BorderRadius.circular(50)
+                        ),
+                        child: Icon(Icons.photo_camera),
+                      ),
+                    )
+                  ],
+                )
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40),
+              padding: const EdgeInsets.symmetric(vertical: 50),
               child: Column(
-                children: [
-                  Env.tile('اسم', tailorName??'', Icons.person_rounded, ()=>_updateData(context,tailorName??"", 1), context),
+                children:[
+                  Env.tile('اسم', tailorName??"", Icons.person_rounded, ()=>_updateData(context,tailorName??"", 1), context),
                   Divider(height: 0,indent: 20,endIndent: 20),
-                  Env.tile('خیاطی', studioName??'', Icons.home, ()=>_updateData(context,studioName??"", 2), context),
+                  Env.tile('خیاطی', studioName??"", Icons.home, ()=>_updateData(context,studioName??"", 2), context),
                   Divider(height: 0,indent: 20,endIndent: 20),
-                  Env.tile('شماره تماس', phone??'', Icons.call, ()=>_updateData(context,phone??"", 3), context),
+                  Env.tile('شماره تماس', phone??"", Icons.call, ()=>_updateData(context,phone??"", 3), context),
                   Divider(height: 0,indent: 20,endIndent: 20),
-                  Env.tile('ایمل آدرس', email??'', Icons.email_rounded, ()=>_updateData(context,email??"", 4), context),
+                  Env.tile('ایمل آدرس', email??"", Icons.email_rounded, ()=>_updateData(context,email??"", 4), context),
                   Divider(height: 0,indent: 20,endIndent: 20),
-                  Env.tile('آدرس', address??'', Icons.location_on, ()=>_updateData(context,address??"", 5), context),
+                  Env.tile('آدرس',address??"", Icons.location_on, ()=>_updateData(context,address??"", 5), context),
                 ],
               ),
             )
@@ -186,7 +201,6 @@ class ProfileState extends State<Profile> {
         builder: (BuildContext bc) {
           return SafeArea(
             child: Container(
-
               child: new Wrap(
                 children: <Widget>[
                   new ListTile(

@@ -27,26 +27,26 @@ class Register {
   String password;
   String fileName;
   factory Register.fromJson(Map<String, dynamic> json) => Register(
-        userID: json["userID"],
-        tailorName: json['tailorName'],
-        studioName: json['studioName'],
-        userEmail: json['userEmail'],
-        userPhone: json['userPhone'],
-        userAddress: json['userAddress'],
-        userName: json["userName"],
-        password: json["password"],
-        fileName: json['fileName'],
-      );
+    userID: json["userID"],
+    tailorName: json['tailorName'],
+    studioName: json['studioName'],
+    userEmail: json['userEmail'],
+    userPhone: json['userPhone'],
+    userAddress: json['userAddress'],
+    userName: json["userName"],
+    password: json["password"],
+    fileName: json['fileName'],
+  );
 
   Map<String, dynamic> toJson() => {
-        "userID": userID,
-        "tailorName": tailorName,
-        "studioName": studioName,
-        "userEmail": userEmail,
-        "userPhone": userPhone,
-        "userAddress": userAddress,
-        "userName": userName,
-        "password": password,
-        "fileName": fileName,
-      };
+    "userID": userID,
+    "tailorName": tailorName,
+    "studioName": studioName,
+    "userEmail": userEmail,
+    "userPhone": userPhone,
+    "userAddress": userAddress,
+    "userName": userName,
+    "password": password,
+    "fileName": fileName,
+  };
 }

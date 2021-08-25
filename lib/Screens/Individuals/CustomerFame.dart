@@ -27,7 +27,6 @@ class _CustomerFameState extends State<CustomerFame> {
   String image;
   File imageFile;
 
-
  //Upload Image to server
   void _uploadFile(filePath) async {
     String fileName = basename(filePath.path);
@@ -36,14 +35,14 @@ class _CustomerFameState extends State<CustomerFame> {
       FormData formData = new FormData.fromMap({
         "file": await MultipartFile.fromFile(filePath.path, filename: fileName),
       });
-      Response response = await Dio().post(Env.url + "uploadGalleryPhoto.php",data: formData);
+      Response response = await Dio().post(Env.url + "photoUploadServer.php",data: formData);
       print("File upload response: $response");
     } catch (e) {
-      print("expectation Caugch: $e");
+      print("expectation Caught: $e");
     }
   }
 
-  //Upload
+  //Upload Image to Database
   void uploadProfile(customerID, context) async {
     http.Response res = await http.post(Uri.parse(Env.url+"uploadImage.php"),body: jsonEncode({
       "fileName": imageFile.path.split('/').last,
@@ -62,7 +61,6 @@ class _CustomerFameState extends State<CustomerFame> {
           Env.successTitle,'عکس شما آپلود نگردید لطفا دوباره کوشش کنید',DialogType.ERROR, context, () { });
     }
   }
-
 
   final access = CharacterApi();
   @override
@@ -84,25 +82,47 @@ class _CustomerFameState extends State<CustomerFame> {
                     onTap: () {
                       _showPicker(context);
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: CircleAvatar(
-                        radius: 80, backgroundColor: PurpleColor,
-                        child: imageFile != null
-                            ? ClipRRect(
-                          borderRadius: BorderRadius.circular(75),
-                          child: Image.file(
-                            imageFile, width: 155, height: 155, fit: BoxFit.cover,
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: CircleAvatar(
+                            radius: 80, backgroundColor: PurpleColor,
+                            child: imageFile != null
+                                ? ClipRRect(
+                              borderRadius: BorderRadius.circular(75),
+                              child: Image.file(
+                                imageFile, width: 155, height: 155, fit: BoxFit.cover,
+                              ),
+                            ): Env.image(widget.post.fileName??"no_user.jpg"),
                           ),
-                        ): Env.image(widget.post.fileName??"no_user.jpg"),
-                      ),
-                    ),
+                        ),
+
+                        Positioned(
+                          top: 140,
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: Grey,
+                                borderRadius: BorderRadius.circular(50)
+                            ),
+                            child: Icon(Icons.photo_camera),
+                          ),
+                        )
+                      ],
+                    )
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
+                  imageFile == null? Text('') :
                   InkWell(onTap: (){
-                    _uploadFile(imageFile);
-                    uploadProfile(widget.post.customerId, context);
-                  }, child: Text('Submit',style: Env.style(20, PurpleColor),)),
+                    if(imageFile==null){
+                      return Env.errorDialog('Select Image', 'لطفا عکس خود را انتخاب نمایید', DialogType.WARNING, context, () { });
+                    }else{
+                      _uploadFile(imageFile);
+                      uploadProfile(widget.post.customerId, context);
+                    }
+                  }, child: Text('ثبت کردن عکس',style: Env.style(20, PurpleColor),)),
                   SizedBox(height: 10),
                   Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
                   Divider(height: 2,indent: 10,endIndent: 10),
@@ -124,9 +144,9 @@ class _CustomerFameState extends State<CustomerFame> {
       maxWidth: 400,
       maxHeight: 400,
     );
-    if (pickedFile != null) {
+    if (pickedFile != null){
       setState(() {
-        imageFile = File(pickedFile.path);
+         imageFile = File(pickedFile.path);
       });
     }
   }
