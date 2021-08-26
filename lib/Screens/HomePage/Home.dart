@@ -29,7 +29,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String tailorEmail = "";
   String username = "";
   String userID = "";
-  String fileName = "";
+  String fileName;
   bool checkLogin;
   int currentIndex = 0;
   int _currentIndex = 0;
@@ -206,9 +206,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 Env.myTile('نمایشگاه', Icons.photo, Album(), context),
                 SizedBox(height: 5),
                 Env.myTile('درباره ما', Icons.info, AboutTailor(), context),
-                SizedBox(height: 5),
-                Env.myTile('تماس با ما', Icons.phone, AboutTailor(), context),
-                SizedBox(height: 90),
+
+                SizedBox(height: 160),
                 ListTile(
                   leading: Container(
                     width: 50,

@@ -33,7 +33,7 @@ class RoundedBorderedField extends StatelessWidget {
           cursorHeight: 25,
           cursorWidth: 1,
           validator: (value) {
-            if(value == null || value.isEmpty){
+            if (value == null || value.isEmpty) {
               return message;
             }
             return null;
@@ -42,13 +42,13 @@ class RoundedBorderedField extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           decoration: InputDecoration(
-            errorBorder: OutlineInputBorder(
-              gapPadding: 5,
-              borderSide: BorderSide(width: 1, color: PurpleColor),
-              borderRadius: BorderRadius.circular(10),
-            ),
-              prefixIcon: Icon(icon,color: PurpleColor,size: 25),
-              suffixIcon: Icon(prefix,color: PurpleColor,size: 25),
+              errorBorder: OutlineInputBorder(
+                gapPadding: 5,
+                borderSide: BorderSide(width: 1, color: PurpleColor),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              prefixIcon: Icon(icon, color: PurpleColor, size: 25),
+              suffixIcon: Icon(prefix, color: PurpleColor, size: 25),
               labelText: hintText,
               enabledBorder: OutlineInputBorder(
                 gapPadding: 5,

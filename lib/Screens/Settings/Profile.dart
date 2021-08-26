@@ -26,7 +26,7 @@ class ProfileState extends State<Profile> {
   String phone = "";
   String address = "";
   String userID ="";
-  String fileName = "";
+  String fileName;
   File imageFile;
 
   @override
@@ -37,6 +37,7 @@ class ProfileState extends State<Profile> {
 
   void initial() async{
     loginData = await SharedPreferences.getInstance();
+    await loginData.reload();
     setState(() {
       studioName = loginData.getString('studioName');
       tailorName = loginData.getString('tailorName');
@@ -120,7 +121,7 @@ class ProfileState extends State<Profile> {
                               height: 155,
                               fit: BoxFit.cover,
                             ),
-                          ) : Env.image(fileName)
+                          ) : Env.image(fileName??"no_user.jpg")
                       ),
                     ),
                     Positioned(
@@ -255,6 +256,9 @@ class ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     RoundedBorderedField(
+                      onChanged: (String value){
+                        setState(() => newValue.text = value);
+                      },
                         inputType: fieldNo == 3 ? TextInputType.number : TextInputType.text,
                         hintText: '',
                         controller: newValue,

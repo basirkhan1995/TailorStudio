@@ -42,11 +42,10 @@ class _NewOrderState extends State<NewOrder> {
                   monthsDownMenu(),
                   daysDownMenu(),
                   Env.myOrder('متراژ رخت:', 'تعداد متراژ رخت', controller.textTileMeter, '','',TextInputType.number),
-                  Env.myOrder('تعداد فرمایش لباس:', 'تعداد جوره لباس', controller.qty, '','',TextInputType.number),
+                  Env.myOrder('تعداد فرمایش:', 'تعداد جوره لباس', controller.qty, '','',TextInputType.number),
                   Env.myOrder('مقدار پول:', 'قیمت وجوره فرمایش', controller.amount, '','',TextInputType.number),
                   Env.myOrder('رسید:', 'پول پیش پرداخت', controller.advanceAmount, '','',TextInputType.number),
                   DescriptionField(hintText: 'ملاحظات',icon: Icons.info,inputType: TextInputType.text,controller: controller.remarks),
-                  //dropMenu(),
                   SizedBox(height: 10),
                   Row(
                     children: [
@@ -87,7 +86,7 @@ class _NewOrderState extends State<NewOrder> {
             underline: SizedBox(),
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
-            hint: Text('دیزاین لباس را انتخاب کنید'),
+            hint: Text('نوعیت فرمایش'),
             value: controller.valueChoose,
             onChanged: (String newValue){
               setState(() {
@@ -99,7 +98,9 @@ class _NewOrderState extends State<NewOrder> {
             items:controller.itemType.map((String items) {
               return DropdownMenuItem(
                   value: items,
-                  child: Text(items)
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: Text(items))
               );
             }
             ).toList(),
@@ -125,7 +126,7 @@ class _NewOrderState extends State<NewOrder> {
             underline: SizedBox(),
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
-            hint: Text('دیزاین لباس را انتخاب کنید'),
+            hint: Text('طرح دوخت '),
             value: controller.valueOrder,
             onChanged: (String newValue){
               setState(() {
@@ -137,7 +138,7 @@ class _NewOrderState extends State<NewOrder> {
             items:controller.designTypeData.map((String items) {
               return DropdownMenuItem(
                   value: items,
-                  child: Text(items)
+                  child: Container(alignment: Alignment.centerRight,child: Text(items))
               );
             }
             ).toList(),
@@ -163,7 +164,7 @@ class _NewOrderState extends State<NewOrder> {
             underline: SizedBox(),
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
-            hint: Text('دوخت یخن لباس را انتخاب کنید'),
+            hint: Text('طرح دوخت یخن'),
             value: controller.valueCollar,
             onChanged: (String newValue){
               setState(() {
@@ -175,7 +176,7 @@ class _NewOrderState extends State<NewOrder> {
             items:controller.collarListData.map((String items) {
               return DropdownMenuItem(
                   value: items,
-                  child: Text(items)
+                  child: Container(alignment: Alignment.centerRight,child: Text(items))
               );
             }
             ).toList(),
@@ -201,7 +202,7 @@ class _NewOrderState extends State<NewOrder> {
             underline: SizedBox(),
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
-            hint: Text('دوخت آستین را انتخاب کنید'),
+            hint: Text('طرح دوخت آستین'),
             value: controller.valueSleeve,
             onChanged: (String newValue){
               setState(() {
@@ -213,7 +214,7 @@ class _NewOrderState extends State<NewOrder> {
             items:controller.sleeveListData.map((String items) {
               return DropdownMenuItem(
                   value: items,
-                  child: Text(items)
+                  child: Container(alignment: Alignment.centerRight,child: Text(items))
               );
             }
             ).toList(),
@@ -239,7 +240,7 @@ class _NewOrderState extends State<NewOrder> {
             underline: SizedBox(),
             style: Env.style(17, BlackColor.withOpacity(.6)),
             elevation: 20,
-            hint: Text('انتخاب تاریخ تسلیمی (ماه):'),
+            hint: Text('ماه تسلیمی (ماه):'),
             value: controller.valueMonths,
             onChanged: (String newValue){
               setState(() {
@@ -251,7 +252,7 @@ class _NewOrderState extends State<NewOrder> {
             items:controller.months.map((String items) {
               return DropdownMenuItem(
                   value: items,
-                  child: Text(items)
+                  child: Container(alignment: Alignment.centerRight,child: Text(items))
               );
             }
             ).toList(),
@@ -281,7 +282,7 @@ class _NewOrderState extends State<NewOrder> {
               underline: SizedBox(),
               style: Env.style(17, BlackColor.withOpacity(.6)),
               elevation: 20,
-              hint: Text('انتخاب تسلیمی (روز):'),
+              hint: Text('روز تسلیمی (روز):'),
               value: controller.valueDays,
               onChanged: (String newValue){
                 setState(() {
@@ -293,7 +294,7 @@ class _NewOrderState extends State<NewOrder> {
               items:controller.days.map((String items) {
                 return DropdownMenuItem(
                     value: items,
-                    child: Text(items)
+                    child: Container(alignment: Alignment.centerRight,child: Text(items))
                 );
               }
               ).toList(),

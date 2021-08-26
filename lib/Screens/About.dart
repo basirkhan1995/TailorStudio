@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
-import 'package:tailor/Screens/HomePage/home.dart';
+
 
 class AboutTailor extends StatelessWidget {
   @override
@@ -9,8 +9,8 @@ class AboutTailor extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text(
-            'درباره',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            'About',
+            style: TextStyle(fontSize: 17),
           ),
           centerTitle: true,
           leading: IconButton(
@@ -45,10 +45,14 @@ class AboutTailor extends StatelessWidget {
                         child: Image.asset('photos/background/tailor_logo.png'),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 9.0),
-                        child: Text('Tailor Studio',
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold)),
+                        padding: const EdgeInsets.only(top: 13.0),
+                        child: Text('About Tailor Studio', style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Text('Version: 1.0.0', style: TextStyle(
+                            fontSize: 15,color: PurpleColor)),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -57,11 +61,10 @@ class AboutTailor extends StatelessWidget {
                               top: 5.0, left: 10, right: 10),
                           child: Text(
                               'Tailor Studio is an application to manage orders, Measurements, Customers, Gallery Design and Payment System for Customers '
-                              'is an ease for tailors to avoid writing in a physical notebook that may loss one day or ruin.',
+                                  'is an ease for tailors to avoid writing in a physical notebook that may loss one day or ruin.',
                               style: TextStyle(
                                   color: GreyColor,
-                                  fontSize: 15,
-                                  fontFamily: 'TimeRoman')),
+                                  fontSize: 15)),
                         ),
                       ),
                       Padding(
