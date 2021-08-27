@@ -28,6 +28,7 @@ class _AlbumState extends State<Album> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: WhiteColor,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: PurpleColor,

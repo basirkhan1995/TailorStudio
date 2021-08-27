@@ -11,10 +11,7 @@ import 'package:tailor/Screens/Individuals/CustomerDetails.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import '../../wait.dart';
-
 import 'package:path/path.dart';
-
-
 
 class Individual extends StatefulWidget {
   @override
@@ -27,8 +24,6 @@ class _IndividualState extends State<Individual> {
   SharedPreferences loginData;
   String user = "";
   final access = CharacterApi();
-
-
 
   @override
   void initState() {

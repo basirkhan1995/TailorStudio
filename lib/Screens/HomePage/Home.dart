@@ -180,7 +180,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                           Container(
                             width: 290,
                             height: 45,
-                            child: Button(text:'Edit Profile',textColor: PurpleColor,paint: WhiteColor ,press: (){
+                            child: Button(text:'Profile',textColor: PurpleColor,paint: WhiteColor ,press: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
                             },),
                           ),
@@ -206,7 +206,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 Env.myTile('نمایشگاه', Icons.photo, Album(), context),
                 SizedBox(height: 5),
                 Env.myTile('درباره ما', Icons.info, AboutTailor(), context),
-
                 SizedBox(height: 160),
                 ListTile(
                   leading: Container(
@@ -244,6 +243,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       ),
     );
   }
+
+
+
+
 }
 
 

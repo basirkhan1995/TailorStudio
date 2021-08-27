@@ -35,6 +35,7 @@ class ProfileState extends State<Profile> {
     super.initState();
   }
 
+
   void initial() async{
     loginData = await SharedPreferences.getInstance();
     await loginData.reload();
@@ -256,9 +257,6 @@ class ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     RoundedBorderedField(
-                      onChanged: (String value){
-                        setState(() => newValue.text = value);
-                      },
                         inputType: fieldNo == 3 ? TextInputType.number : TextInputType.text,
                         hintText: '',
                         controller: newValue,

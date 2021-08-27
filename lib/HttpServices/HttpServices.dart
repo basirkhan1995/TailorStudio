@@ -177,29 +177,18 @@ class CharacterApi {
   //Fetch Customers List
   Future<List<Customer>> fetchCustomer(String userID, context) async {
     try {
-      Response res =
-          await get(Uri.parse(Env.url + "singleCustomer.php?id=" + userID))
-              .timeout(Duration(seconds: 10));
-      if (res.statusCode == 200) {
-        List<dynamic> body = jsonDecode(res.body);
-        List<Customer> posts =
-            body.map((dynamic item) => Customer.fromJson(item)).toList();
-        return posts;
-      }
+        Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=" + userID)).timeout(Duration(seconds: 10));
+        if (res.statusCode == 200) {
+          List<dynamic> body = jsonDecode(res.body);
+          List<Customer> posts = body.map((dynamic item) => Customer.fromJson(item)).toList();
+          return posts;
+        }
     } on SocketException catch (_) {
-      return Env.errorDialog(
-          'No Internet Connection',
-          'Please check your internet and try again!',
-          DialogType.WARNING,
-          context,
-          () {});
+      return null;
     } on TimeoutException catch (_) {
       return Env.errorDialog(
-          'Time Out',
-          'Please check your internet and try again!',
-          DialogType.WARNING,
-          context,
-          () {});
+          'Time Out', 'لطفا انترنت خود را بررسی کنید و دوباره کوشش نمایید',
+          DialogType.WARNING, context, () {});
     }
     return null;
   }

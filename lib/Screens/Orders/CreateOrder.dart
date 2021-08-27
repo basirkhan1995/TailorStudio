@@ -89,7 +89,7 @@ class _NewOrderState extends State<NewOrder> {
             hint: Text('نوعیت فرمایش'),
             value: controller.valueChoose,
             onChanged: (String newValue){
-              setState(() {
+              setState((){
                 controller.valueChoose = newValue;
               });
             },
@@ -104,7 +104,6 @@ class _NewOrderState extends State<NewOrder> {
               );
             }
             ).toList(),
-
           ),
         ),
       ),
@@ -180,7 +179,6 @@ class _NewOrderState extends State<NewOrder> {
               );
             }
             ).toList(),
-
           ),
         ),
       ),

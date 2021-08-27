@@ -48,7 +48,7 @@ class Env {
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
         child: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded, color: BlackColor.withOpacity(.7)),
+            icon: Icon(Icons.arrow_back_ios_rounded,size: 20 ,color: PurpleColor),
             onPressed: () => Navigator.of(context).pop(),
           ) ,
           centerTitle: true,
@@ -862,7 +862,7 @@ class Env {
         HapticFeedback.lightImpact();
         Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
-      trailing: Icon(Icons.arrow_forward_ios,color: PurpleColor),
+      trailing: Icon(Icons.arrow_forward_ios,size: 20,color: PurpleColor),
       title: Text(title, style:Env.style(15,BlackColor.withOpacity(.8))),
       leading: Container(
         width: 50,
@@ -1007,7 +1007,7 @@ class Env {
           actions: [
             image == null ?
             IconButton(
-              icon: Icon(Icons.home,color: GreyColor),
+              icon: Icon(Icons.home,color: PurpleColor),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
               },
@@ -1037,7 +1037,7 @@ class Env {
             tooltip: 'navigation',
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black.withOpacity(.7)),
+            icon: Icon(Icons.arrow_back_ios_rounded,size:20, color: PurpleColor),
             onPressed: () {
               HapticFeedback.lightImpact();
               Navigator.pop(context);

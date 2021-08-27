@@ -57,7 +57,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
           FutureBuilder(
             future: access.fetchUserOrders(userID),
             builder: (BuildContext context,
-                AsyncSnapshot<List<MyOrders>> snapshot) {
+                AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
                 return LoadingCircle();
               } else if(snapshot.hasData && snapshot.data.isEmpty){
