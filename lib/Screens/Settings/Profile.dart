@@ -90,12 +90,8 @@ class ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: WhiteColor,
       appBar: Env.myBar('Profile',Icons.check,imageFile,(){
-        if(imageFile==null){
-          return Env.errorDialog('Select Image', 'لطفا عکس خود را انتخاب نمایید', DialogType.WARNING, context, () { });
-        }else{
-          _uploadFile(imageFile);
-          uploadProfile(context);
-        }
+        _uploadFile(imageFile);
+        uploadProfile(context);
       }, context),
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -142,7 +138,7 @@ class ProfileState extends State<Profile> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50),
+              padding: const EdgeInsets.symmetric(vertical: 50,horizontal: 15),
               child: Column(
                 children:[
                   Env.tile('اسم', tailorName??"", Icons.person_rounded, ()=>_updateData(context,tailorName??"", 1), context),

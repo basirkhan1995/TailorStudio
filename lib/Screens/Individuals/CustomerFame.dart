@@ -97,7 +97,6 @@ class _CustomerFameState extends State<CustomerFame> {
                             ): Env.image(widget.post.fileName??"no_user.jpg"),
                           ),
                         ),
-
                         Positioned(
                           top: 140,
                           child: Container(
@@ -116,13 +115,12 @@ class _CustomerFameState extends State<CustomerFame> {
                   SizedBox(height: 20),
                   imageFile == null? Text('') :
                   InkWell(onTap: (){
-                    if(imageFile==null){
-                      return Env.errorDialog('Select Image', 'لطفا عکس خود را انتخاب نمایید', DialogType.WARNING, context, () { });
-                    }else{
-                      _uploadFile(imageFile);
-                      uploadProfile(widget.post.customerId, context);
-                    }
-                  }, child: Text('ثبت کردن عکس',style: Env.style(20, PurpleColor),)),
+                    //Upload Profile Picture to the SERVER
+                    _uploadFile(imageFile);
+                    //upload fileName to the MySQL Database
+                    uploadProfile(widget.post.customerId, context);
+                  }, child: Text('Submit',style: Env.style(20, PurpleColor),)),
+
                   SizedBox(height: 10),
                   Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
                   Divider(height: 2,indent: 10,endIndent: 10),

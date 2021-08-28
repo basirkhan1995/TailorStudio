@@ -13,6 +13,7 @@ import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import '../../wait.dart';
 import 'package:path/path.dart';
 
+
 class Individual extends StatefulWidget {
   @override
   _IndividualState createState() => _IndividualState();
@@ -45,8 +46,6 @@ class _IndividualState extends State<Individual> {
       user = loginData.getString('userID');
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +87,7 @@ class _IndividualState extends State<Individual> {
                   if (!snapshot.hasData) {
                     return LoadingCircle();
                   }else if(snapshot.hasData && snapshot.data.isEmpty){
-                    return Env.emptyBox();
+                    return Env.emptyBox(access.fetchCustomer(user, context));
                   } else {
                     List<Customer> posts = snapshot.data;
                     return NotificationListener<UserScrollNotification>(

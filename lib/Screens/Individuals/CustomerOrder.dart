@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/CustomerOrdersModel.dart';
@@ -71,7 +70,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
               if (!snapshot.hasData) {
                 return LoadingCircle();
               } else if(snapshot.hasData && snapshot.data.isEmpty) {
-                return Env.emptyBox();
+                return Env.emptyBox(access.fetchUserOrders(widget.post.customerId));
               }else if (snapshot.hasError){
                 return Text('Error');
               } else{

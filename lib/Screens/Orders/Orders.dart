@@ -61,7 +61,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
               if (!snapshot.hasData) {
                 return LoadingCircle();
               } else if(snapshot.hasData && snapshot.data.isEmpty){
-                return Env.emptyBox();
+                return Env.emptyBox(access.fetchUserOrders(userID));
               }else if (snapshot.hasError){
                 return Text('Error');
               } else{

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
 import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
+import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -38,6 +39,7 @@ class Env {
   static bool isLogin;
   static bool checkYesNoLogin;
   static bool check;
+  final controller = CharacterApi();
 
   //Static Appbar
   static Widget appBar(context, title) {
@@ -879,15 +881,16 @@ class Env {
   static Widget tile(title,subtitle, IconData icon, voidCallback,context){
     return ListTile(
       horizontalTitleGap: 10,
-      minVerticalPadding: 0,
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+      minVerticalPadding: 5,
+      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
       onTap: () {
         HapticFeedback.lightImpact();
         voidCallback();
       },
-      leading: Icon(icon,size: 30,color:BlackColor.withOpacity(.7)),
+      leading: Icon(icon,size: 27,color:BlackColor.withOpacity(.7)),
       title: Text(title, style:Env.style(17,BlackColor.withOpacity(.9))),
-      subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5)),),
+      subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5))),
+      trailing: Icon(Icons.arrow_forward_ios,size: 18,),
     );
   }
 
@@ -957,7 +960,7 @@ class Env {
     );
   }
 
-  static Widget emptyBox(){
+  static Widget emptyBox(tryAgain){
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -968,6 +971,10 @@ class Env {
           Text('NO DATA',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
           SizedBox(height: 5),
           Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
+          SizedBox(height: 5),
+          InkWell(
+            onTap: ()=>tryAgain,
+              child: Text('Try again',style:Env.boldStyle(16, BlackColor.withOpacity(.6)))),
         ],
       ),
     );
@@ -1007,7 +1014,7 @@ class Env {
           actions: [
             image == null ?
             IconButton(
-              icon: Icon(Icons.home,color: PurpleColor),
+              icon: Icon(Icons.home,color: GreyColor),
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Dashboard()));
               },
