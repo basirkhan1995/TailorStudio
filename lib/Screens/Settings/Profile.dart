@@ -38,8 +38,7 @@ class ProfileState extends State<Profile> {
 
   void initial() async{
     loginData = await SharedPreferences.getInstance();
-    await loginData.reload();
-    setState(() {
+    setState((){
       studioName = loginData.getString('studioName');
       tailorName = loginData.getString('tailorName');
       email = loginData.getString('userEmail')??"no email";

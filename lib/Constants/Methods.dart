@@ -13,6 +13,7 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tailor/Screens/Settings/Profile.dart';
 
 
 class Env {
@@ -38,6 +39,7 @@ class Env {
   static SharedPreferences loginData;
   static bool isLogin;
   static bool checkYesNoLogin;
+  static bool deleteYesNo;
   static bool check;
   final controller = CharacterApi();
 
@@ -232,12 +234,12 @@ class Env {
       btnOkColor: PurpleColor,
       btnOkOnPress: () {
         voidCallBack(() {
-          checkYesNoLogin = true;
+          deleteYesNo = true;
         });
       },
       btnCancelOnPress: () {
         voidCallBack(() {
-          checkYesNoLogin = false;
+          deleteYesNo = false;
         });
       },
       btnCancelColor: Colors.red.shade900,
@@ -711,7 +713,7 @@ class Env {
 
 
   //My Appbar
-  static Widget appBarr(url,title, context) {
+  static Widget appBarr(url,title,user,email, context) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
       preferredSize: Size(double.infinity, kToolbarHeight),
@@ -730,15 +732,49 @@ class Env {
               fontWeight: FontWeight.w500,
             ),
           ),
-          leading: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: CachedNetworkImage(
-              imageUrl: Env.urlPhoto + url,
-              imageBuilder: (context, imageProvider) => CircleAvatar(
-                foregroundImage: imageProvider,
+
+          leading: GestureDetector(
+            onTap: (){
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => SimpleDialog(
+                  titlePadding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Row(
+                    children: [
+                      Text('Account'), Spacer(), IconButton(
+                      icon: Icon(Icons.edit,color: PurpleColor),
+                      onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+                    }),
+                  ],),
+                  children: <Widget>[
+                    ListTile(
+                      leading:  Icon(Icons.account_circle,color: PurpleColor),
+                      title:  Text(user,style:TextStyle(fontSize:18)),
+                      onTap: () => Navigator.pop(context, user),
+                    ),
+                    ListTile(
+                      leading:  Icon(Icons.email,color: PurpleColor),
+                      title:  Text(email,style:TextStyle(fontSize:12)),
+                      onTap: () => Navigator.pop(context, email),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: CachedNetworkImage(
+                imageUrl: Env.urlPhoto + url,
+                imageBuilder: (context, imageProvider) => CircleAvatar(
+                  foregroundImage: imageProvider,
+                ),
+                placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
-              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           )
         ),
@@ -960,7 +996,7 @@ class Env {
     );
   }
 
-  static Widget emptyBox(tryAgain){
+  static Widget emptyBox(){
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -971,10 +1007,7 @@ class Env {
           Text('NO DATA',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
           SizedBox(height: 5),
           Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
-          SizedBox(height: 5),
-          InkWell(
-            onTap: ()=>tryAgain,
-              child: Text('Try again',style:Env.boldStyle(16, BlackColor.withOpacity(.6)))),
+
         ],
       ),
     );

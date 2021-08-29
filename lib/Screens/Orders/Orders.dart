@@ -31,7 +31,6 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
   String username    = "username";
   String userID      = "userID";
   final access = CharacterApi();
-
   void initial() async {
     loginData = await SharedPreferences.getInstance();
     setState(() {
@@ -61,7 +60,7 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
               if (!snapshot.hasData) {
                 return LoadingCircle();
               } else if(snapshot.hasData && snapshot.data.isEmpty){
-                return Env.emptyBox(access.fetchUserOrders(userID));
+                return Env.emptyBox();
               }else if (snapshot.hasError){
                 return Text('Error');
               } else{

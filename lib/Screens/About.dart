@@ -47,11 +47,11 @@ class AboutTailor extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 13.0),
                         child: Text('About Tailor Studio', style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
+                                color: GreyColor, fontSize: 20, fontWeight: FontWeight.bold)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
-                        child: Text('Version: 1.0.0', style: TextStyle(
+                        child: Text('1.0.0', style: TextStyle(
                             fontSize: 15,color: PurpleColor)),
                       ),
                       Container(
@@ -73,11 +73,11 @@ class AboutTailor extends StatelessWidget {
                           children: [
                             Text('Developed by:',
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                                    color: GreyColor,fontSize: 20, fontWeight: FontWeight.bold)),
                             Padding(
                               padding: const EdgeInsets.only(top: 5.0),
                               child: Text('Mohammad Basir',
-                                  style: TextStyle(fontSize: 13)),
+                                  style: TextStyle(color: GreyColor,fontSize: 13)),
                             ),
                             Text('© 2021', style: TextStyle(fontSize: 13)),
                           ],
@@ -88,7 +88,7 @@ class AboutTailor extends StatelessWidget {
                         child: Column(
                           children: [
                             Text('Contact',
-                                style: TextStyle(
+                                style: TextStyle(color: GreyColor,
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                             Text('Email: basirkhan.hashemi@gmail.com',
                                 style: TextStyle(fontSize: 13)),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'Screens/Login/login.dart';
 import 'SplashScreen.dart';
+import 'package:get/get.dart';
 
 void main() {
   //StatusBar
@@ -14,7 +15,7 @@ void main() {
     systemNavigationBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.dark,
   ));
-  runApp(MaterialApp(
+  runApp(GetMaterialApp(
     title: 'TailorStudio',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(

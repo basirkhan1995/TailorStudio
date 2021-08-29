@@ -24,6 +24,20 @@ class CharacterApi {
   final TextEditingController orderDate = new TextEditingController();
   final TextEditingController deliveryDate = new TextEditingController();
   final TextEditingController remarks = new TextEditingController();
+  ///////////////////////////////////////////////////////////////////////////
+  TextEditingController newValue = new TextEditingController();
+  TextEditingController firstName = new TextEditingController();
+  TextEditingController lastName = new TextEditingController();
+  TextEditingController phone = new TextEditingController();
+  TextEditingController email = new TextEditingController();
+  TextEditingController waist = new TextEditingController();
+  TextEditingController sleeve = new TextEditingController();
+  TextEditingController shoulder = new TextEditingController();
+  TextEditingController skirt = new TextEditingController();
+  TextEditingController height = new TextEditingController();
+  TextEditingController pantHeight = new TextEditingController();
+  TextEditingController legWidth = new TextEditingController();
+  TextEditingController collar = new TextEditingController();
 
   String valueChoose;
   String valueCollar;
@@ -32,64 +46,20 @@ class CharacterApi {
   String valueDays;
   String valueOrder;
 
-  var days = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-    '21',
-    '22',
-    '23',
-    '24',
-    '25',
-    '26',
-    '27',
-    '28',
-    '29',
-    '30',
-    '31'
-  ];
-  var months = [
-    'حمل',
-    'ثور',
-    'جوزا',
-    'سرطان',
-    'اسد',
-    'سنبله',
-    'میزان',
-    'عقرب',
-    'قوس',
-    'جدی',
-    'دلو',
-    'حوت'
-  ];
+  File imageFile;
+  bool loading = false;
+
+  var days = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+    '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+
+  var months = ['حمل', 'ثور', 'جوزا', 'سرطان', 'اسد', 'سنبله', 'میزان', 'عقرب', 'قوس', 'جدی', 'دلو', 'حوت'];
   var itemType = ['پیراهن تنبان', 'واسکت', 'یخن قاق', 'کرتی پطلون', 'پطلون'];
   var designTypeData = ['هندی', 'پاکستانی', 'ترکی', 'افغانی', 'عربی', 'کرزیی'];
-  var collarListData = [
-    'یخن هندی حلقوی',
-    'یخن قاسمی',
-    'چپه یخن',
-    'یخن چاک دار'
-  ];
+  var collarListData = ['یخن هندی حلقوی', 'یخن قاسمی', 'چپه یخن', 'یخن چاک دار'];
   var sleeveListData = ['کف دار', 'دکمه دار', 'محرابی'];
-  var statusListData = ['Complete', 'Pending', 'Delivered'];
 
+  //POST DATA, Create Order Function
   void createOrder(customerID, context) async {
     http.Response res = await http.post(Uri.parse(Env.url + "createOrder.php"),
         body: jsonEncode({
@@ -123,25 +93,8 @@ class CharacterApi {
     }
   }
 
-  ////////////////////////
 
-  File imageFile;
-  TextEditingController newValue = new TextEditingController();
-  TextEditingController firstName = new TextEditingController();
-  TextEditingController lastName = new TextEditingController();
-  TextEditingController phone = new TextEditingController();
-  TextEditingController email = new TextEditingController();
-  TextEditingController waist = new TextEditingController();
-  TextEditingController sleeve = new TextEditingController();
-  TextEditingController shoulder = new TextEditingController();
-  TextEditingController skirt = new TextEditingController();
-  TextEditingController height = new TextEditingController();
-  TextEditingController pantHeight = new TextEditingController();
-  TextEditingController legWidth = new TextEditingController();
-  TextEditingController collar = new TextEditingController();
-  bool loading = false;
-
-  //Fetch Customer's Orders
+  //GET DATA, Fetch Customer's Orders
   Future<List<Orders>> fetchCustomerOrders(String userID) async {
     var response =
         await get(Uri.parse(Env.url + "customerOrders.php?id=" + userID))
@@ -158,7 +111,7 @@ class CharacterApi {
     }
   }
 
-//Delete Customer
+//DELETE POST, Delete Customer
   deleteCustomer(id) async {
     final http.Response response = await http.get(
         Uri.parse(Env.url + 'Individuals_Delete.php?id=$id'),
@@ -174,7 +127,7 @@ class CharacterApi {
     }
   }
 
-  //Fetch Customers List
+  //GET DATA, Fetch Customers List
   Future<List<Customer>> fetchCustomer(String userID, context) async {
     try {
         Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=" + userID)).timeout(Duration(seconds: 10));
@@ -193,7 +146,7 @@ class CharacterApi {
     return null;
   }
 
-  //Total Orders of a user
+  //GET DATA, Total Orders of a user
   Future<List<MyOrders>> fetchUserOrders(String userID) async {
     var response = await get(Uri.parse(Env.url + "userOrders.php?id=" + userID))
         .timeout(Duration(seconds: 10));
@@ -209,7 +162,7 @@ class CharacterApi {
     }
   }
 
-  //Post Customer & its measurement
+  //POST DATA, Insert Customer AND measurement
   void sendData(String userID, context) async {
     http.Response res =
         await http.post(Uri.parse(Env.url + "customerInsert.php"),

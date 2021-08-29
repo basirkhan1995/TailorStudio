@@ -7,9 +7,10 @@ import 'package:tailor/services/base_client.dart';
 import 'base_controller.dart';
 
 class TestController extends GetxController with BaseController {
-  getData(id) async {
+
+   getData(id) async {
     showLoading('Fetching data');
-    var response = await BaseClient().get(Env.url , "customerOrders.php?id=" + id).catchError(handleError);
+    var response = await BaseClient().get(Env.url,"singleCustomer.php?id=" + id).catchError(handleError);
     if (response == null) return;
     hideLoading();
     print(response);

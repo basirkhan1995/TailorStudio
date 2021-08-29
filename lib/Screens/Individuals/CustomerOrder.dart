@@ -70,7 +70,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
               if (!snapshot.hasData) {
                 return LoadingCircle();
               } else if(snapshot.hasData && snapshot.data.isEmpty) {
-                return Env.emptyBox(access.fetchUserOrders(widget.post.customerId));
+                return Env.emptyBox();
               }else if (snapshot.hasError){
                 return Text('Error');
               } else{

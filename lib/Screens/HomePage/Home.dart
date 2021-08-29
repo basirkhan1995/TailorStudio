@@ -89,7 +89,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       child: Scaffold(
         endDrawer: myDrawer(tailorName??"", tailorEmail??"",fileName??'no_user.jpg', context),
         extendBodyBehindAppBar: true,
-        appBar: Env.appBarr(fileName, studioName??"", context),
+        appBar: Env.appBarr(fileName, studioName,tailorName,tailorEmail, context),
         body: SizedBox.expand(
           child: PageView(
             controller: _pageController,

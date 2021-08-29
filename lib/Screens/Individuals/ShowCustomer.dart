@@ -10,8 +10,8 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/Screens/Individuals/CustomerDetails.dart';
 import 'package:tailor/Screens/NewClient/New_Client_Form.dart';
 import 'package:tailor/Screens/Orders/CreateOrder.dart';
+import 'package:tailor/controller/test_controller.dart';
 import '../../wait.dart';
-import 'package:path/path.dart';
 
 
 class Individual extends StatefulWidget {
@@ -25,13 +25,14 @@ class _IndividualState extends State<Individual> {
   SharedPreferences loginData;
   String user = "";
   final access = CharacterApi();
-
+  final controller = TestController();
   @override
   void initState() {
     super.initState();
     initial();
     _scrollController = ScrollController();
-    access.fetchCustomer(user, context);
+    //access.fetchCustomer(user, context);
+    controller.getData(user);
   }
 
   @override
@@ -75,6 +76,7 @@ class _IndividualState extends State<Individual> {
                 return Future.delayed(
                   Duration(microseconds: 1),() {
                   setState(() {
+                    //controller.getData(user);
                     access.fetchCustomer(user,context);
                   });
                 },
@@ -82,12 +84,13 @@ class _IndividualState extends State<Individual> {
               },
               child: FutureBuilder(
                 future: access.fetchCustomer(user,context),
+                //controller.getData(user),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Customer>> snapshot) {
                   if (!snapshot.hasData) {
                     return LoadingCircle();
                   }else if(snapshot.hasData && snapshot.data.isEmpty){
-                    return Env.emptyBox(access.fetchCustomer(user, context));
+                    return Env.emptyBox();
                   } else {
                     List<Customer> posts = snapshot.data;
                     return NotificationListener<UserScrollNotification>(
@@ -127,7 +130,7 @@ class _IndividualState extends State<Individual> {
                               ):
                               Env.cachedImage(post.fileName??"no_user.jpg"),
                               title: Text(
-                                  post.firstName??"" + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,
+                                  post.firstName + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,
                                   color: GreyColor)),
                               subtitle: Text(
                                   post.phone??"", style: TextStyle(fontSize: 12)),
@@ -147,7 +150,7 @@ class _IndividualState extends State<Individual> {
                                         child: Row(
                                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text('فرمایش گرفتن'),
+                                            Text('فرمایش جدید'),
                                             Spacer(),
                                             Icon(Icons.shopping_cart,color: PurpleColor),
                                             Divider(height: 1),
@@ -178,14 +181,14 @@ class _IndividualState extends State<Individual> {
                                             Icon(Icons.delete,color:Colors.red.shade900)],
                                         ),
                                         onTap: ()async{
-                                          Env.checkYesNoLogin = false;
+                                          Env.deleteYesNo = false;
                                           await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
-                                          if(Env.checkYesNoLogin == true){
-                                            print("result = " + Env.checkYesNoLogin.toString());
+                                          if(Env.deleteYesNo == true){
+                                            print("result = " + Env.deleteYesNo.toString());
                                             access.deleteCustomer(post.customerId);
                                             Navigator.pop(context);
                                           }else{
-                                            print("result = "+ Env.checkYesNoLogin.toString());
+                                            print("result = "+ Env.deleteYesNo.toString());
                                             Navigator.pop(context);
                                           }
                                         },
