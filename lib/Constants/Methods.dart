@@ -5,6 +5,7 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
@@ -17,12 +18,14 @@ import 'package:tailor/Screens/Settings/Profile.dart';
 
 
 class Env {
-
   ///Server prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
   static String urlPhoto = "https://tailorstudio.000webhostapp.com/Images/";
+
+  ///ImageFiles
   String myImage;
   static File imageFile;
+
   /// Dialog Messages
   static String successTitle = "Done";
   static String errorTitle = "خطــا";
@@ -40,8 +43,39 @@ class Env {
   static bool isLogin;
   static bool checkYesNoLogin;
   static bool deleteYesNo;
+  static bool orderSwitch = false;
   static bool check;
   final controller = CharacterApi();
+  final timer = new Future.delayed(const Duration(microseconds: 1000),()=> (throw new Exception('Callback not invoked!'))).timeout(const Duration(microseconds: 500));
+
+  //Empty Profile Asset
+  static noUser (){ return AssetImage('photos/background/no_user.jpg');}
+
+  ///Static Navigator.push
+  static goto(Widget route,context){
+    return Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
+  }
+
+  ///Page Transition with Animation
+  static animatedGoto(Widget route,context){
+    return Navigator.push(context, PageTransition(type: PageTransitionType.leftToRightWithFade, child: route));
+  }
+
+
+    static Future<bool> onExit(context) {
+      return AwesomeDialog(
+          context: context,
+          animType: AnimType.TOPSLIDE,
+          dialogType: DialogType.QUESTION,
+          title: 'Exit',
+          desc: "آیا از برنامه میخواهید خارج شوید؟",
+          btnCancelText: 'نخیر',
+          btnOkText: 'بلی',
+          btnOkColor: PurpleColor,
+          btnOkOnPress: () => exit(0),
+          btnCancelOnPress: () {},
+          btnCancelColor: Colors.red.shade900).show() ?? false;
+    }
 
   //Static Appbar
   static Widget appBar(context, title) {
@@ -566,13 +600,12 @@ class Env {
                   height: _w / 4,
                   width: _w / 3,
                   decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage('photos/dashboard/orders.png')
+                    ),
                       color: LightColor,
                       borderRadius: BorderRadius.circular(15)),
-                  child: Icon(
-                    icon,
-                    color: GreyColor,
-                    size: _w / 8,
-                  ),
                 ),
                 SizedBox(width: _w / 40),
                 SizedBox(
@@ -708,6 +741,85 @@ class Env {
       ),
       placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
       errorWidget: (context, url, error) => Icon(Icons.error),
+    );
+  }
+
+
+  static orderBox(String name, String lastname, String status){
+    return Container(
+      margin: const EdgeInsets.only(bottom: 32),
+      padding: const EdgeInsets.symmetric(
+          horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blue,
+            blurRadius: 8,
+            spreadRadius: 2,
+            offset: Offset(4, 4),
+          ),
+        ],
+        borderRadius: BorderRadius.all(Radius.circular(24)),
+      ),
+      child: Column(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.label,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        (name),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'avenir'),
+                      ),
+                    ],
+                  ),
+                  Switch(
+                    onChanged: (bool value) {},
+                    value: true,
+                    activeColor: Colors.white,
+                  ),
+                ],
+              ),
+              Text(
+                lastname,
+                style: TextStyle(
+                    color: Colors.white, fontFamily: 'avenir'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    status,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'avenir',
+                        fontSize: 24,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Colors.white,
+                      onPressed: () {
+
+                      }),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -900,7 +1012,7 @@ class Env {
         HapticFeedback.lightImpact();
         Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
-      trailing: Icon(Icons.arrow_forward_ios,size: 20,color: PurpleColor),
+      trailing: Icon(Icons.arrow_forward_ios,size: 14,color: PurpleColor),
       title: Text(title, style:Env.style(15,BlackColor.withOpacity(.8))),
       leading: Container(
         width: 50,
@@ -909,7 +1021,7 @@ class Env {
             color: BlackColor.withOpacity(.06),
             borderRadius: BorderRadius.circular(40),
           ),
-          child: Icon(icon,size: 30,color:PurpleColor)),
+          child: Icon(icon,size: 26,color:PurpleColor)),
     );
   }
 
@@ -924,9 +1036,9 @@ class Env {
         voidCallback();
       },
       leading: Icon(icon,size: 27,color:BlackColor.withOpacity(.7)),
-      title: Text(title, style:Env.style(17,BlackColor.withOpacity(.9))),
-      subtitle: Text(subtitle,style: style(16, BlackColor.withOpacity(.5))),
-      trailing: Icon(Icons.arrow_forward_ios,size: 18,),
+      title: Text(title, style:Env.style(16,BlackColor.withOpacity(.9))),
+      subtitle: Text(subtitle,style: style(14, BlackColor.withOpacity(.5))),
+      trailing: Icon(Icons.arrow_forward_ios,size: 15,),
     );
   }
 
@@ -944,9 +1056,9 @@ class Env {
           HapticFeedback.lightImpact();
           Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
         },
-        leading: Icon(icon,size: 28,color:BlackColor.withOpacity(.7)),
-        title: Text(title, style:Env.style(14,BlackColor.withOpacity(.9))),
-        subtitle: Text(subtitle,style: style(13, BlackColor.withOpacity(.7)),),
+        leading: Icon(icon,size: 24,color:BlackColor.withOpacity(.7)),
+        title: Text(title, style:Env.style(13,BlackColor.withOpacity(.9))),
+        subtitle: Text(subtitle,style: style(12, BlackColor.withOpacity(.7)),),
       ),
     );
 
@@ -988,10 +1100,10 @@ class Env {
           HapticFeedback.lightImpact();
           voidCallback();
         },
-        leading: Image.asset('photos/app_icons/'+image,width: 40,color: PurpleColor),
-        title: Text(title , style:Env.boldStyle(15,BlackColor.withOpacity(.8))),
-        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
-        trailing: Icon(Icons.info_outline,color: PurpleColor,size: 28),
+        leading: Image.asset('photos/app_icons/'+image,width: 35,color: PurpleColor),
+        title: Text(title , style:Env.boldStyle(14,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle ,style:Env.style(19,BlackColor.withOpacity(.6))),
+        trailing: Icon(Icons.arrow_forward_ios,color: PurpleColor,size: 16),
       ),
     );
   }

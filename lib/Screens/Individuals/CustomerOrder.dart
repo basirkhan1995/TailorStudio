@@ -87,12 +87,12 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
                       return true;
                     },
                     child: ListView(
+
                       controller: _scrollController,
                       padding: EdgeInsets.only(top:20),
                       children: posts.map((Orders post) =>
                           Env.card('#C'+ post.customerId +'ORD'+ post.orderId, post.firstName + ' ' + post.lastName, post.orderState,
-                              Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF), context))
-                          .toList(),
+                              Icons.pending_actions_rounded, CustomerOrderDetails(post), (0xFFFFFFFF),context)).toList(),
                     ),
                   );
               }

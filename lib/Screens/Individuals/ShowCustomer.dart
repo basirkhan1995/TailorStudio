@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,8 +32,8 @@ class _IndividualState extends State<Individual> {
     super.initState();
     initial();
     _scrollController = ScrollController();
-    //access.fetchCustomer(user, context);
-    controller.getData(user);
+    access.fetchCustomer(user, context);
+    //controller.getData(user);
   }
 
   @override
@@ -91,7 +92,7 @@ class _IndividualState extends State<Individual> {
                     return LoadingCircle();
                   }else if(snapshot.hasData && snapshot.data.isEmpty){
                     return Env.emptyBox();
-                  } else {
+                  }else {
                     List<Customer> posts = snapshot.data;
                     return NotificationListener<UserScrollNotification>(
                       onNotification: (notification){
@@ -126,11 +127,10 @@ class _IndividualState extends State<Individual> {
                               leading: post.fileName == null ?
                               CircleAvatar(
                                 radius: 25,
-                                backgroundImage: AssetImage('photos/background/no_user.jpg'),
+                                backgroundImage: Env.noUser(),
                               ):
                               Env.cachedImage(post.fileName??"no_user.jpg"),
-                              title: Text(
-                                  post.firstName + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,
+                              title: Text(post.firstName + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,
                                   color: GreyColor)),
                               subtitle: Text(
                                   post.phone??"", style: TextStyle(fontSize: 12)),

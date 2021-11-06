@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Button.dart';
@@ -109,11 +110,24 @@ class _NewClientState extends State<NewClient> {
                      Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
                          Navigator.pop(context);
                      }),
-                     Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: (){
+                     Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: ()async{
+                       try{
+                         await Future.delayed(Duration(seconds: 5));
+                         final result = await InternetAddress.lookup('www.google.com');
+                         if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+                           print('Connected');
+                         }
+                       } on SocketException catch (_){
+                         Env.errorDialog('No Connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
+                         print ('No Connection');
+                       }
                          if(_formKey.currentState.validate()){
                            /// Function Send Data
                            controller.sendData(user,context);
-                         }}),
+                         }else{
+                           Env.errorDialog('Empty', 'لطفا معلومات ذیل را وارد نمایید', DialogType.WARNING, context, () { });
+                         }
+                     }),
                    ],
                  ),
                   SizedBox(height: 10)

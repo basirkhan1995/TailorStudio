@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:tailor/Components/Already_have_account.dart';
@@ -25,17 +26,17 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
   bool loading = false;
+
   @override
   void initState() {
     Env.checkIfUserIsLogin(context);
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -91,25 +92,27 @@ class _BodyState extends State<Body> {
                       text: "ورود",
                       press: () async {
                         if (_formKey.currentState.validate()) {
-                          var networkResult =
-                              await Connectivity().checkConnectivity();
-                          if (networkResult == ConnectivityResult.none) {
-                            return Env.errorDialog(
-                                Env.internetTitle,
-                                Env.noInternetMessage,
-                                DialogType.ERROR,
-                                context,
-                                () {});
-                          }
                           setState(() {
                             loading = true;
                           });
-                          http.Response res =
-                              await http.post(Uri.parse(Env.url + "login.php"),
-                                  body: jsonEncode({
-                                    "userName": username.text,
-                                    "password": password.text,
-                                  }));
+                          try{
+                            //await timer;
+                            final result = await InternetAddress.lookup('www.google.com');
+                            if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+                              print('Connected');
+                            }
+                          } on SocketException catch (_){
+                            setState(() {
+                              loading = false;
+                            });
+                            Env.errorDialog('No Connection', 'Please check your Internet Connectivity', DialogType.ERROR, context, () { });
+                            print ('No Connection');
+                          }
+                          http.Response res = await http.post(Uri.parse(Env.url + "login.php"),
+                              body: jsonEncode({
+                                "userName": username.text,
+                                "password": password.text,
+                              }));
                           var jsonData = jsonDecode(res.body);
                           int result = int.parse(jsonData['userID']);
                           print(jsonData);
@@ -134,23 +137,11 @@ class _BodyState extends State<Body> {
                             setState(() {
                               loading = false;
                             });
-                            await Env.errorDialog(
-                                Env.errorTitle,
-                                Env.wrongInput,
-                                DialogType.ERROR,
-                                context,
-                                () => {});
+                            await Env.errorDialog( Env.errorTitle, Env.wrongInput, DialogType.ERROR, context, () => {});
                           }
                         } else {
                           setState(() {
                             loading = false;
-                          });
-                          await Env.errorDialog(
-                              'تـوجه',
-                              "لطفا حساب کاربری و پســـورد خود را وارید نمایید",
-                              DialogType.WARNING,
-                              context, () {
-                            //Navigator.pop(context);
                           });
                         }
                       },

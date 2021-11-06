@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor/Components/Button.dart';
@@ -52,7 +55,16 @@ class _NewOrderState extends State<NewOrder> {
                       Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
                         Navigator.pop(context);
                       }),
-                      Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: (){
+                      Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: ()async{
+                        try{
+                          final result = await InternetAddress.lookup('www.google.com');
+                          if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+                            print('Connected');
+                          }
+                        } on SocketException catch (_){
+                          Env.errorDialog('No Connection', 'Please check your Internet Connectivity', DialogType.ERROR, context, () { });
+                          print ('No Connection');
+                        }
                         if(_formKey.currentState.validate()){
                           /// Function Send Data
                           controller.createOrder(widget.post.customerId,context);
@@ -99,6 +111,7 @@ class _NewOrderState extends State<NewOrder> {
               return DropdownMenuItem(
                   value: items,
                   child: Container(
+                    padding: EdgeInsets.only(right: 20,left: 0),
                       alignment: Alignment.centerRight,
                       child: Text(items))
               );

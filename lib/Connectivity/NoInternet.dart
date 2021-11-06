@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 
-class noInternet extends StatelessWidget {
-  const noInternet({Key key}) : super(key: key);
+class NoInternet extends StatelessWidget {
+  const NoInternet({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

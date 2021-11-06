@@ -54,10 +54,10 @@ class CharacterApi {
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
 
   var months = ['حمل', 'ثور', 'جوزا', 'سرطان', 'اسد', 'سنبله', 'میزان', 'عقرب', 'قوس', 'جدی', 'دلو', 'حوت'];
-  var itemType = ['پیراهن تنبان', 'واسکت', 'یخن قاق', 'کرتی پطلون', 'پطلون'];
-  var designTypeData = ['هندی', 'پاکستانی', 'ترکی', 'افغانی', 'عربی', 'کرزیی'];
-  var collarListData = ['یخن هندی حلقوی', 'یخن قاسمی', 'چپه یخن', 'یخن چاک دار'];
-  var sleeveListData = ['کف دار', 'دکمه دار', 'محرابی'];
+  var itemType = ['پیراهن تنبان', 'واسکت', 'یخن قاق', 'کرتی پطلون', 'پطلون', 'دیگر'];
+  var designTypeData = ['هندی', 'پاکستانی', 'ترکی', 'افغانی', 'عربی', 'کرزیی', 'دیگر'];
+  var collarListData = ['یخن هندی حلقوی', 'یخن قاسمی', 'چپه یخن', 'یخن چاک دار', 'دیگر'];
+  var sleeveListData = ['کف دار', 'دکمه دار', 'محرابی', 'دیگر'];
 
   //POST DATA, Create Order Function
   void createOrder(customerID, context) async {
@@ -86,7 +86,7 @@ class CharacterApi {
       print(result);
       await Env.errorDialog(
           Env.errorTitle,
-          'فرمایش شما ثبت نگردید لطفا دوباره کوشش نمایید',
+          'لطفا تمام گزینه های فرمایش را درست انتخاب نمایید',
           DialogType.ERROR,
           context,
           () {});
@@ -102,8 +102,7 @@ class CharacterApi {
     if (response.statusCode == 200) {
       //print(response.body);
       List<dynamic> body = jsonDecode(response.body);
-      List<Orders> posts =
-          body.map((dynamic item) => Orders.fromJson(item)).toList();
+      List<Orders> posts = body.map((dynamic item) => Orders.fromJson(item)).toList();
       //print(posts);
       return posts;
     } else {
@@ -139,9 +138,10 @@ class CharacterApi {
     } on SocketException catch (_) {
       return null;
     } on TimeoutException catch (_) {
-      return Env.errorDialog(
-          'Time Out', 'لطفا انترنت خود را بررسی کنید و دوباره کوشش نمایید',
-          DialogType.WARNING, context, () {});
+      return null;
+        // Env.errorDialog(
+        //   'Time Out', 'لطفا انترنت خود را بررسی کنید و دوباره کوشش نمایید',
+        //   DialogType.WARNING, context, () {});
     }
     return null;
   }

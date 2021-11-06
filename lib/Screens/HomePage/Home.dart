@@ -31,7 +31,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String userID = "";
   String fileName;
   bool checkLogin;
-  int currentIndex = 0;
+  //int currentIndex = 0;
   int _currentIndex = 0;
   PageController _pageController;
 
@@ -89,7 +89,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       child: Scaffold(
         endDrawer: myDrawer(tailorName??"", tailorEmail??"",fileName??'no_user.jpg', context),
         extendBodyBehindAppBar: true,
-        appBar: Env.appBarr(fileName, studioName,tailorName,tailorEmail, context),
+        appBar: Env.appBarr(fileName, studioName??"",tailorName??"",tailorEmail??"", context),
         body: SizedBox.expand(
           child: PageView(
             controller: _pageController,
@@ -108,6 +108,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
           containerHeight: 60,
           showElevation: true,
           itemCornerRadius: 20,
+          curve: Curves.decelerate,
           selectedIndex: _currentIndex,
           onItemSelected: (index) {
             setState(() => _currentIndex = index);
@@ -143,7 +144,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       ),
     );
   }
-
 
   /// My Drawer
   myDrawer(username, email, image, context) {
@@ -181,7 +181,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             width: 290,
                             height: 45,
                             child: Button(text:'Profile',textColor: PurpleColor,paint: WhiteColor ,press: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+                              //Animated Page Transition
+                              Env.animatedGoto(Profile(), context);
                             },),
                           ),
                           SizedBox(height: 20),
@@ -192,8 +193,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       boxShadow: [
                         BoxShadow(
                           color: GreyColor.withOpacity(.5),
-                          offset: Offset(1, 1), //(x,y)
-                          blurRadius: 5.0,
+                          offset: Offset(2, 1), //(x,y)
+                          blurRadius: 3.0,
                         ),
                       ],
                       color: PurpleColor,
@@ -203,11 +204,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   height: 390,
                 ),
                 SizedBox(height: 15),
+                Env.myTile('خانه', Icons.home, Dashboard(), context),
+                SizedBox(height: 5),
                 Env.myTile('نمایشگاه', Icons.photo, Album(), context),
                 SizedBox(height: 5),
                 Env.myTile('درباره ما', Icons.info, AboutTailor(), context),
-                SizedBox(height: 160),
+                SizedBox(height: 100),
                 ListTile(
+                  trailing: Icon(Icons.arrow_forward_ios,size: 15,color: PurpleColor),
                   leading: Container(
                     width: 50,
                     height: 50,
@@ -243,9 +247,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       ),
     );
   }
-
-
-
 
 }
 

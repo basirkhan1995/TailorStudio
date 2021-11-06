@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:tailor/Constants/Methods.dart';
+import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:tailor/helper/dialog_helper.dart';
 import 'package:tailor/services/app_exceptions.dart';
 import 'package:tailor/services/base_client.dart';
@@ -11,7 +12,8 @@ class TestController extends GetxController with BaseController {
    getData(id) async {
     showLoading('Fetching data');
     var response = await BaseClient().get(Env.url,"singleCustomer.php?id=" + id).catchError(handleError);
-    if (response == null) return;
+    if (response == null)
+      return;
     hideLoading();
     print(response);
   }

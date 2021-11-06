@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'Screens/Login/login.dart';
 import 'SplashScreen.dart';
-import 'package:get/get.dart';
 
-void main() {
+void main(){
   //StatusBar
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -15,7 +14,7 @@ void main() {
     systemNavigationBarIconBrightness: Brightness.dark,
     statusBarBrightness: Brightness.dark,
   ));
-  runApp(GetMaterialApp(
+  runApp(MaterialApp(
     title: 'TailorStudio',
     debugShowCheckedModeBanner: false,
     theme: ThemeData(

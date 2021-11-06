@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'app_exceptions.dart';
 
 class BaseClient {
@@ -19,6 +20,8 @@ class BaseClient {
       throw ApiNotRespondingException('API not responded in time', uri.toString());
     }
   }
+
+
 
 
   //POST

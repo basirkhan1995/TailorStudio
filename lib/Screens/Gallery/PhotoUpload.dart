@@ -77,12 +77,10 @@ class _MyGalleryState extends State<MyGallery> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+
+
             Padding(
-              padding: const EdgeInsets.only(top:70.0),
-              child: Text('عکس خود را اینجا آپلود کنید',style: TextStyle(fontSize: 18,color: PurpleColor,fontWeight: FontWeight.bold),),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, top: 20),
+              padding: const EdgeInsets.only(left: 10, top: 90),
               child: Container(
                 height: 300,
                 width: size.width *0.95,
@@ -110,6 +108,10 @@ class _MyGalleryState extends State<MyGallery> {
                 ),
               ),
             ),
+            imageFile == null?   Padding(
+              padding: const EdgeInsets.only(top:20.0),
+              child: Text(' لطفا عکس خود را انتخاب کنید',style: TextStyle(fontSize: 18,color: PurpleColor,fontWeight: FontWeight.bold),),
+            ):
             Padding(
               padding: const EdgeInsets.only(left:8.0,top: 15),
               child: RoundedButton(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
@@ -89,16 +90,6 @@ class _BodyState extends State<Body> {
                       text: "ایجــــاد حساب",
                       press: () async {
                         if (_formKey.currentState.validate()) {
-                          var networkResult =
-                              await Connectivity().checkConnectivity();
-                          if (networkResult == ConnectivityResult.none) {
-                            return Env.errorDialog(
-                                Env.internetTitle,
-                                Env.noInternetMessage,
-                                DialogType.ERROR,
-                                context,
-                                () {});
-                          }
                           setState(() {
                             loading = true;
                           });
@@ -138,11 +129,22 @@ class _BodyState extends State<Body> {
                                     builder: (context) => LoginScreen()));
                           }
                         } else {
+                          try{
+                            final result = await InternetAddress.lookup('www.google.com');
+                            if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+                              print('Connected');
+                            }
+                          } on SocketException catch (_){
+                            Env.errorDialog('No Connection', 'Please check your Internet Connectivity', DialogType.ERROR, context, () { });
+                            print ('No Connection');
+                          }
+
                           setState(() {
                             loading = false;
                           });
-                          return Env.errorDialog('تــــــوجه', Env.inputError,
-                              DialogType.WARNING, context, () {});
+
+                          return null;
+                          //print ('No Connection');
                         }
                       },
                     ),

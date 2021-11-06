@@ -71,68 +71,70 @@ class _CustomerFameState extends State<CustomerFame> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
-          child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: CircleAvatar(
-                            radius: 80, backgroundColor: PurpleColor,
-                            child: imageFile != null
-                                ? ClipRRect(
-                              borderRadius: BorderRadius.circular(75),
-                              child: Image.file(
-                                imageFile, width: 155, height: 155, fit: BoxFit.cover,
-                              ),
-                            ): Env.image(widget.post.fileName??"no_user.jpg"),
-                          ),
-                        ),
-                        Positioned(
-                          top: 140,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                                color: Grey,
-                                borderRadius: BorderRadius.circular(50)
+    return SingleChildScrollView(
+      child: Container(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20,left: 20,right: 20),
+            child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _showPicker(context);
+                      },
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: CircleAvatar(
+                              radius: 80, backgroundColor: PurpleColor,
+                              child: imageFile != null
+                                  ? ClipRRect(
+                                borderRadius: BorderRadius.circular(75),
+                                child: Image.file(
+                                  imageFile, width: 155, height: 155, fit: BoxFit.cover,
+                                ),
+                              ): Env.image(widget.post.fileName??"no_user.jpg"),
                             ),
-                            child: Icon(Icons.photo_camera),
                           ),
-                        )
-                      ],
-                    )
-                  ),
-                  SizedBox(height: 20),
-                  imageFile == null? Text('') :
-                  InkWell(onTap: (){
-                    //Upload Profile Picture to the SERVER
-                    _uploadFile(imageFile);
-                    //upload fileName to the MySQL Database
-                    uploadProfile(widget.post.customerId, context);
-                  }, child: Text('Submit',style: Env.style(20, PurpleColor),)),
+                          Positioned(
+                            top: 140,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  color: Grey,
+                                  borderRadius: BorderRadius.circular(50)
+                              ),
+                              child: Icon(Icons.photo_camera),
+                            ),
+                          )
+                        ],
+                      )
+                    ),
+                    SizedBox(height: 20),
+                    imageFile == null? Text('') :
+                    InkWell(onTap: (){
+                      //Upload Profile Picture to the SERVER
+                      _uploadFile(imageFile);
+                      //upload fileName to the MySQL Database
+                      uploadProfile(widget.post.customerId, context);
+                    }, child: Text('Submit',style: Env.style(20, PurpleColor),)),
 
-                  SizedBox(height: 10),
-                  Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
-                  Divider(height: 2,indent: 10,endIndent: 10),
-                  Env.tile('تخلص', widget.post.lastName??'تخلص درج نشده',Icons.people_rounded, ()=> _updateData(context,widget.post.lastName, 2), context),
-                  Divider(height: 1,indent: 10,endIndent: 10),
-                  Env.tile('شماره تماس', widget.post.phone??'شماره درج نشده',Icons.call, ()=> _updateData(context,widget.post.phone ,3), context),
-                  Divider(height: 1,indent: 10,endIndent: 10),
-                  Env.tile('ایمل', widget.post.email??'ایمل درج نشده',Icons.email_rounded, ()=> _updateData(context,widget.post.email, 4), context),
-                ],
-              )
-          ),
-        )
+                    //SizedBox(height: 10),
+                    Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
+                    Divider(height: 2,indent: 10,endIndent: 10),
+                    Env.tile('تخلص', widget.post.lastName??'تخلص درج نشده',Icons.people_rounded, ()=> _updateData(context,widget.post.lastName, 2), context),
+                    Divider(height: 1,indent: 10,endIndent: 10),
+                    Env.tile('شماره تماس', widget.post.phone??'شماره درج نشده',Icons.call, ()=> _updateData(context,widget.post.phone ,3), context),
+                    Divider(height: 1,indent: 10,endIndent: 10),
+                    Env.tile('ایمل', widget.post.email??'ایمل درج نشده',Icons.email_rounded, ()=> _updateData(context,widget.post.email, 4), context),
+                  ],
+                )
+            ),
+          )
+      ),
     );
   }
 

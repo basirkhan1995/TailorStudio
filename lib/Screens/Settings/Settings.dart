@@ -6,7 +6,6 @@ import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/Screens/Settings/Profile.dart';
 import 'package:tailor/Screens/Settings/help.dart';
 import 'package:tailor/Screens/Settings/language.dart';
-
 import 'notifications.dart';
 
 class Settings extends StatefulWidget {
@@ -16,7 +15,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   SharedPreferences loginData;
-  String fileName = "";
+  String fileName;
   String tailorName = "";
   String email = "";
 

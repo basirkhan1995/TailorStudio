@@ -100,7 +100,7 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                 () => _updateData(context, widget.data.deliveryDate, 8),
                 context),
             Env.orderDetails(
-                'مقدار پول:',
+                'پول فی جوره:',
                 widget.data.amount ?? '',
                 Icons.edit,
                 'price-tag.png',
@@ -113,7 +113,7 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                 'price.png',
                 () => _updateData(context, widget.data.receivedAmount, 10),
                 context),
-            Env.orderDetails('مجموعه بیلانس:', widget.data.total ?? '', null,
+            Env.orderDetails('بیلانس:', widget.data.total ?? '', null,
                 'bill3.png', VoidCallback, context),
             Env.orderDetails(
                 'ملاحظات:',
