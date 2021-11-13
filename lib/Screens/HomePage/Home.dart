@@ -211,20 +211,20 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 Env.myTile('درباره ما', Icons.info, AboutTailor(), context),
                 SizedBox(height: 100),
                 ListTile(
-                  trailing: Icon(Icons.arrow_forward_ios,size: 15,color: PurpleColor),
                   leading: Container(
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: BlackColor.withOpacity(.06),
+                        color: Colors.red.shade900,
+                     // color: BlackColor.withOpacity(.06),
                       borderRadius: BorderRadius.circular(40),
                     ),
                     child: Icon(
-                        Icons.power_settings_new, size: 28,
-                        color: Colors.red.shade900),
+                        Icons.power_settings_new, size: 22,
+                        color: Colors.white),
                   ),
                   title: Text(
-                      'خـــروج', style: Env.style(16, Colors.red.shade900)),
+                      'Log out', style: Env.style(16, Colors.red.shade900)),
                   onTap: () async {
                     await Env.confirmDialog(
                         'Sign out', Env.confirmMessage, DialogType.QUESTION,
@@ -232,9 +232,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     if (Env.checkYesNoLogin == true) {
                       print("returns " + Env.checkYesNoLogin.toString());
                       _logout();
-                      Navigator.push(
-                          context, MaterialPageRoute(
-                          builder: (context) => LoginScreen()));
+                      Env.goto(LoginScreen(), context);
                     } else {
                       print("returns " + Env.checkYesNoLogin.toString());
                       Navigator.pop(context);

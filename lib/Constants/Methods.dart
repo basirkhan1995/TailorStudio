@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -28,16 +29,16 @@ class Env {
 
   /// Dialog Messages
   static String successTitle = "Done";
-  static String errorTitle = "خطــا";
+  static String errorTitle = "Error";
   static String internetTitle = 'No Internet Connection!';
   static String userExistsMessage = "این حساب کاربری تکراری میباشد، لطفا اسم دیگری را امتحان کنید";
-  static String wrongInput = "حساب و رمز عبور شما اشتباه میباشد لطفا دوباره کوشش نمایید";
+  static String wrongInput = "حساب و رمز عبور شما اشتباه میباشد لطفا دوباره امتحان نمایید";
   static String successMessage = "حساب کاربری شما موفقانه ایجاد گردید";
   static String confirmMessage = 'آیا میخواهید از حساب خود خارج شوید؟';
   static String noInternetMessage = 'لطفا انترنت خود را بررسی کنید و دوباره امتحان کنید';
   static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
-  static String noInternetMsg = 'لطفا ارتباط انترنت خود را بررسی کنید و دوباره امتحان کنید';
+  static String noInternetMsg = 'لطفا انترنت خود را بررسی کنید و دوباره امتحان کنید';
   static String timeOut = 'لطفا انترنت خود را بررسی کرده دوباره کوشش نمایید';
   static SharedPreferences loginData;
   static bool isLogin;
@@ -45,11 +46,40 @@ class Env {
   static bool deleteYesNo;
   static bool orderSwitch = false;
   static bool check;
+  static bool loader =false;
   final controller = CharacterApi();
   final timer = new Future.delayed(const Duration(microseconds: 1000),()=> (throw new Exception('Callback not invoked!'))).timeout(const Duration(microseconds: 500));
 
   //Empty Profile Asset
   static noUser (){ return AssetImage('photos/background/no_user.jpg');}
+
+
+  //Internet Connectivity
+  static checkConnection(context,voidCallBack)async{
+    try{
+      final result = await InternetAddress.lookup('www.google.com').timeout(Duration(seconds: 5));
+      if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+        voidCallBack(() {
+          loader = false;
+        });
+        print('Connected');
+      }
+    } on SocketException catch (_){
+      await Future.delayed(Duration(seconds: 5));
+      voidCallBack(() {
+        loader = false;
+      });
+      Env.errorDialog('No Internet Connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
+      print ('No Connection');
+    } on TimeoutException catch (_){
+      voidCallBack(() {
+        loader = false;
+      });
+      Env.errorDialog('No Internet Connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
+      print ('No Connection');
+    }
+  }
+
 
   ///Static Navigator.push
   static goto(Widget route,context){

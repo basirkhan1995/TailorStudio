@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +9,8 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'dart:io';
 import 'package:tailor/HttpServices/HttpServices.dart';
+
+import '../../wait.dart';
 
 
 class NewClient extends StatefulWidget {
@@ -19,8 +23,7 @@ class _NewClientState extends State<NewClient> {
   SharedPreferences loginData;
   String user ="";
   File imageFile;
-
- final controller = CharacterApi();
+  final controller = CharacterApi();
 
 //  To Save userID in SharedPreferences
   void getInstance() async{
@@ -45,7 +48,9 @@ class _NewClientState extends State<NewClient> {
 
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return Env.loader
+        ? LoadingCircle()
+        : Scaffold(
       backgroundColor: WhiteColor,
       appBar: Env.appBar(context,'ثبت مشتری جدید'),
       body: SingleChildScrollView(
@@ -111,21 +116,16 @@ class _NewClientState extends State<NewClient> {
                          Navigator.pop(context);
                      }),
                      Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: ()async{
-                       try{
-                         await Future.delayed(Duration(seconds: 5));
-                         final result = await InternetAddress.lookup('www.google.com');
-                         if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
-                           print('Connected');
-                         }
-                       } on SocketException catch (_){
-                         Env.errorDialog('No Connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
-                         print ('No Connection');
-                       }
                          if(_formKey.currentState.validate()){
+                           setState(() {
+                             Env.loader = true;
+                           });
+                           ///checking internet connectivity
+                           Env.checkConnection(context,setState);
                            /// Function Send Data
                            controller.sendData(user,context);
                          }else{
-                           Env.errorDialog('Empty', 'لطفا معلومات ذیل را وارد نمایید', DialogType.WARNING, context, () { });
+                           Env.errorDialog('Empty', 'لطفا معلومات مشتری را وارد نمایید', DialogType.WARNING, context, () { });
                          }
                      }),
                    ],

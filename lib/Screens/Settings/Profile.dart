@@ -107,7 +107,7 @@ class ProfileState extends State<Profile> {
                       padding: const EdgeInsets.only(top: 30),
                       child: CircleAvatar(
                           radius: 80,
-                          backgroundColor: GreyColor,
+                          backgroundColor: PurpleColor,
                           child: imageFile != null
                               ? ClipRRect(
                             borderRadius: BorderRadius.circular(75),

@@ -10,6 +10,8 @@ import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 
+import '../../wait.dart';
+
 class NewOrder extends StatefulWidget {
   final Customer post;
   NewOrder(this.post);
@@ -21,10 +23,10 @@ class _NewOrderState extends State<NewOrder> {
   final _formKey = GlobalKey <FormState>();
   final controller = CharacterApi();
   String user = "";
-
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? LoadingCircle() :Scaffold(
       backgroundColor: WhiteColor,
       appBar: Env.appBar(context,widget.post.firstName+' '+widget.post.lastName),
       body:Directionality(
@@ -56,16 +58,11 @@ class _NewOrderState extends State<NewOrder> {
                         Navigator.pop(context);
                       }),
                       Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: ()async{
-                        try{
-                          final result = await InternetAddress.lookup('www.google.com');
-                          if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
-                            print('Connected');
-                          }
-                        } on SocketException catch (_){
-                          Env.errorDialog('No Connection', 'Please check your Internet Connectivity', DialogType.ERROR, context, () { });
-                          print ('No Connection');
-                        }
                         if(_formKey.currentState.validate()){
+                          setState(() {
+                            Env.loader = true;
+                          });
+                          Env.checkConnection(context, setState);
                           /// Function Send Data
                           controller.createOrder(widget.post.customerId,context);
                         }}),

@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:persian_fonts/persian_fonts.dart';
@@ -95,19 +93,8 @@ class _BodyState extends State<Body> {
                           setState(() {
                             loading = true;
                           });
-                          try{
-                            //await timer;
-                            final result = await InternetAddress.lookup('www.google.com');
-                            if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
-                              print('Connected');
-                            }
-                          } on SocketException catch (_){
-                            setState(() {
-                              loading = false;
-                            });
-                            Env.errorDialog('No Connection', 'Please check your Internet Connectivity', DialogType.ERROR, context, () { });
-                            print ('No Connection');
-                          }
+                          ///Internet connectivity check
+                          Env.checkConnection(context,setState);
                           http.Response res = await http.post(Uri.parse(Env.url + "login.php"),
                               body: jsonEncode({
                                 "userName": username.text,
@@ -118,7 +105,7 @@ class _BodyState extends State<Body> {
                           print(jsonData);
                           if (result > 0) {
                             setState(() {
-                              loading = false;
+                              Env.loader = false;
                             });
                             Env.loginData.setBool('login', true);
                             Env.loginData.setString('username', username.text);
@@ -129,19 +116,16 @@ class _BodyState extends State<Body> {
                             Env.loginData.setString('userPhone', jsonData['userPhone']);
                             Env.loginData.setString('userAddress', jsonData['userAddress']);
                             Env.loginData.setString('fileName', jsonData['fileName']);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Dashboard()));
+                            Env.animatedGoto(Dashboard(), context);
                           } else {
                             setState(() {
-                              loading = false;
+                              Env.loader = false;
                             });
                             await Env.errorDialog( Env.errorTitle, Env.wrongInput, DialogType.ERROR, context, () => {});
                           }
                         } else {
                           setState(() {
-                            loading = false;
+                           Env.loader = false;
                           });
                         }
                       },

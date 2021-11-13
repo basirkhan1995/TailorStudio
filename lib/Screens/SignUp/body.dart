@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:tailor/Components/Already_have_account.dart';
 import 'package:tailor/Components/PasswordField.dart';
@@ -44,28 +42,28 @@ class _BodyState extends State<Body> {
                   children: <Widget>[
                     Padding(padding: EdgeInsets.symmetric(vertical: 25)),
                     Text(
-                      "حســـاب جـــدید",
+                      "Sign up",
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          //fontWeight: FontWeight.bold,
+                          fontSize: 20,
                           color: PurpleColor),
                     ),
                     Image.asset(
                       "photos/background/tailor_logo.png",
-                      height: size.height * 0.25,
+                      height: size.height * 0.40,
                     ),
 
                     //Input TextFields
                     RoundedInputField(
                       controller: tailorName,
-                      hintText: "اســـم خیـــاط",
+                      hintText: "اسـم خیاط",
                       message: "لطفا اسم خیاط را وارید نمایید",
                       icon: Icons.person_rounded,
                       onChanged: (value) {},
                     ),
                     RoundedInputField(
                       controller: studioName,
-                      hintText: "اســـم خیـــاطی",
+                      hintText: "خیاطی",
                       message: "لطفا اسم خیاطی خود را وارید نمایید",
                       icon: Icons.home,
                       onChanged: (value) {},
@@ -73,7 +71,7 @@ class _BodyState extends State<Body> {
                     RoundedInputField(
                       controller: username,
                       icon: Icons.account_circle,
-                      hintText: "حســـاب کاربری",
+                      hintText: "حساب کاربری",
                       message: "لطفا حساب کاربری خود را وارید نمایید",
                       onChanged: (value) {},
                     ),
@@ -87,12 +85,14 @@ class _BodyState extends State<Body> {
                     SizedBox(height: 10),
                     //Sign up Button
                     RoundedButton(
-                      text: "ایجــــاد حساب",
+                      text: "ایجاد حساب",
                       press: () async {
                         if (_formKey.currentState.validate()) {
                           setState(() {
                             loading = true;
                           });
+                          Env.checkConnection(context,setState);
+
                           http.Response res = await http.post(
                               Uri.parse(Env.url + "register.php"),
                               body: jsonEncode({
@@ -123,28 +123,8 @@ class _BodyState extends State<Body> {
                                 DialogType.SUCCES,
                                 context,
                                 () {});
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
+                            Env.goto(LoginScreen(), context);
                           }
-                        } else {
-                          try{
-                            final result = await InternetAddress.lookup('www.google.com');
-                            if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
-                              print('Connected');
-                            }
-                          } on SocketException catch (_){
-                            Env.errorDialog('No Connection', 'Please check your Internet Connectivity', DialogType.ERROR, context, () { });
-                            print ('No Connection');
-                          }
-
-                          setState(() {
-                            loading = false;
-                          });
-
-                          return null;
-                          //print ('No Connection');
                         }
                       },
                     ),

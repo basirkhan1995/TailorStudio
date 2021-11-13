@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +26,7 @@ class _IndividualState extends State<Individual> {
   String user = "";
   final access = CharacterApi();
   final controller = TestController();
+  bool loading = false;
   @override
   void initState() {
     super.initState();
@@ -57,7 +57,7 @@ class _IndividualState extends State<Individual> {
         backgroundColor: PurpleColor,
         child: Icon(Icons.add),
         onPressed:(){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NewClient()));
+          Env.animatedGoto(NewClient(), context);
           if (_scrollController.hasClients) {
             final maxScroll = _scrollController.position.maxScrollExtent;
             final currentScroll = _scrollController.offset;
@@ -88,7 +88,7 @@ class _IndividualState extends State<Individual> {
                 //controller.getData(user),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Customer>> snapshot) {
-                  if (!snapshot.hasData) {
+                  if (!snapshot.hasData){
                     return LoadingCircle();
                   }else if(snapshot.hasData && snapshot.data.isEmpty){
                     return Env.emptyBox();
@@ -185,7 +185,7 @@ class _IndividualState extends State<Individual> {
                                           await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
                                           if(Env.deleteYesNo == true){
                                             print("result = " + Env.deleteYesNo.toString());
-                                            access.deleteCustomer(post.customerId);
+                                            access.deleteCustomer(post.customerId,context);
                                             Navigator.pop(context);
                                           }else{
                                             print("result = "+ Env.deleteYesNo.toString());

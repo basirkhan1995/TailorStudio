@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:tailor/Constants/ConstantColors.dart';
 
 class LoadingCircle extends StatefulWidget {
   @override
@@ -62,7 +63,7 @@ class _LoadingCircleState extends State<LoadingCircle>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent.withOpacity(0.0),
+      backgroundColor: WhiteColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 150),

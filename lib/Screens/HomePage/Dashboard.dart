@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 25),
-                child: Text('STATISTICS',style: Env.style(28, BlackColor.withOpacity(.5)),),
+                child: Text('Statistics',style: Env.style(28, BlackColor.withOpacity(.5)),),
               ),
               Divider(endIndent: 30,indent: 30,height: 0),
               Env.dashboard('user.png', 'Customer', '2', context),

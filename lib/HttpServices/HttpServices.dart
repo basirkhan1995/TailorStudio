@@ -111,7 +111,7 @@ class CharacterApi {
   }
 
 //DELETE POST, Delete Customer
-  deleteCustomer(id) async {
+  deleteCustomer(id,context) async {
     final http.Response response = await http.get(
         Uri.parse(Env.url + 'Individuals_Delete.php?id=$id'),
         headers: <String, String>{
@@ -121,6 +121,8 @@ class CharacterApi {
       //print('delete success\n' + response.body);
       return Customer.fromJson(json.decode(response.body));
     } else {
+      //await Future.delayed(Duration(seconds: 5));
+      await Env.errorDialog('Error', 'Access Denied Try again.', DialogType.WARNING, context, () { });
       //print('delete not success \n' + response.body);
       throw Exception('Failed to delete album.');
     }
@@ -129,7 +131,7 @@ class CharacterApi {
   //GET DATA, Fetch Customers List
   Future<List<Customer>> fetchCustomer(String userID, context) async {
     try {
-        Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=" + userID)).timeout(Duration(seconds: 10));
+        Response res = await get(Uri.parse(Env.url + "singleCustomer.php?id=" + userID)).timeout(Duration(seconds: 5));
         if (res.statusCode == 200) {
           List<dynamic> body = jsonDecode(res.body);
           List<Customer> posts = body.map((dynamic item) => Customer.fromJson(item)).toList();
@@ -183,10 +185,12 @@ class CharacterApi {
     String result = res.body.toString();
     print(result);
     if (result == "Success") {
+      Env.loader = false;
       await Env.responseDialog(Env.successTitle, Env.successCustomerAcc,
           DialogType.SUCCES, context, () {});
       Navigator.pop(context);
     } else {
+      Env.loader = false;
       print(result);
       await Env.errorDialog(
           Env.errorTitle,

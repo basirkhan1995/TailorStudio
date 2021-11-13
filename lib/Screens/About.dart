@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 
 
 class AboutTailor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.white,
+    //   statusBarIconBrightness: Brightness.light,
+    //   systemNavigationBarColor: Colors.white,
+    //   systemNavigationBarDividerColor: Colors.white,
+    //   systemNavigationBarIconBrightness: Brightness.light,
+    //   statusBarBrightness: Brightness.light,
+    // ));
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -14,7 +23,7 @@ class AboutTailor extends StatelessWidget {
           ),
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(Icons.arrow_back_ios,size: 18,),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -47,7 +56,7 @@ class AboutTailor extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 13.0),
                         child: Text('About Tailor Studio', style: TextStyle(
-                                color: GreyColor, fontSize: 20, fontWeight: FontWeight.bold)),
+                                color: GreyColor, fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
