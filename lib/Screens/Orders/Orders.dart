@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
-import 'package:tailor/Constants/OrderMethod.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/OrderList.dart';
 import '../../wait.dart';
 import 'OrderDetails.dart';
-
 
 class Orders extends StatefulWidget {
   final MyOrders orderPost;

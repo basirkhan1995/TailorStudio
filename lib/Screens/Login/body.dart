@@ -39,7 +39,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double _w = MediaQuery.of(context).size.width;
-    return loading
+    return Env.loader
         ? LoadingCircle()
         : Background(
             child: SingleChildScrollView(
@@ -78,23 +78,29 @@ class _BodyState extends State<Body> {
                       onChanged: (value) {},
                       hintText: 'رمز عبور',
                     ),
+
+                    //Forgot Password, "Password Recovery"
                     Padding(
-                      padding: const EdgeInsets.only(right: 180),
-                      child: Text('بازیابی رمز عبور؟',
-                          style: TextStyle(
-                              color: PurpleColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15)),
+                      padding: const EdgeInsets.only(right: 180, top: 10, bottom: 10),
+                      child: Text('Forgot password?',
+                          style: Env.boldStyle(13, PurpleColor)),
                     ),
+
+                    //Login Button
                     RoundedButton(
                       text: "ورود",
                       press: () async {
+                        //Checking the text fields whether they are empty or not.
                         if (_formKey.currentState.validate()) {
+                          // loading starts
                           setState(() {
-                            loading = true;
+                            Env.loader = true;
                           });
-                          ///Internet connectivity check
+
+                          //Internet connectivity check
                           Env.checkConnection(context,setState);
+
+                          //Checking login username and password
                           http.Response res = await http.post(Uri.parse(Env.url + "login.php"),
                               body: jsonEncode({
                                 "userName": username.text,
@@ -104,9 +110,13 @@ class _BodyState extends State<Body> {
                           int result = int.parse(jsonData['userID']);
                           print(jsonData);
                           if (result > 0) {
+
+                            //loading stops when user login successfully
                             setState(() {
                               Env.loader = false;
                             });
+
+                            // Values saved in shared preferences, after successfully login
                             Env.loginData.setBool('login', true);
                             Env.loginData.setString('username', username.text);
                             Env.loginData.setString('userID', jsonData['userID']);
@@ -118,29 +128,23 @@ class _BodyState extends State<Body> {
                             Env.loginData.setString('fileName', jsonData['fileName']);
                             Env.animatedGoto(Dashboard(), context);
                           } else {
+                            // If login fails; loading stops and system await for Error Dialog to open.
                             setState(() {
                               Env.loader = false;
                             });
-                            await Env.errorDialog( Env.errorTitle, Env.wrongInput, DialogType.ERROR, context, () => {});
+
+                            //Error Dialog
+                            await Env.errorDialog(Env.errorTitle, Env.wrongInput, DialogType.ERROR, context, () => {});
                           }
-                        } else {
-                          setState(() {
-                           Env.loader = false;
-                          });
                         }
                       },
                     ),
                     SizedBox(height: size.height * 0.03),
+                    //If you don't have an account, create one here. (Sign up)
                     AlreadyHaveAnAccountCheck(
                       press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return SignUpScreen();
-                            },
-                          ),
-                        );
+                        // Navigate to Sign up screen
+                       Env.animatedGoto(SignUpScreen(), context);
                       },
                     ),
                   ],

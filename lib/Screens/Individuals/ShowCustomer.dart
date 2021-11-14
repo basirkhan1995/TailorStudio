@@ -129,7 +129,7 @@ class _IndividualState extends State<Individual> {
                                 radius: 25,
                                 backgroundImage: Env.noUser(),
                               ):
-                              Env.cachedImage(post.fileName??"no_user.jpg"),
+                              Env.image(post.fileName??"no_user.jpg",30),
                               title: Text(post.firstName + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,
                                   color: GreyColor)),
                               subtitle: Text(

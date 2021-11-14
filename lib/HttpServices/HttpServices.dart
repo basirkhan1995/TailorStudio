@@ -214,6 +214,7 @@ class CharacterApi {
       await Env.errorDialog(Env.successTitle, 'لطفا عکس خود را انتخاب کنید',
           DialogType.ERROR, context, () {});
     } else if (result == "Success") {
+      //Env.loader = false;
       print(result);
       await Env.responseDialog(Env.successTitle, 'عکس شما موفقانه آپلود گردید',
           DialogType.SUCCES, context, () {});

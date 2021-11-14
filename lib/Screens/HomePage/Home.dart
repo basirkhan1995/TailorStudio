@@ -31,7 +31,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   String userID = "";
   String fileName;
   bool checkLogin;
-  //int currentIndex = 0;
   int _currentIndex = 0;
   PageController _pageController;
 
@@ -81,7 +80,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         btnCancelOnPress: () {},
         btnCancelColor: Colors.red.shade900).show() ?? false;
   }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -145,7 +143,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     );
   }
 
-  /// My Drawer
+  // My Drawer
   myDrawer(username, email, image, context) {
     Size size = MediaQuery.of(context).size;
     return Drawer(
@@ -226,11 +224,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   title: Text(
                       'Log out', style: Env.style(16, Colors.red.shade900)),
                   onTap: () async {
-                    await Env.confirmDialog(
-                        'Sign out', Env.confirmMessage, DialogType.QUESTION,
-                        context, setState);
+                    await Env.confirmDialog('Sign out', Env.confirmMessage, DialogType.QUESTION, context, setState);
                     if (Env.checkYesNoLogin == true) {
                       print("returns " + Env.checkYesNoLogin.toString());
+                      //Clear the navigation.
                       _logout();
                       Env.goto(LoginScreen(), context);
                     } else {

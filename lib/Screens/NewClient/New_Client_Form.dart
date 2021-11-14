@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -106,7 +104,6 @@ class _NewClientState extends State<NewClient> {
                   Env.myMeasure('دامـــــن', 'photos/Measure/bar_daman.jpg',controller.skirt),
                   Env.myMeasure('قد تنبان', 'photos/Measure/qad_tonban.jpg',controller.pantHeight),
                   Env.myMeasure('پــــاچه', 'photos/Measure/pacha.jpg',controller.legWidth),
-
                   SizedBox(height: 10),
 
                  //Action Buttons for Post and Cancel
@@ -122,6 +119,7 @@ class _NewClientState extends State<NewClient> {
                            });
                            ///checking internet connectivity
                            Env.checkConnection(context,setState);
+
                            /// Function Send Data
                            controller.sendData(user,context);
                          }else{

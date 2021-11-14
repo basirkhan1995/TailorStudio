@@ -95,7 +95,7 @@ class _CustomerFameState extends State<CustomerFame> {
                                 child: Image.file(
                                   imageFile, width: 155, height: 155, fit: BoxFit.cover,
                                 ),
-                              ): Env.image(widget.post.fileName??"no_user.jpg"),
+                              ): Env.image(widget.post.fileName??"no_user.jpg",78),
                             ),
                           ),
                           Positioned(

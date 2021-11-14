@@ -117,7 +117,7 @@ class ProfileState extends State<Profile> {
                               height: 155,
                               fit: BoxFit.cover,
                             ),
-                          ) : Env.image(fileName??"no_user.jpg")
+                          ) : Env.image(fileName??"no_user.jpg",78)
                       ),
                     ),
                     Positioned(

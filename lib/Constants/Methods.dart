@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/RoundedMeasure.dart';
-import 'package:tailor/Components/RoundedOrderField.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
@@ -19,144 +17,74 @@ import 'package:tailor/Screens/Settings/Profile.dart';
 
 
 class Env {
-  ///Server prefix Link Details
+
+  //Server prefix Link Details
   static String url = "https://tailorstudio.000webhostapp.com/";
   static String urlPhoto = "https://tailorstudio.000webhostapp.com/Images/";
 
-  ///ImageFiles
-  String myImage;
-  static File imageFile;
-
-  /// Dialog Messages
+  // Dialog Messages
   static String successTitle = "Done";
   static String errorTitle = "Error";
   static String internetTitle = 'No Internet Connection!';
-  static String userExistsMessage = "این حساب کاربری تکراری میباشد، لطفا اسم دیگری را امتحان کنید";
-  static String wrongInput = "حساب و رمز عبور شما اشتباه میباشد لطفا دوباره امتحان نمایید";
+  static String userExistsMessage = "این حساب موجود است، اسم دیگری را امتحان کنید";
+  static String wrongInput = "حساب و رمز اشتباه است، لطفا دوباره امتحان کنید";
   static String successMessage = "حساب کاربری شما موفقانه ایجاد گردید";
   static String confirmMessage = 'آیا میخواهید از حساب خود خارج شوید؟';
-  static String noInternetMessage = 'لطفا انترنت خود را بررسی کنید و دوباره امتحان کنید';
-  static String inputError = "لطفا حساب کاربری و رمز عبور خود را درست وارید نمایید";
+  static String noInternet = 'لطفا انترنت خود را بررسی کنید';
+  static String inputError = "لطفا حساب و رمز خود را درست وارید نمایید";
   static String successCustomerAcc = "حساب مشتری شما موفقانه ایجاد گردید";
-  static String noInternetMsg = 'لطفا انترنت خود را بررسی کنید و دوباره امتحان کنید';
-  static String timeOut = 'لطفا انترنت خود را بررسی کرده دوباره کوشش نمایید';
+
+  //Static Variables
   static SharedPreferences loginData;
   static bool isLogin;
   static bool checkYesNoLogin;
   static bool deleteYesNo;
   static bool orderSwitch = false;
   static bool check;
-  static bool loader =false;
+  static bool loader = false;
   final controller = CharacterApi();
+
+  //Timer
   final timer = new Future.delayed(const Duration(microseconds: 1000),()=> (throw new Exception('Callback not invoked!'))).timeout(const Duration(microseconds: 500));
 
   //Empty Profile Asset
-  static noUser (){ return AssetImage('photos/background/no_user.jpg');}
+   static noUser (){ return AssetImage('photos/background/no_user.jpg');}
 
-
-  //Internet Connectivity
+  //To Check Internet Connectivity
   static checkConnection(context,voidCallBack)async{
     try{
       final result = await InternetAddress.lookup('www.google.com').timeout(Duration(seconds: 5));
       if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
-        voidCallBack(() {
-          loader = false;
-        });
         print('Connected');
       }
     } on SocketException catch (_){
-      await Future.delayed(Duration(seconds: 5));
+
       voidCallBack(() {
-        loader = false;
+        Env.loader = false;
       });
-      Env.errorDialog('No Internet Connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
+      Env.errorDialog('No Internet Connection','لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
       print ('No Connection');
     } on TimeoutException catch (_){
+      await Future.delayed(Duration(seconds: 6));
       voidCallBack(() {
-        loader = false;
+        Env.loader = false;
       });
-      Env.errorDialog('No Internet Connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
+      Env.errorDialog('No internet connection', 'لطفا انترنت خود را بررسی کنید', DialogType.ERROR, context, () { });
       print ('No Connection');
     }
   }
 
-
-  ///Static Navigator.push
+  // Static Navigator.push
   static goto(Widget route,context){
     return Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
   }
 
-  ///Page Transition with Animation
+  //Page Transition with Animation
   static animatedGoto(Widget route,context){
     return Navigator.push(context, PageTransition(type: PageTransitionType.leftToRightWithFade, child: route));
   }
 
-
-    static Future<bool> onExit(context) {
-      return AwesomeDialog(
-          context: context,
-          animType: AnimType.TOPSLIDE,
-          dialogType: DialogType.QUESTION,
-          title: 'Exit',
-          desc: "آیا از برنامه میخواهید خارج شوید؟",
-          btnCancelText: 'نخیر',
-          btnOkText: 'بلی',
-          btnOkColor: PurpleColor,
-          btnOkOnPress: () => exit(0),
-          btnCancelOnPress: () {},
-          btnCancelColor: Colors.red.shade900).show() ?? false;
-    }
-
-  //Static Appbar
-  static Widget appBar(context, title) {
-    double _w = MediaQuery.of(context).size.width;
-    return PreferredSize(
-      preferredSize: Size(double.infinity, kToolbarHeight),
-      child: ClipRRect(
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-        child: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_rounded,size: 20 ,color: PurpleColor),
-            onPressed: () => Navigator.of(context).pop(),
-          ) ,
-          centerTitle: true,
-          brightness: Brightness.light,
-          backgroundColor: WhiteColor,
-          elevation: 0,
-          title: Text(title,
-              style: PersianFonts.Samim.copyWith(
-                fontSize: _w / 20,
-                letterSpacing: 1,
-                wordSpacing: 1,
-                color: Colors.black.withOpacity(.7),
-                fontWeight: FontWeight.w400,
-              )),
-          actions: [
-            IconButton(
-              tooltip: 'Home',
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              icon: Icon(Icons.home_rounded, color: Colors.black.withOpacity(.7)),
-              onPressed: () {
-                HapticFeedback.lightImpact();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return Dashboard();
-                    },
-                  ),
-                );
-              },
-            ),
-            Text('  '),
-          ],
-        ),
-      ),
-    );
-  }
-
-//auto login
+  // Auto login
   static checkIfUserIsLogin(context) async {
     loginData = await SharedPreferences.getInstance();
     isLogin = (loginData.getBool('login')??false);
@@ -165,7 +93,7 @@ class Env {
     }
   }
 
-  //Static TextStyle
+  //Static Persian Font Style
   static style(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
       fontSize: size,
@@ -176,7 +104,7 @@ class Env {
     );
   }
 
-  //Static Bold TextStyle
+  //Static Persian Font Bold TextStyle
   static boldStyle(double size, Color paint) {
     return PersianFonts.Samim.copyWith(
       fontSize: size,
@@ -201,26 +129,10 @@ class Env {
     ).show();
   }
 
-  //Exist Account Error Message
-  static httpError(String title, String msg, DialogType dialogType,BuildContext context, Widget route) {
-    return AwesomeDialog(
-      context: context,
-      animType: AnimType.TOPSLIDE,
-      dialogType: dialogType,
-      title: title,
-      desc: msg,
-      btnOkColor: PurpleColor,
-      btnOkOnPress: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
-      },
-    ).show();
-  }
-
-
-  //Exist Account Error Message
+  //Error Dialog
   static errorDialog(String title, String msg, DialogType dialogType,BuildContext context, VoidCallback onOkPress) {
     return AwesomeDialog(
-      autoHide: Duration(seconds: 5),
+      autoHide: Duration(seconds: 6),
       buttonsBorderRadius: BorderRadius.circular(5),
       dialogBorderRadius: BorderRadius.circular(15),
       context: context,
@@ -232,32 +144,6 @@ class Env {
       btnOkOnPress: onOkPress,
     ).show();
   }
-
-  //Confirm Dialog
-  static confirmExit(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
-    return AwesomeDialog(
-      context: context,
-      animType: AnimType.TOPSLIDE,
-      dialogType: dialogType,
-      title: title,
-      desc: msg,
-      btnOkText: 'بلی',
-      btnCancelText: 'نخیر',
-      btnOkColor: PurpleColor,
-      btnOkOnPress: () {
-        voidCallBack(() {
-          checkYesNoLogin = true;
-        });
-      },
-      btnCancelOnPress: () {
-        voidCallBack(() {
-          checkYesNoLogin = false;
-        });
-      },
-      btnCancelColor: Colors.red.shade900,
-    ).show();
-  }
-
 
   //Confirm Dialog
   static confirmDialog(String title, String msg, DialogType dialogType, BuildContext context, voidCallBack ) {
@@ -341,7 +227,7 @@ class Env {
     );
   }
 
-  //Measurement Method
+  // Order Method
   static Widget myOrder(title,subtitle,controller,hintText,prefix,inputType){
     return Padding(
       padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
@@ -388,213 +274,7 @@ class Env {
     );
   }
 
-  //Measurement Method
-  static Widget myTXTOrder(title,subtitle,controller,hint){
-    return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
-      child: Container(
-        padding: EdgeInsets.only(top: 3, bottom: 6,left: 10,right: 10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: PurpleColor)
-        ),
-        child: ListTile(
-          title: Text(title,style:Env.style(17, PurpleColor)),
-          subtitle: Text(subtitle),
-          trailing: ConstrainedBox(
-            constraints: BoxConstraints(
-                minWidth: 48),
-            child: IntrinsicWidth(
-              child: OrderField(
-                controller: controller,
-                hintText: hint,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  static dateTimePicker(String label,controller){
-    return Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 3,left: 10, right: 10),
-      child: Container(
-        padding: EdgeInsets.only(top: 3, bottom: 6,left: 10,right: 10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: PurpleColor)
-        ),
-        child: DateTimePicker(
-          controller: controller,
-          timeFieldWidth: 50,
-          style: style(18, PurpleColor),
-          type: DateTimePickerType.dateTimeSeparate,
-          dateMask: 'd MMM, yyyy',
-          initialValue: DateTime.now().toString(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2100),
-          icon: Icon(Icons.event,color: PurpleColor,size: 30),
-          dateLabelText: label,
-          timeLabelText: "ساعت",
-          selectableDayPredicate: (date) {
-            // Disable weekend days to select from the calendar
-            if (date.weekday == 6 || date.weekday == 7) {
-              return false;
-            }
-            return true;
-          },
-          onChanged: (val) => print(val),
-          validator: (val) {
-            print(val);
-            return null;
-          },
-          onSaved: (val) => print(val),
-        ),
-      ),
-    );
-  }
-
-  static popMenu(Color paint, String title,IconData icon, VoidCallback press){
-    return PopupMenuButton(
-      icon: Icon(Icons.more_vert,
-          color: PurpleColor),
-      elevation: 20,
-      shape: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-              color: PurpleColor, width: 2)),
-      itemBuilder: (context) => [
-        PopupMenuItem(
-            child: Row(
-              mainAxisAlignment:MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(child: Text('Create order'),onTap: press,
-                ),
-                Spacer(),
-                Icon(Icons.shopping_cart,color: PurpleColor),
-                Divider(height: 1),
-              ],
-            )),
-        PopupMenuItem(
-            child: Row(
-              mainAxisAlignment:MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(child: Text('Edit'),onTap: press),
-                Icon(Icons.edit,color: PurpleColor)
-              ],
-            )),
-        PopupMenuItem(
-            child: Row(
-              children: [
-                InkWell(
-                  child: Text('Delete',style: Env.style(16, Colors.red.shade900)),
-                  onTap: press,
-                ),
-                Spacer(),
-                Icon(Icons.delete,color:Colors.red.shade900)],
-            )),
-
-      ],
-    );
-  }
-
-  //statistic Home Widget function
-  static Widget statistic(String title, String subtitle, IconData icon, Widget route, paint,context,animation1, animation2) {
-    double _w = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: animation1.value,
-      child: Transform.translate(
-        offset: Offset(0, animation2.value),
-        child: Container(
-          height: _w / 2.3,
-          width: _w,
-          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => route));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: GreyColor,
-                      offset: Offset(0,3), //(x,y)
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                  color: Color(paint),
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
-              child: Padding(
-                padding: EdgeInsets.all(_w / 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: _w / 3,
-                      width: _w / 3,
-                      decoration: BoxDecoration(
-                          color: WhiteColor.withOpacity(.2),
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(80),topRight:Radius.circular(10),bottomRight: Radius.circular(10) )),
-                      child: Icon(
-                        icon,
-                        color: WhiteColor,
-                        size: _w / 8,
-                      ),
-                    ),
-                    SizedBox(width: _w / 40),
-                    SizedBox(
-                      width: _w / 2.05,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 20,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 14,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  //Dashboard Widgets
+  // Order Card Widgets
  static Widget card(String title, String subtitle, trailing, IconData icon, Widget route, paint,context){
     double _w = MediaQuery.of(context).size.width;
     return Container(
@@ -695,6 +375,7 @@ class Env {
     );
   }
 
+  //Statistic of Dashboard
   static dashboard(leading,title, subtitle,context){
     Size size = MediaQuery.of(context).size;
     return Padding(
@@ -734,8 +415,7 @@ class Env {
     );
   }
 
-
-  //
+  //Profile Tab (Fame, Measure, Order)
   static tab(title){
     return Container(
       decoration: BoxDecoration(
@@ -748,25 +428,11 @@ class Env {
     );
   }
 
-  static cachedImage(image){
+  static image(image, double radSize){
     return CachedNetworkImage(
       imageUrl: Env.urlPhoto + image,
       imageBuilder: (context, imageProvider) => CircleAvatar(
-        radius: 30,
-        foregroundImage: imageProvider,
-      ),
-      placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
-      errorWidget: (context, url, error) => CircleAvatar(
-          radius: 30,
-          child: Image.asset('photos/background/no_user.jpg')),
-    );
-  }
-
-  static image(image){
-    return CachedNetworkImage(
-      imageUrl: Env.urlPhoto + image,
-      imageBuilder: (context, imageProvider) => CircleAvatar(
-        radius: 78,
+        radius: radSize,
         foregroundImage: imageProvider,
       ),
       placeholder: (context, url) => CircularProgressIndicator(color: PurpleColor,strokeWidth: 1),
@@ -774,85 +440,54 @@ class Env {
     );
   }
 
-
-  static orderBox(String name, String lastname, String status){
-    return Container(
-      margin: const EdgeInsets.only(bottom: 32),
-      padding: const EdgeInsets.symmetric(
-          horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue,
-            blurRadius: 8,
-            spreadRadius: 2,
-            offset: Offset(4, 4),
-          ),
-        ],
-        borderRadius: BorderRadius.all(Radius.circular(24)),
-      ),
-      child: Column(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.label,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        (name),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'avenir'),
-                      ),
-                    ],
+  // Static Appbar
+  static Widget appBar(context, title) {
+    double _w = MediaQuery.of(context).size.width;
+    return PreferredSize(
+      preferredSize: Size(double.infinity, kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+        child: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded,size: 20 ,color: PurpleColor),
+            onPressed: () => Navigator.of(context).pop(),
+          ) ,
+          centerTitle: true,
+          brightness: Brightness.light,
+          backgroundColor: WhiteColor,
+          elevation: 0,
+          title: Text(title,
+              style: PersianFonts.Samim.copyWith(
+                fontSize: _w / 20,
+                letterSpacing: 1,
+                wordSpacing: 1,
+                color: Colors.black.withOpacity(.7),
+                fontWeight: FontWeight.w400,
+              )),
+          actions: [
+            IconButton(
+              tooltip: 'Home',
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: Icon(Icons.home_rounded, color: Colors.black.withOpacity(.7)),
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Dashboard();
+                    },
                   ),
-                  Switch(
-                    onChanged: (bool value) {},
-                    value: true,
-                    activeColor: Colors.white,
-                  ),
-                ],
-              ),
-              Text(
-                lastname,
-                style: TextStyle(
-                    color: Colors.white, fontFamily: 'avenir'),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    status,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'avenir',
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Colors.white,
-                      onPressed: () {
-
-                      }),
-                ],
-              ),
-            ],
-          ),
-        ],
+                );
+              },
+            ),
+            Text('  '),
+          ],
+        ),
       ),
     );
   }
-
 
   //My Appbar
   static Widget appBarr(url,title,user,email, context) {
@@ -924,260 +559,6 @@ class Env {
     );
   }
 
-  //Dashboard Widgets
-  static Widget myCard(String title, String subtitle, trailing, IconData icon, Widget route, paint,context,animation1, animation2) {
-    double _w = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: animation1.value,
-      child: Transform.translate(
-        offset: Offset(0, animation2.value),
-        child: Container(
-          height: _w / 2.3,
-          width: _w,
-          padding: EdgeInsets.fromLTRB(_w / 20, 0, _w / 20, _w / 20),
-          child: InkWell(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => route));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: GreyColor,
-                      offset: Offset(0,3), //(x,y)
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                  color: Color(paint),
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  border: Border.all(color: Colors.white.withOpacity(.1), width: 1)),
-              child: Padding(
-                padding: EdgeInsets.all(_w / 50),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: _w / 3,
-                      width: _w / 3,
-                      decoration: BoxDecoration(
-                          color: WhiteColor.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Icon(
-                        icon,
-                        color: WhiteColor,
-                        size: _w / 8,
-                      ),
-                    ),
-                    SizedBox(width: _w / 40),
-                    SizedBox(
-                      width: _w / 2.05,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            maxLines: 2,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.start,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 20,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            subtitle,
-                            maxLines: 1,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: PersianFonts.Samim.copyWith(
-                              fontSize: _w / 25,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: WhiteColor,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          Row(
-                            children: [
-
-                              Text(
-                                trailing,
-                                maxLines: 1,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: _w / 26,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-
-  // Custom ListTile
- static Widget myTile(String title, IconData icon, Widget route,context){
-    return ListTile(
-      onTap: () {
-        HapticFeedback.lightImpact();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
-      },
-      trailing: Icon(Icons.arrow_forward_ios,size: 14,color: PurpleColor),
-      title: Text(title, style:Env.style(15,BlackColor.withOpacity(.8))),
-      leading: Container(
-        width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: BlackColor.withOpacity(.06),
-            borderRadius: BorderRadius.circular(40),
-          ),
-          child: Icon(icon,size: 26,color:PurpleColor)),
-    );
-  }
-
-  // Custom Full ListTile
-  static Widget tile(title,subtitle, IconData icon, voidCallback,context){
-    return ListTile(
-      horizontalTitleGap: 10,
-      minVerticalPadding: 5,
-      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-      onTap: () {
-        HapticFeedback.lightImpact();
-        voidCallback();
-      },
-      leading: Icon(icon,size: 27,color:BlackColor.withOpacity(.7)),
-      title: Text(title, style:Env.style(16,BlackColor.withOpacity(.9))),
-      subtitle: Text(subtitle,style: style(14, BlackColor.withOpacity(.5))),
-      trailing: Icon(Icons.arrow_forward_ios,size: 15,),
-    );
-  }
-
-  //My Setting
-  static Widget settingTile(title,subtitle, IconData icon, Widget route ,context){
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-      ),
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-        onTap: () {
-          HapticFeedback.lightImpact();
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
-        },
-        leading: Icon(icon,size: 24,color:BlackColor.withOpacity(.7)),
-        title: Text(title, style:Env.style(13,BlackColor.withOpacity(.9))),
-        subtitle: Text(subtitle,style: style(12, BlackColor.withOpacity(.7)),),
-      ),
-    );
-
-  }
-
-  static Widget orderTile(title, subtitle, voidCallback,context){
-    return Card(
-      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0)),
-      elevation: 15,
-      child: ListTile(
-        horizontalTitleGap: 20,
-        minVerticalPadding: 5,
-        onTap: () {
-          HapticFeedback.lightImpact();
-          voidCallback();
-        },
-        leading: Icon(Icons.edit,size: 45,color: BlackColor.withOpacity(.7)),
-        title: Text(title , style:Env.style(16,BlackColor.withOpacity(.8))),
-        subtitle: Text(subtitle,style:Env.style(20,BlackColor.withOpacity(.6))),
-        trailing: Icon(Icons.edit,color: PurpleColor,size: 28),
-      ),
-    );
-  }
-
-  static Widget customTile(title, subtitle, image, voidCallback,context){
-    final shape = RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0));
-    return Card(
-      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
-        shape: shape,
-      elevation: 2,
-      child: ListTile(
-        shape:shape,
-        horizontalTitleGap: 20,
-          minVerticalPadding: 5,
-        onTap: () {
-          HapticFeedback.lightImpact();
-          voidCallback();
-        },
-        leading: Image.asset('photos/app_icons/'+image,width: 35,color: PurpleColor),
-        title: Text(title , style:Env.boldStyle(14,BlackColor.withOpacity(.8))),
-        subtitle: Text(subtitle ,style:Env.style(19,BlackColor.withOpacity(.6))),
-        trailing: Icon(Icons.arrow_forward_ios,color: PurpleColor,size: 16),
-      ),
-    );
-  }
-
-  static Widget emptyBox(){
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset('photos/app_icons/empty.png',width: 80,color:PurpleColor),
-          SizedBox(height: 10),
-          Text('NO DATA',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
-          SizedBox(height: 5),
-          Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
-
-        ],
-      ),
-    );
-  }
-
-  static Widget orderDetails(title, subtitle, trailing,image,voidCallback,context){
-    final shape = RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0));
-    return Card(
-      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
-      shape: shape,
-      elevation: 1,
-      child: ListTile(
-        shape:shape,
-        horizontalTitleGap: 20,
-        minVerticalPadding: 5,
-        onTap: () {
-          HapticFeedback.lightImpact();
-          voidCallback();
-        },
-        leading: Image.asset('photos/app_icons/'+image,width:40,color: PurpleColor,),
-        title: Text(title , style:Env.boldStyle(14,BlackColor.withOpacity(.8))),
-        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
-        trailing: Icon(trailing,color: PurpleColor,size: 28),
-      ),
-    );
-  }
-
   //My Appbar
   static Widget myBar(title, IconData icon, image, voidCallback, context) {
     double _w = MediaQuery.of(context).size.width;
@@ -1230,6 +611,115 @@ class Env {
     );
   }
 
+  // Custom ListTile
+  static Widget myTile(String title, IconData icon, Widget route,context){
+    return ListTile(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => route));
+      },
+      trailing: Icon(Icons.arrow_forward_ios,size: 14,color: PurpleColor),
+      title: Text(title, style:Env.style(15,BlackColor.withOpacity(.8))),
+      leading: Container(
+        width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: BlackColor.withOpacity(.06),
+            borderRadius: BorderRadius.circular(40),
+          ),
+          child: Icon(icon,size: 26,color:PurpleColor)),
+    );
+  }
+  //Drawer Leading Icon Circle Design
+  static leadStyle(IconData icon){
+   return Container(
+       width: 50,
+       height: 50,
+       decoration: BoxDecoration(
+         color: BlackColor.withOpacity(.06),
+         borderRadius: BorderRadius.circular(40),
+       ),
+       child: Icon(icon,size: 26,color:PurpleColor));
+  }
+  static Widget tile(title,subtitle, IconData icon, voidCallback,context){
+    return ListTile(
+      horizontalTitleGap: 10,
+      minVerticalPadding: 5,
+      contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        voidCallback();
+      },
+      leading: Icon(icon,size: 27,color:BlackColor.withOpacity(.7)),
+      title: Text(title, style:Env.style(16,BlackColor.withOpacity(.9))),
+      subtitle: Text(subtitle,style: style(14, BlackColor.withOpacity(.5))),
+      trailing: Icon(Icons.arrow_forward_ios,size: 15,),
+    );
+  }
+  static Widget settingTile(title,subtitle, IconData icon, Widget route ,context){
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+      ),
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+        onTap: () {
+          HapticFeedback.lightImpact();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>route));
+        },
+        leading: Icon(icon,size: 24,color:BlackColor.withOpacity(.7)),
+        title: Text(title, style:Env.style(13,BlackColor.withOpacity(.9))),
+        subtitle: Text(subtitle,style: style(12, BlackColor.withOpacity(.7)),),
+      ),
+    );
+
+  }
+  static Widget customTile(title, subtitle, image, voidCallback,context){
+    final shape = RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0));
+    return Card(
+      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
+        shape: shape,
+      elevation: 2,
+      child: ListTile(
+        shape:shape,
+        horizontalTitleGap: 20,
+          minVerticalPadding: 5,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          voidCallback();
+        },
+        leading: Image.asset('photos/app_icons/'+image,width: 35,color: PurpleColor),
+        title: Text(title , style:Env.boldStyle(14,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle ,style:Env.style(19,BlackColor.withOpacity(.6))),
+        trailing: Icon(Icons.arrow_forward_ios,color: PurpleColor,size: 16),
+      ),
+    );
+  }
+  static Widget orderDetails(title, subtitle, trailing,image,voidCallback,context){
+    final shape = RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0));
+    return Card(
+      margin: EdgeInsets.only(left:10, right:10, bottom:3,top:3),
+      shape: shape,
+      elevation: 1,
+      child: ListTile(
+        shape:shape,
+        horizontalTitleGap: 20,
+        minVerticalPadding: 5,
+        onTap: () {
+          HapticFeedback.lightImpact();
+          voidCallback();
+        },
+        leading: Image.asset('photos/app_icons/'+image,width:40,color: PurpleColor,),
+        title: Text(title , style:Env.boldStyle(14,BlackColor.withOpacity(.8))),
+        subtitle: Text(subtitle,style:Env.style(18,BlackColor.withOpacity(.6))),
+        trailing: Icon(trailing,color: PurpleColor,size: 28),
+      ),
+    );
+  }
   static Widget horizontalList(IconData title, subtitle){
     return Container(
       width: 100,
@@ -1258,23 +748,6 @@ class Env {
       ),
     );
   }
-
-  static Widget rowBar(IconData title, subtitle, trailing){
-    return  Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Icon(title,color: BlackColor.withOpacity(.6),size: 24),
-          Text(subtitle,style: style(22, BlackColor.withOpacity(.7))),
-          Text(trailing,style: style(12, BlackColor.withOpacity(.7))),
-        ],
-      ),
-      width: 80.0,
-      height: 50,
-    );
-  }
-
   static Widget bar(title, IconData icon, voidCallback, context,bottom) {
     double _w = MediaQuery.of(context).size.width;
     return PreferredSize(
@@ -1321,22 +794,21 @@ class Env {
     );
   }
 
-  static bottomSheet(context) {
-     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new TextFormField(),
-                ],
-              ),
-            ),
-          );
-        }
+  //No Data Message
+  static Widget emptyBox(){
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset('photos/app_icons/empty.png',width: 80,color:PurpleColor),
+          SizedBox(height: 10),
+          Text('NO DATA FOUND',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
+          SizedBox(height: 5),
+          Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
+        ],
+      ),
     );
   }
-
 
 }//class Env

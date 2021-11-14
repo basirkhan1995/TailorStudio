@@ -58,7 +58,7 @@ class _SettingsState extends State<Settings> {
                           backgroundImage:
                               AssetImage('photos/background/no_user.jpg'),
                         )
-                      : Env.image(fileName)
+                      : Env.image(fileName,78)
                 ),
                 title: Text(tailorName ?? "",
                     style: Env.style(19, BlackColor.withOpacity(.8))),
