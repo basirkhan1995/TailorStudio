@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
-
 import '../../wait.dart';
 
 class NewOrder extends StatefulWidget {
@@ -23,10 +20,10 @@ class _NewOrderState extends State<NewOrder> {
   final _formKey = GlobalKey <FormState>();
   final controller = CharacterApi();
   String user = "";
-  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
-    return loading ? LoadingCircle() :Scaffold(
+    return Env.loader ? LoadingCircle() : Scaffold(
       backgroundColor: WhiteColor,
       appBar: Env.appBar(context,widget.post.firstName+' '+widget.post.lastName),
       body:Directionality(
@@ -54,18 +51,21 @@ class _NewOrderState extends State<NewOrder> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
+                      Button(text: 'لغو کردن',paint: WhiteColor,textColor: PurpleColor,press: (){
                         Navigator.pop(context);
                       }),
-                      Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: ()async{
+                      Button(text: 'ثبت کردن', paint: WhiteColor,textColor: PurpleColor,press: ()async{
                         if(_formKey.currentState.validate()){
                           setState(() {
                             Env.loader = true;
                           });
                           Env.checkConnection(context, setState);
                           /// Function Send Data
-                          controller.createOrder(widget.post.customerId,context);
-                        }}),
+                          controller.createOrder(widget.post.customerId,setState,context);
+                        }else{
+                          Env.errorDialog('Empty fields', 'fill the fields', DialogType.WARNING, context, () { });
+                        }
+                        }),
                     ],
                   ),
                   SizedBox(height: 20),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
@@ -15,7 +17,7 @@ import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
 
-class CustomerFame extends StatefulWidget {
+  class CustomerFame extends StatefulWidget {
   final Customer post;
   CustomerFame(this.post);
   @override
@@ -26,6 +28,26 @@ class _CustomerFameState extends State<CustomerFame> {
   SharedPreferences loginData;
   String image;
   File imageFile;
+  final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
+  final snackBar = SnackBar(content: Text('لطفا عکس خود را انتخاب کنید'));
+  //upload function
+  void _doSomething(context) async {
+    Timer(Duration(seconds: 4),(){
+      _btnController.reset();
+    });
+    Timer(Duration(seconds: 3), () {
+      if(imageFile != null){
+        Env.checkConnection(context, setState);
+        _btnController.success();
+        _uploadFile(imageFile);
+        //upload fileName to the MySQL Database
+        uploadProfile(widget.post.customerId, context);
+      }else{
+        _btnController.error();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
+  }
 
  //Upload Image to server
   void _uploadFile(filePath) async {
@@ -65,10 +87,8 @@ class _CustomerFameState extends State<CustomerFame> {
   final access = CharacterApi();
   @override
   void initState() {
-
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -114,15 +134,26 @@ class _CustomerFameState extends State<CustomerFame> {
                       )
                     ),
                     SizedBox(height: 20),
-                    imageFile == null? Text('') :
-                    InkWell(onTap: (){
-                      //Upload Profile Picture to the SERVER
-                      _uploadFile(imageFile);
-                      //upload fileName to the MySQL Database
-                      uploadProfile(widget.post.customerId, context);
-                    }, child: Text('Submit',style: Env.style(20, PurpleColor),)),
+                    RoundedLoadingButton(
+                      height: 35,
+                      color: PurpleColor,
+                      child: Text('Upload', style: TextStyle(color: Colors.white)),
+                      controller: _btnController,
+                      onPressed:()=> _doSomething(context),
+                    ),
 
-                    //SizedBox(height: 10),
+                    // imageFile == null? Text('') :
+                    // InkWell(onTap: (){
+                    //   if(imageFile !=null){
+                    //     Env.checkConnection(context, setState);
+                    //   }
+                    //   //Upload Profile Picture to the SERVER
+                    //   _uploadFile(imageFile);
+                    //   //upload fileName to the MySQL Database
+                    //   uploadProfile(widget.post.customerId, context);
+                    // }, child: Text('ثبت کردن',style: Env.style(16, PurpleColor),)),
+
+                    SizedBox(height: 10),
                     Env.tile('اسم', widget.post.firstName??'اسم درج نشده',Icons.person, ()=>_updateData(context,widget.post.firstName, 1), context),
                     Divider(height: 2,indent: 10,endIndent: 10),
                     Env.tile('تخلص', widget.post.lastName??'تخلص درج نشده',Icons.people_rounded, ()=> _updateData(context,widget.post.lastName, 2), context),

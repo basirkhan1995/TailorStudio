@@ -40,7 +40,7 @@ class _CustomerOrderState extends State<CustomerOrder> with TickerProviderStateM
       backgroundColor: WhiteColor,
       floatingActionButton: showFab ? FloatingActionButton(
         onPressed: (){
-          Navigator.push(context,MaterialPageRoute(builder: (context)=>NewOrder(widget.post)));
+          Env.animatedGoto(NewOrder(widget.post), context);
             if (_scrollController.hasClients) {
               final maxScroll = _scrollController.position.maxScrollExtent;
               final currentScroll = _scrollController.offset;

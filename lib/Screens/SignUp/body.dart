@@ -24,12 +24,11 @@ class _BodyState extends State<Body> {
   TextEditingController studioName = new TextEditingController();
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
-  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return loading
+    return Env.loader
         ? LoadingCircle()
         : Background(
             child: SingleChildScrollView(
@@ -89,10 +88,9 @@ class _BodyState extends State<Body> {
                       press: () async {
                         if (_formKey.currentState.validate()) {
                           setState(() {
-                            loading = true;
+                            Env.loader = true;
                           });
                           Env.checkConnection(context,setState);
-
                           http.Response res = await http.post(
                               Uri.parse(Env.url + "register.php"),
                               body: jsonEncode({
@@ -105,17 +103,12 @@ class _BodyState extends State<Body> {
                           print(res.body);
                           if (result == "Exists") {
                             setState(() {
-                              loading = false;
+                              Env.loader = false;
                             });
-                            Env.errorDialog(
-                                Env.errorTitle,
-                                Env.userExistsMessage,
-                                DialogType.ERROR,
-                                context,
-                                () {});
+                            Env.errorDialog(Env.errorTitle, Env.userExistsMessage, DialogType.ERROR, context, () {});
                           } else {
                             setState(() {
-                              loading = false;
+                              Env.loader = false;
                             });
                             await Env.responseDialog(
                                 Env.successTitle,
@@ -129,18 +122,10 @@ class _BodyState extends State<Body> {
                       },
                     ),
                     SizedBox(height: size.height * 0.03),
-
                     AlreadyHaveAnAccountCheck(
                       login: false,
                       press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return LoginScreen();
-                            },
-                          ),
-                        );
+                        Env.animatedGoto(LoginScreen(), context);
                       },
                     ),
                   ],

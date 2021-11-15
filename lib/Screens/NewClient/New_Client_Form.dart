@@ -123,7 +123,7 @@ class _NewClientState extends State<NewClient> {
                            /// Function Send Data
                            controller.sendData(user,context);
                          }else{
-                           Env.errorDialog('Empty', 'لطفا معلومات مشتری را وارد نمایید', DialogType.WARNING, context, () { });
+                           Env.errorDialog('Empty fields', 'لطفا معلومات لازم مشتری را وارد نمایید', DialogType.WARNING, context, () { });
                          }
                      }),
                    ],

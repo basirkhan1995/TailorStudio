@@ -45,9 +45,7 @@ class CharacterApi {
   String valueMonths;
   String valueDays;
   String valueOrder;
-
   File imageFile;
-  bool loading = false;
 
   var days = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
     '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
@@ -60,7 +58,7 @@ class CharacterApi {
   var sleeveListData = ['کف دار', 'دکمه دار', 'محرابی', 'دیگر'];
 
   //POST DATA, Create Order Function
-  void createOrder(customerID, context) async {
+  void createOrder(customerID, voidCallBack, context) async {
     http.Response res = await http.post(Uri.parse(Env.url + "createOrder.php"),
         body: jsonEncode({
           "orderType": valueChoose,
@@ -79,26 +77,25 @@ class CharacterApi {
     String result = res.body.toString();
     print(result);
     if (result == "Success") {
-      await Env.responseDialog(Env.successTitle, 'فرمایش شما موفقانه ثبت گردید',
-          DialogType.SUCCES, context, () {});
+      voidCallBack(() {
+        Env.loader = false;
+      });
+      await Env.responseDialog(Env.successTitle, 'فرمایش شما موفقانه ثبت گردید', DialogType.SUCCES, context, () {});
       Navigator.pop(context);
     } else {
-      print(result);
-      await Env.errorDialog(
-          Env.errorTitle,
-          'لطفا تمام گزینه های فرمایش را درست انتخاب نمایید',
-          DialogType.ERROR,
-          context,
-          () {});
+      voidCallBack(() {
+        Env.loader = false;
+      });
+      print(result + ' empty field recognised');
+      await Env.errorDialog('Empty fields',
+          'لطفا تمام گزینه های فرمایش را درست انتخاب نمایید', DialogType.ERROR, context, () {});
     }
   }
 
 
   //GET DATA, Fetch Customer's Orders
   Future<List<Orders>> fetchCustomerOrders(String userID) async {
-    var response =
-        await get(Uri.parse(Env.url + "customerOrders.php?id=" + userID))
-            .timeout(Duration(seconds: 5));
+    var response = await get(Uri.parse(Env.url + "customerOrders.php?id=" + userID)).timeout(Duration(seconds: 5));
     if (response.statusCode == 200) {
       //print(response.body);
       List<dynamic> body = jsonDecode(response.body);
@@ -141,9 +138,6 @@ class CharacterApi {
       return null;
     } on TimeoutException catch (_) {
       return null;
-        // Env.errorDialog(
-        //   'Time Out', 'لطفا انترنت خود را بررسی کنید و دوباره کوشش نمایید',
-        //   DialogType.WARNING, context, () {});
     }
     return null;
   }
@@ -193,13 +187,13 @@ class CharacterApi {
       Env.loader = false;
       print(result);
       await Env.errorDialog(
-          Env.errorTitle,
-          'مشتری شما ثبت نگردید لطفا دوباره کوشش نمایید!',
+          Env.errorTitle, 'مشتری شما ثبت نگردید لطفا دوباره کوشش نمایید!',
           DialogType.ERROR,
           context,
           () {});
     }
   }
+
 
   //Upload
   void uploadProfile(customerID, context) async {
@@ -211,20 +205,10 @@ class CharacterApi {
     String result = res.body.toString();
     // print(widget.post.customerID);
     if (imageFile.path == null) {
-      await Env.errorDialog(Env.successTitle, 'لطفا عکس خود را انتخاب کنید',
-          DialogType.ERROR, context, () {});
     } else if (result == "Success") {
-      //Env.loader = false;
       print(result);
-      await Env.responseDialog(Env.successTitle, 'عکس شما موفقانه آپلود گردید',
-          DialogType.SUCCES, context, () {});
     } else if (result == "Failed") {
-      await Env.errorDialog(
-          Env.successTitle,
-          'عکس شما آپلود نگردید لطفا دوباره کوشش کنید',
-          DialogType.ERROR,
-          context,
-          () {});
+
     }
   }
 }

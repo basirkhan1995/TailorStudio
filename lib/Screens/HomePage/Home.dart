@@ -39,6 +39,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _pageController = PageController();
+
     initial();
   }
 

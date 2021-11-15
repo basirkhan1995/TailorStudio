@@ -27,6 +27,7 @@ class _IndividualState extends State<Individual> {
   final access = CharacterApi();
   final controller = TestController();
   bool loading = false;
+  bool refresh = false;
   @override
   void initState() {
     super.initState();
@@ -130,13 +131,12 @@ class _IndividualState extends State<Individual> {
                                 backgroundImage: Env.noUser(),
                               ):
                               Env.image(post.fileName??"no_user.jpg",30),
-                              title: Text(post.firstName + " " + post.lastName??"", style: TextStyle(fontWeight: FontWeight.w400,
-                                  color: GreyColor)),
+                              title: Text(post.firstName + " " + post.lastName??"",
+                                  style: TextStyle(fontWeight: FontWeight.w400, color: GreyColor)),
                               subtitle: Text(
                                   post.phone??"", style: TextStyle(fontSize: 12)),
                               trailing: PopupMenuButton(
-                                icon: Icon(Icons.more_vert,
-                                    color: PurpleColor),
+                                icon: Icon(Icons.more_vert, color: PurpleColor),
                                 elevation: 20,
                                 shape: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -145,7 +145,7 @@ class _IndividualState extends State<Individual> {
                                   PopupMenuItem(
                                       child: InkWell(
                                         onTap: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>NewOrder(post)));
+                                          Env.animatedGoto(NewOrder(post), context);
                                         },
                                         child: Row(
                                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
