@@ -311,7 +311,7 @@ class Env {
                   width: _w / 3,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       image: AssetImage('photos/dashboard/orders.png')
                     ),
                       color: LightColor,
@@ -331,7 +331,7 @@ class Env {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,
                         style: PersianFonts.Samim.copyWith(
-                          fontSize: _w / 20,
+                          fontSize: _w / 30,
                           letterSpacing: 1,
                           wordSpacing: 1,
                           color: BlackColor.withOpacity(.7),
@@ -344,26 +344,31 @@ class Env {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: PersianFonts.Samim.copyWith(
-                          fontSize: _w / 25,
+                          fontSize: _w / 32,
                           letterSpacing: 1,
                           wordSpacing: 1,
                           color: BlackColor.withOpacity(.6),
                           fontWeight: FontWeight.w300,
                         ),
                       ),
-                      Text(
-                        trailing,
-                        maxLines: 1,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: PersianFonts.Samim.copyWith(
-                          fontSize: _w / 25,
-                          letterSpacing: 1,
-                          wordSpacing: 1,
-                          color: BlackColor.withOpacity(.7),
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
+                      Chip(
+                        labelPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                          backgroundColor: PurpleColor,label:
+                          Text(trailing, style: style(10, WhiteColor),
+                      )),
+                      // Text(
+                      //   trailing,
+                      //   maxLines: 1,
+                      //   softWrap: true,
+                      //   overflow: TextOverflow.ellipsis,
+                      //   style: PersianFonts.Samim.copyWith(
+                      //     fontSize: _w / 28,
+                      //     letterSpacing: 1,
+                      //     wordSpacing: 1,
+                      //     color: BlackColor.withOpacity(.7),
+                      //     fontWeight: FontWeight.w300,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -424,6 +429,43 @@ class Env {
       child: Align(
         alignment: Alignment.center,
         child: Text(title,style: Env.style(14,null)),
+      ),
+    );
+  }
+
+  static order(String title, String end){
+     return ListTile(
+       visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+       contentPadding: EdgeInsets.only(right: 25, left: 25),
+       title: Text(title,style: Env.boldStyle(14, GreyColor)),
+       trailing: Text(end,style: Env.boldStyle(14, BlackColor.withOpacity(.4))),
+     );
+  }
+  static orderTitle(String title, IconData end){
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListTile(
+        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        contentPadding: EdgeInsets.only(right: 25, left: 25),
+        title: Text(title,style: Env.boldStyle(16, PurpleColor)),
+        trailing: Icon(end,color: PurpleColor,size: 22),
+      ),
+    );
+  }
+
+  static customAppBar(String title, String subtitle,context){
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListTile(
+
+        visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        contentPadding: EdgeInsets.only(right: 25, left: 25),
+         leading: IconButton(
+           icon: Icon(Icons.arrow_back_ios,size: 18,color: WhiteColor),
+           onPressed: ()=>Navigator.pop(context),
+         ),
+        title: Text(title,style: TextStyle(color: WhiteColor,fontSize: 23)),
+        subtitle: Text(subtitle,style: TextStyle(color: WhiteColor,fontSize: 18)),
       ),
     );
   }
@@ -509,39 +551,8 @@ class Env {
               fontWeight: FontWeight.w500,
             ),
           ),
-
           leading: GestureDetector(
-            onTap: (){
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => SimpleDialog(
-                  titlePadding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  title: Row(
-                    children: [
-                      Text('Account'), Spacer(), IconButton(
-                      icon: Icon(Icons.edit,color: PurpleColor),
-                      onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
-                    }),
-                  ],),
-                  children: <Widget>[
-                    ListTile(
-                      leading:  Icon(Icons.account_circle,color: PurpleColor),
-                      title:  Text(user,style:TextStyle(fontSize:18)),
-                      onTap: () => Navigator.pop(context, user),
-                    ),
-                    ListTile(
-                      leading:  Icon(Icons.email,color: PurpleColor),
-                      title:  Text(email,style:TextStyle(fontSize:12)),
-                      onTap: () => Navigator.pop(context, email),
-                    ),
-                  ],
-                ),
-              );
-            },
+            onTap: () => animatedGoto(Profile(), context),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: CachedNetworkImage(
@@ -803,7 +814,7 @@ class Env {
         children: [
           Image.asset('photos/app_icons/empty.png',width: 80,color:PurpleColor),
           SizedBox(height: 10),
-          Text('NO DATA FOUND',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
+          Text('NO DATA',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
           SizedBox(height: 5),
           Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
         ],

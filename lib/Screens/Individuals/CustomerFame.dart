@@ -10,12 +10,14 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tailor/Components/Button.dart';
 import 'package:tailor/Components/RoundedBorderedField.dart';
+import 'package:tailor/Constants/ClassMethods.dart';
 import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/Constants/Methods.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/HttpServices/IndividualsModel.dart';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
+
 
   class CustomerFame extends StatefulWidget {
   final Customer post;
@@ -29,7 +31,12 @@ class _CustomerFameState extends State<CustomerFame> {
   String image;
   File imageFile;
   final RoundedLoadingButtonController _btnController = RoundedLoadingButtonController();
-  final snackBar = SnackBar(content: Text('لطفا عکس خود را انتخاب کنید'));
+  final snackBar = SnackBar(
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      content: Text('لطفا عکس خود را انتخاب نمایید!',style: Env.style(14, WhiteColor),textDirection: TextDirection.rtl));
   //upload function
   void _doSomething(context) async {
     Timer(Duration(seconds: 4),(){
@@ -48,6 +55,7 @@ class _CustomerFameState extends State<CustomerFame> {
       }
     });
   }
+
 
  //Upload Image to server
   void _uploadFile(filePath) async {
@@ -106,7 +114,7 @@ class _CustomerFameState extends State<CustomerFame> {
                       child: Stack(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 20),
+                            padding: const EdgeInsets.only(top: 8),
                             child: CircleAvatar(
                               radius: 80, backgroundColor: PurpleColor,
                               child: imageFile != null
@@ -134,14 +142,15 @@ class _CustomerFameState extends State<CustomerFame> {
                       )
                     ),
                     SizedBox(height: 20),
+                    imageFile == null? Text(widget.post.firstName + " " + widget.post.lastName,style: Env.boldStyle(22, GreyColor)) :
                     RoundedLoadingButton(
-                      height: 35,
+                      borderRadius: 24,
+                      height: 45,
                       color: PurpleColor,
-                      child: Text('Upload', style: TextStyle(color: Colors.white)),
+                      child: Text('ثبت کردن', style: Env.style(14, WhiteColor)),
                       controller: _btnController,
                       onPressed:()=> _doSomething(context),
                     ),
-
                     // imageFile == null? Text('') :
                     // InkWell(onTap: (){
                     //   if(imageFile !=null){

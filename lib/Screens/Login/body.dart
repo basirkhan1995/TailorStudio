@@ -110,12 +110,6 @@ class _BodyState extends State<Body> {
                           int result = int.parse(jsonData['userID']);
                           print(jsonData);
                           if (result > 0) {
-
-                            //loading stops when user login successfully
-                            setState(() {
-                              Env.loader = false;
-                            });
-
                             // Values saved in shared preferences, after successfully login
                             Env.loginData.setBool('login', true);
                             Env.loginData.setString('username', username.text);
@@ -132,7 +126,6 @@ class _BodyState extends State<Body> {
                             setState(() {
                               Env.loader = false;
                             });
-
                             //Error Dialog
                             await Env.errorDialog(Env.errorTitle, Env.wrongInput, DialogType.ERROR, context, () => {});
                           }
@@ -140,6 +133,7 @@ class _BodyState extends State<Body> {
                       },
                     ),
                     SizedBox(height: size.height * 0.03),
+
                     //If you don't have an account, create one here. (Sign up)
                     AlreadyHaveAnAccountCheck(
                       press: () {

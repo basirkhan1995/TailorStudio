@@ -39,7 +39,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _pageController = PageController();
-
     initial();
   }
 
@@ -215,8 +214,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     height: 50,
                     decoration: BoxDecoration(
                         color: Colors.red.shade900,
-                     // color: BlackColor.withOpacity(.06),
-                      borderRadius: BorderRadius.circular(40),
+                        borderRadius: BorderRadius.circular(40),
                     ),
                     child: Icon(
                         Icons.power_settings_new, size: 22,
@@ -226,8 +224,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                       'Log out', style: Env.style(16, Colors.red.shade900)),
                   onTap: () async {
                     await Env.confirmDialog('Sign out', Env.confirmMessage, DialogType.QUESTION, context, setState);
-                    if (Env.checkYesNoLogin == true) {
-                      print("returns " + Env.checkYesNoLogin.toString());
+                    if (Env.checkYesNoLogin == true){
+                     // print("returns " + Env.checkYesNoLogin.toString());
+                      setState(() {
+                        Env.loader = false;
+                      });
                       //Clear the navigation.
                       _logout();
                       Env.goto(LoginScreen(), context);

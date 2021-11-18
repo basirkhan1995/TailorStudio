@@ -78,6 +78,26 @@ class _NewOrderState extends State<NewOrder> {
     );
   }
 
+//Search able Drop Down
+//   SearchableDropdown.single(
+//   items: Iterable<int>.generate(20).toList().map((i) {
+//   return (DropdownMenuItem(
+//   child: Text(i.toString()),
+//   value: i.toString(),
+//   ));
+//   }).toList(),
+//   value: selectedValue,
+//   hint: "Select one number",
+//   searchHint: "Select one number",
+//   onChanged: (value) {
+//   setState(() {
+//   selectedValue = value;
+//   });
+//   },
+//   dialogBox: true,
+//   keyboardType: TextInputType.number,
+//   isExpanded: true,
+//   ),
 
   ///Drop Down Menu
   dropDownMenu(){

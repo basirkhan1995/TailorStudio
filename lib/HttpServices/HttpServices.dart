@@ -115,12 +115,12 @@ class CharacterApi {
           'Content-Type': 'application/json; charset=UTF-8'
         });
     if (response.statusCode == 200) {
-      //print('delete success\n' + response.body);
+      //print('your customer\n' + response.body);
+      String result = response.body.toString();
+      print(result);
       return Customer.fromJson(json.decode(response.body));
     } else {
-      //await Future.delayed(Duration(seconds: 5));
-      await Env.errorDialog('Error', 'Access Denied Try again.', DialogType.WARNING, context, () { });
-      //print('delete not success \n' + response.body);
+      print('delete not success \n' + response.body);
       throw Exception('Failed to delete album.');
     }
   }

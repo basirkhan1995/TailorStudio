@@ -22,8 +22,6 @@ class BaseClient {
   }
 
 
-
-
   //POST
   Future <List<dynamic>> post(String baseUrl, String api, dynamic payloadObj) async {
     var uri = Uri.parse(baseUrl + api);

@@ -1,7 +1,7 @@
-import 'dart:math';
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
-import 'package:tailor/Constants/ConstantColors.dart';
+import 'dart:math';
+
+import 'Constants/ConstantColors.dart';
 
 class LoadingCircle extends StatefulWidget {
   @override
@@ -9,106 +9,74 @@ class LoadingCircle extends StatefulWidget {
 }
 
 class _LoadingCircleState extends State<LoadingCircle>
-    with TickerProviderStateMixin {
-  AnimationController controller1;
-  Animation<double> animation1;
-
-  AnimationController controller2;
-  Animation<double> animation2;
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-
-    controller1 =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
-    animation1 = Tween<double>(begin: -pi, end: pi).animate(controller1)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller1.repeat();
-        } else if (status == AnimationStatus.dismissed) {
-          controller1.forward();
-        }
-      });
-
-    controller2 =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
-    animation2 = Tween<double>(begin: -1, end: -4)
-        .animate(CurvedAnimation(parent: controller2, curve: Curves.easeInOut))
-          ..addListener(() {
-            setState(() {});
-          })
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              controller2.reverse();
-            } else if (status == AnimationStatus.dismissed) {
-              controller2.forward();
-            }
-          });
-
-    controller1.forward();
-    controller2.forward();
+    controller = AnimationController(
+      vsync: this,
+    );
+    _startAnimation();
   }
 
   @override
   void dispose() {
-    controller1.dispose();
-    controller2.dispose();
+    controller.dispose();
     super.dispose();
+  }
+
+  void _startAnimation() {
+    controller.stop();
+    controller.reset();
+    controller.repeat(
+      period: Duration(seconds: 1),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: WhiteColor,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 150),
-          child: Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(shape: BoxShape.circle),
-            child: CustomPaint(
-              painter: MyPainter(animation1.value, animation2.value),
-            ),
-          ),
+        child: CustomPaint(
+          size: Size(50, 50),
+          painter: SpritePainter(controller),
+          child: Container(),
         ),
       ),
     );
   }
 }
 
-class MyPainter extends CustomPainter {
-  final double startAngle;
-  final double sweepAngle;
+class SpritePainter extends CustomPainter {
+  final Animation<double> animation;
 
-  MyPainter(this.startAngle, this.sweepAngle);
+  SpritePainter(this.animation) : super(repaint: animation);
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint myCircle = Paint()
-      ..color = Color(0xffCFCDF6)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5;
+  void circle(Canvas canvas, Rect rect, double value) {
+    double opacity = (1.0 - (value / 4.0)).clamp(.0, 1.0);
+    Color color = PurpleColor.withOpacity(opacity);
 
-    canvas.drawCircle(
-        Offset(size.width * .5, size.height * .5), size.width * .5, myCircle);
+    double size = rect.width / 2;
+    double area = size * size;
+    double radius = sqrt(area * value / 5);
 
-    Paint myArc = Paint()
-      ..color = Color(0xff420097)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawArc(Rect.fromLTRB(0, 0, size.width, size.height), startAngle,
-        sweepAngle, false, myArc);
+    final Paint paint = Paint()..color = color;
+    canvas.drawCircle(rect.center, radius, paint);
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+  void paint(Canvas canvas, Size size) {
+    Rect rect = Rect.fromLTRB(0.0, 30.0, size.width, size.height);
+
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(SpritePainter oldDelegate) {
     return true;
   }
 }

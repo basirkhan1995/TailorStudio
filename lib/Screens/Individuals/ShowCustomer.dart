@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +43,16 @@ class _IndividualState extends State<Individual> {
     _scrollController.dispose();
     super.dispose();
   }
+  Future _refresh () async{
+    return await Future.delayed(
+      Duration(seconds: 2),() {
+      setState(() {
+        //controller.getData(user);
+        access.fetchCustomer(user,context);
+      });
+    },
+    );
+  }
 
   void initial() async {
     loginData = await SharedPreferences.getInstance();
@@ -72,18 +83,11 @@ class _IndividualState extends State<Individual> {
           SizedBox(height: 10),
           Expanded(
             child: RefreshIndicator(
-              color: PurpleColor,
-              strokeWidth: 3,
-              onRefresh: () {
-                return Future.delayed(
-                  Duration(microseconds: 1),() {
-                  setState(() {
-                    //controller.getData(user);
-                    access.fetchCustomer(user,context);
-                  });
-                },
-                );
-              },
+              edgeOffset: 50,
+              backgroundColor: PurpleColor,
+              color: WhiteColor,
+              strokeWidth: 2,
+              onRefresh: _refresh,
               child: FutureBuilder(
                 future: access.fetchCustomer(user,context),
                 //controller.getData(user),
@@ -107,6 +111,7 @@ class _IndividualState extends State<Individual> {
                         return true;
                       },
                       child: ListView(
+                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                         controller: _scrollController,
                         children: posts.map((Customer post) => Padding(
                           padding: const EdgeInsets.only(top: 8,left: 15,right: 15),
@@ -130,9 +135,9 @@ class _IndividualState extends State<Individual> {
                                 radius: 25,
                                 backgroundImage: Env.noUser(),
                               ):
-                              Env.image(post.fileName??"no_user.jpg",30),
+                              Env.image(post.fileName??"no_user.jpg",25),
                               title: Text(post.firstName + " " + post.lastName??"",
-                                  style: TextStyle(fontWeight: FontWeight.w400, color: GreyColor)),
+                                  style: TextStyle(fontSize: 14,)),
                               subtitle: Text(
                                   post.phone??"", style: TextStyle(fontSize: 12)),
                               trailing: PopupMenuButton(
@@ -180,6 +185,7 @@ class _IndividualState extends State<Individual> {
                                             Spacer(),
                                             Icon(Icons.delete,color:Colors.red.shade900)],
                                         ),
+
                                         onTap: ()async{
                                           Env.deleteYesNo = false;
                                           await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
