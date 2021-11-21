@@ -13,8 +13,9 @@ import 'package:tailor/Constants/ConstantColors.dart';
 import 'package:tailor/HttpServices/HttpServices.dart';
 import 'package:tailor/Screens/HomePage/Home.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:tailor/Screens/Login/login.dart';
 import 'package:tailor/Screens/Settings/Profile.dart';
-
+import 'package:cool_alert/cool_alert.dart';
 
 class Env {
 
@@ -58,7 +59,6 @@ class Env {
         print('Connected');
       }
     } on SocketException catch (_){
-
       voidCallBack(() {
         Env.loader = false;
       });
@@ -90,6 +90,8 @@ class Env {
     isLogin = (loginData.getBool('login')??false);
     if (isLogin == true){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+    }else{
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
     }
   }
 
@@ -380,6 +382,7 @@ class Env {
     );
   }
 
+
   //Statistic of Dashboard
   static dashboard(leading,title, subtitle,context){
     Size size = MediaQuery.of(context).size;
@@ -556,7 +559,7 @@ class Env {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: CachedNetworkImage(
-                imageUrl: Env.urlPhoto + url,
+                imageUrl: urlPhoto + url,
                 imageBuilder: (context, imageProvider) => CircleAvatar(
                   foregroundImage: imageProvider,
                 ),
@@ -817,9 +820,30 @@ class Env {
           Text('NO DATA',style:Env.boldStyle(20, BlackColor.withOpacity(.6))),
           SizedBox(height: 5),
           Text('هیج مورد دریافت نشد، لطفا دوباره کوشش نمایید',style:Env.style(14, BlackColor.withOpacity(.4))),
+          SizedBox(height: 10),
+          InkWell(
+            highlightColor: BGBlue,
+            hoverColor: BGBlue,
+            focusColor: PurpleColor,
+            onTap: (){
+            },
+              child: Text("Try again",style: boldStyle(16, PurpleColor)))
         ],
       ),
     );
   }
 
+  //Cool Dialog
+  static confirmShow(context, title, message){
+    return CoolAlert.show(
+      animType: CoolAlertAnimType.scale,
+      confirmBtnColor: SuccessBG,
+      loopAnimation: true,
+      context: context,
+      backgroundColor: SuccessBG,
+      type: CoolAlertType.confirm,
+      title: title,
+      text: message,
+    );
+  }
 }//class Env

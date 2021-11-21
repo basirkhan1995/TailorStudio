@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,21 +13,19 @@ import 'package:tailor/Screens/Orders/CreateOrder.dart';
 import 'package:tailor/controller/test_controller.dart';
 import '../../wait.dart';
 
-
 class Individual extends StatefulWidget {
   @override
   _IndividualState createState() => _IndividualState();
 }
 class _IndividualState extends State<Individual> {
-
   ScrollController _scrollController;
   bool showFab = true;
   SharedPreferences loginData;
   String user = "";
   final access = CharacterApi();
   final controller = TestController();
-  bool loading = false;
-  bool refresh = false;
+  //bool loading = false;
+  //bool refresh = false;
   @override
   void initState() {
     super.initState();
@@ -47,7 +44,6 @@ class _IndividualState extends State<Individual> {
     return await Future.delayed(
       Duration(seconds: 2),() {
       setState(() {
-        //controller.getData(user);
         access.fetchCustomer(user,context);
       });
     },
@@ -60,7 +56,6 @@ class _IndividualState extends State<Individual> {
       user = loginData.getString('userID');
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,13 +64,14 @@ class _IndividualState extends State<Individual> {
         backgroundColor: PurpleColor,
         child: Icon(Icons.add),
         onPressed:(){
+          //Navigates to New Customer Form
           Env.animatedGoto(NewClient(), context);
-          if (_scrollController.hasClients) {
+          //hides floating action button while scroll downs
+          if(_scrollController.hasClients) {
             final maxScroll = _scrollController.position.maxScrollExtent;
             final currentScroll = _scrollController.offset;
             return currentScroll >= (maxScroll * 0.9);
           }
-          //_scrollController.jumpTo(_scrollController.position.maxScrollExtent);
         },
       ):null,
       body: Column(
@@ -90,7 +86,6 @@ class _IndividualState extends State<Individual> {
               onRefresh: _refresh,
               child: FutureBuilder(
                 future: access.fetchCustomer(user,context),
-                //controller.getData(user),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<Customer>> snapshot) {
                   if (!snapshot.hasData){
@@ -99,6 +94,7 @@ class _IndividualState extends State<Individual> {
                     return Env.emptyBox();
                   }else {
                     List<Customer> posts = snapshot.data;
+                    //Floating action button hidden in result
                     return NotificationListener<UserScrollNotification>(
                       onNotification: (notification){
                         setState(() {
@@ -135,17 +131,12 @@ class _IndividualState extends State<Individual> {
                                 radius: 25,
                                 backgroundImage: Env.noUser(),
                               ):
-                              Env.image(post.fileName??"no_user.jpg",25),
-                              title: Text(post.firstName + " " + post.lastName??"",
-                                  style: TextStyle(fontSize: 14,)),
-                              subtitle: Text(
-                                  post.phone??"", style: TextStyle(fontSize: 12)),
-                              trailing: PopupMenuButton(
-                                icon: Icon(Icons.more_vert, color: PurpleColor),
+                              Env.image(post.fileName??"no_user.jpg",25), //Cached Network Image
+                              title: Text(post.firstName + " " + post.lastName??"",style: TextStyle(fontSize: 14)),
+                              subtitle: Text(post.phone??"", style: TextStyle(fontSize: 12)),
+                              trailing: PopupMenuButton(icon: Icon(Icons.more_vert, color: PurpleColor),
                                 elevation: 20,
-                                shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none),
+                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
                                 itemBuilder: (context) => [
                                   PopupMenuItem(
                                       child: InkWell(
@@ -179,16 +170,13 @@ class _IndividualState extends State<Individual> {
                                       child: InkWell(
                                         child: Row(
                                           children: [
-                                            InkWell(
-                                              child: Text('حذف کردن',style: Env.style(16, Colors.red.shade900)),
-                                            ),
+                                            InkWell(child: Text('حذف کردن',style: Env.style(16, Colors.red.shade900))),
                                             Spacer(),
                                             Icon(Icons.delete,color:Colors.red.shade900)],
                                         ),
-
                                         onTap: ()async{
-                                          Env.deleteYesNo = false;
-                                          await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
+                                          Env.deleteYesNo = false; // Dialog bool value on Yes/No
+                                         await Env.confirmDelete('Delete', 'آیا میخواهید این مشتری را حذف کنید؟', DialogType.QUESTION, context, setState);
                                           if(Env.deleteYesNo == true){
                                             print("result = " + Env.deleteYesNo.toString());
                                             access.deleteCustomer(post.customerId,context);
@@ -202,8 +190,8 @@ class _IndividualState extends State<Individual> {
                                 ],
                               ),
                               //Individuals Details
-                              onTap: () {Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => CustomerDetails(post)));
+                              onTap: () {
+                                Env.animatedGoto(CustomerDetails(post), context);
                               },
                             ),
                           ),

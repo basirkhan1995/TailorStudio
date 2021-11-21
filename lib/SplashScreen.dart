@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tailor/Screens/Login/login.dart';
 import 'dart:async';
 import 'Constants/ConstantColors.dart';
+import 'Constants/Methods.dart';
 
 class MyCustomSplashScreen extends StatefulWidget {
   @override
@@ -48,9 +48,10 @@ class _MyCustomSplashScreenState extends State<MyCustomSplashScreen>
       });
     });
 
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 3), () {
       setState(() {
-        Navigator.pushReplacement(context, PageTransition(LoginScreen()));
+         Env.checkIfUserIsLogin(context);
+        //Navigator.pushReplacement(context, PageTransition(LoginScreen()));
       });
     });
   }

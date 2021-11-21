@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:persian_fonts/persian_fonts.dart';
 import 'package:tailor/Components/Already_have_account.dart';
 import 'package:tailor/Components/PasswordField.dart';
 import 'package:tailor/Components/Rounded_Button.dart';
@@ -32,16 +31,14 @@ class _BodyState extends State<Body> {
 
   @override
   void initState() {
-    Env.checkIfUserIsLogin(context);
+    //Env.checkIfUserIsLogin(context);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double _w = MediaQuery.of(context).size.width;
-    return Env.loader
-        ? LoadingCircle()
-        : Background(
+    return Env.loader ? LoadingCircle() : Background(
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -51,18 +48,13 @@ class _BodyState extends State<Body> {
                     Padding(
                       padding: const EdgeInsets.only(top: 40.0),
                       child: Text(" ورود به سیستم",
-                          style: PersianFonts.Samim.copyWith(
-                            fontSize: _w / 15,
-                            letterSpacing: 1,
-                            wordSpacing: 1,
-                            color: PurpleColor,
-                            fontWeight: FontWeight.w600,
-                          )),
+                          style: Env.boldStyle(_w/15, PurpleColor)), //Custom font design
                     ),
                     Image.asset(
                       "photos/background/tailor_logo2.png",
                       height: size.height * 0.35,
                     ),
+                    //Custom TextField
                     RoundedInputField(
                       controller: username,
                       hintText: "نام کاربری",
@@ -90,7 +82,7 @@ class _BodyState extends State<Body> {
                     RoundedButton(
                       text: "ورود",
                       press: () async {
-                        //Checking the text fields whether they are empty or not.
+                        //Checks whether TextFields are empty or not.
                         if (_formKey.currentState.validate()) {
                           // loading starts
                           setState(() {
@@ -110,9 +102,10 @@ class _BodyState extends State<Body> {
                           int result = int.parse(jsonData['userID']);
                           print(jsonData);
                           if (result > 0) {
+
                             // Values saved in shared preferences, after successfully login
-                            Env.loginData.setBool('login', true);
-                            Env.loginData.setString('username', username.text);
+                            Env.loginData.setBool('login', true); //Makes the login value true
+                            Env.loginData.setString('username', username.text); //Takes the username from user input.
                             Env.loginData.setString('userID', jsonData['userID']);
                             Env.loginData.setString('tailorName', jsonData['tailorName']);
                             Env.loginData.setString('studioName', jsonData['studioName']);
@@ -120,9 +113,9 @@ class _BodyState extends State<Body> {
                             Env.loginData.setString('userPhone', jsonData['userPhone']);
                             Env.loginData.setString('userAddress', jsonData['userAddress']);
                             Env.loginData.setString('fileName', jsonData['fileName']);
+                            //finally, moves to Dashboard after success login.
                             Env.animatedGoto(Dashboard(), context);
-                          } else {
-                            // If login fails; loading stops and system await for Error Dialog to open.
+                          } else {   // If login fails; loading stops and system await for Error Dialog to open.
                             setState(() {
                               Env.loader = false;
                             });
@@ -133,11 +126,9 @@ class _BodyState extends State<Body> {
                       },
                     ),
                     SizedBox(height: size.height * 0.03),
-
                     //If you don't have an account, create one here. (Sign up)
                     AlreadyHaveAnAccountCheck(
                       press: () {
-                        // Navigate to Sign up screen
                        Env.animatedGoto(SignUpScreen(), context);
                       },
                     ),

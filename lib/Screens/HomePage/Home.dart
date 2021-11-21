@@ -34,7 +34,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   int _currentIndex = 0;
   PageController _pageController;
 
-
   @override
   void initState() {
     super.initState();

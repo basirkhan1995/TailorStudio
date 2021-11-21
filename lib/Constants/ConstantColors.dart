@@ -11,3 +11,11 @@ const Light = Color (0xFF6600cc);
 const BlackColor= Color (0xFF000000);
 const Purple= Color (0xFF8585e0);
 const Grey = Color(0xFFeff5f5);
+const BGBlue = Color(0xFFe6e6ff);
+const SuccessBG = Color(0xFFf2ffe6);
+const SuccessColor = Color(0xFF00cc66);
+const InfoColor = Color(0xFFebf0fa);
+const InfoBG = Color(0xFFebf0fa);
+
+
+

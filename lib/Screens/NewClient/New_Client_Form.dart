@@ -46,11 +46,9 @@ class _NewClientState extends State<NewClient> {
 
   Widget build(BuildContext context) {
     //Size size = MediaQuery.of(context).size;
-    return Env.loader
-        ? LoadingCircle()
-        : Scaffold(
+    return Env.loader ? LoadingCircle() : Scaffold(
       backgroundColor: WhiteColor,
-      appBar: Env.appBar(context,'ثبت مشتری جدید'),
+      appBar: Env.appBar(context,'راجستر کردن'),
       body: SingleChildScrollView(
         child: Directionality(
           textDirection:TextDirection.rtl,
@@ -63,7 +61,7 @@ class _NewClientState extends State<NewClient> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: 10),
-                   //Measurements
+                   //Customer's Personal Information
                   RoundedBorderedField(
                     hintText: 'اسم مشتری',
                     controller: controller.firstName,
@@ -91,11 +89,10 @@ class _NewClientState extends State<NewClient> {
                     },
                     message: 'لطفا شماره تماس مشتری را وارید نمایید!',
                   ),
-                     SizedBox(height: 10),
+                  SizedBox(height: 10),
                   Text('اندازه مشـــــــتری',style: Env.style(20, PurpleColor)),
                   SizedBox(height: 10),
-
-                  //Customer Measurements
+                  //Customer's Measurements Fields
                   Env.myMeasure('شــــانه', 'photos/Measure/shana.jpg',controller.shoulder),
                   Env.myMeasure('یخن', 'photos/Measure/gardan.jpg',controller.collar),
                   Env.myMeasure('آستین', 'photos/Measure/astin.jpg',controller.sleeve),
@@ -109,18 +106,17 @@ class _NewClientState extends State<NewClient> {
                  //Action Buttons for Post and Cancel
                  Row(
                    children: [
-                     Button(text: 'Cancel',paint: WhiteColor,textColor: PurpleColor,press: (){
+                     Button(text: 'لغو کردن',paint: WhiteColor,textColor: PurpleColor,press: (){
                          Navigator.pop(context);
                      }),
-                     Button(text: 'Save', paint: WhiteColor,textColor: PurpleColor,press: ()async{
+                     Button(text: 'ثبت کردن', paint: WhiteColor,textColor: PurpleColor,press: ()async{
                          if(_formKey.currentState.validate()){
                            setState(() {
                              Env.loader = true;
                            });
-                           ///checking internet connectivity
+                           //checking internet connectivity
                            Env.checkConnection(context,setState);
-
-                           /// Function Send Data
+                           // Function Send Data
                            controller.sendData(user,context);
                          }else{
                            Env.errorDialog('Empty fields', 'لطفا معلومات لازم مشتری را وارد نمایید', DialogType.WARNING, context, () { });

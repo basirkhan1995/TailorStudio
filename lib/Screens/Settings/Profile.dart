@@ -104,9 +104,9 @@ class ProfileState extends State<Profile> {
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.only(top: 20),
                       child: CircleAvatar(
-                          radius: 80,
+                          radius: 90,
                           backgroundColor: PurpleColor,
                           child: imageFile != null
                               ? ClipRRect(
@@ -117,7 +117,7 @@ class ProfileState extends State<Profile> {
                               height: 155,
                               fit: BoxFit.cover,
                             ),
-                          ) : Env.image(fileName??"no_user.jpg",78)
+                          ) : Env.image(fileName??"no_user.jpg",88)
                       ),
                     ),
                     Positioned(

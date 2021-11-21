@@ -21,7 +21,6 @@ class _OrdersState extends State<Orders> with TickerProviderStateMixin{
   void initState() {
     initial();
     super.initState();
-
   }
   SharedPreferences loginData;
   String tailorName  = "Tailor Name";

@@ -187,17 +187,12 @@ class _CustomerOrderDetailsState extends State<CustomerOrderDetails> {
                                         "remarks": widget.data.remarks,
                                         "orderState": widget.data.orderState,
                                         "designType": widget.data.designType,
-                                        "sleeve_design":
-                                            widget.data.sleeveDesign,
-                                        "collar_design":
-                                            widget.data.collarDesign,
-                                        "textTile_Meter":
-                                            widget.data.textTileMeter,
-                                        "deliveryDate":
-                                            widget.data.deliveryDate,
+                                        "sleeve_design": widget.data.sleeveDesign,
+                                        "collar_design": widget.data.collarDesign,
+                                        "textTile_Meter": widget.data.textTileMeter,
+                                        "deliveryDate": widget.data.deliveryDate,
                                         "amount": widget.data.amount,
-                                        "receivedAmount":
-                                            widget.data.receivedAmount,
+                                        "receivedAmount": widget.data.receivedAmount,
                                       };
                                       break;
                                     case 2:
